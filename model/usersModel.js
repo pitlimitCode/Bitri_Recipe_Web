@@ -31,6 +31,17 @@ const showByIdPri = (id) => {
   })
 }
 
+// SHOW USER RECIPE
+const showMyRecipe = (id) => {
+  return new Promise((resolve, reject) => {
+    db.query( `SELECT users.id AS id_user, recipes.id AS id_recipe, recipes.name AS recipe_name, recipes.image AS image FROM users JOIN recipes ON recipes.id_user = users.id WHERE users.id = $1`, [id],
+      (err, result) => {
+        if (err) { reject (err) } else { resolve (result); }
+      }
+    );
+  })
+};
+
 // FIND USER BY NAME
 const showByName = (nameLower) => {
   return new Promise((resolve, reject) => {
@@ -109,6 +120,7 @@ module.exports = {
   showAll,
   showById,
   showByIdPri,
+  showMyRecipe,
   showByName,
   newUser,
   userLogin,

@@ -18,7 +18,7 @@ const showAll = async (req, res) => {
 // SHOW RECIPES IN PAGES
 const showInPages = async (req, res) => {
   try {
-    const { limit, pages } = req.body;
+    const { limit, pages } = req.query;
     const offset = (pages - 1) * limit;
     const show = await model.showAll();
 
@@ -29,8 +29,6 @@ const showInPages = async (req, res) => {
         const outOfPages = Math.ceil(Number(show.rowCount / limit));
 
         const show2 = await model.showInPages(limit, offset);
-        // const outOfPages = Math.ceil(Number(show2.rowCount/limit));
-        console.log(show2.rowCount);
         if (show2.rowCount == 0) {
           res.send("Out of pages.");
         } else {
@@ -49,7 +47,6 @@ const showInPages = async (req, res) => {
       }
     }
   } catch (err) {
-    console.log(err);
     res.status(400).send("Something wrong while getting all recipes data.");
   }
 };
@@ -72,7 +69,7 @@ const showNew = async (req, res) => {
 // FIND RECIPE BY ID
 const showById = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.query;
     const show = await model.showById(id);
     if (show.rowCount > 0) {
       res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
@@ -88,7 +85,7 @@ const showById = async (req, res) => {
 // FIND RECIPES BY NAME
 const showByName = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name } = req.query;
     const nameLower = name.toLowerCase();
 
     const show = await model.showByName(nameLower);
@@ -99,7 +96,7 @@ const showByName = async (req, res) => {
       res.send(`No one recipe name: '${name}' from recipes data.`);
     }
   } catch (err) {
-    res.status(400).send("Something wrong while finding recipe data by name.");
+    // res.status(400).send("Something wrong while finding recipe data by name.");
   }
 };
 

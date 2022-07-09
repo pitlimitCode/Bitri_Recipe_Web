@@ -29,7 +29,7 @@ const showAll = async (req, res) => {
 // FIND USER BY ID
 const showById = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.query;
     const show = await model.showByIdPri(id);
     if (show.rowCount > 0){
       res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
@@ -38,6 +38,22 @@ const showById = async (req, res) => {
     }
   } catch (err) {
     res.status(400).send("Something wrong while finding user data by id.");
+  }
+};
+
+// SHOW USER RECIPE
+const showMyRecipe = async (req, res) => {
+  try {
+    const { id } = req.query;
+    console.log(id)
+    const show = await model.showMyRecipe(id);
+    if (show.rowCount > 0){
+      res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
+    } else {
+      res.send(`No one User Recipe on Database.`);
+    }
+  } catch (err) {
+    res.status(400).send("Something wrong while finding user recipe.");
   }
 };
 
@@ -81,7 +97,6 @@ const newUser = async (req, res) => {
         res.status(400).send("Success register but failed to Log In." + err);
       }
     } catch (err) {
-      console.log(err);
       res.status(400).send("Please try another 'name' and/or 'email'.");
     }
   } else {
@@ -153,7 +168,6 @@ const addAvatar = async (req, res) => {
       res.status(400).send(`Data id: '${id_user}' not found.`);
     }
   } catch (err) {
-    console.log(err);
     res.status(400).send(`Something wrong while getting data id: '${id_user}', for adding user avatar.`);
   }
 };
@@ -194,14 +208,12 @@ const deleteUser = async (req, res) => {
         const show2 = await model.deleteUser(id_user);
         res.send(`Data id: '${id_user}' succesfully to be deleted.`);
       } catch (err) {
-        console.log(err);
         res.status(400).send("Something wrong while deleting data.");
       }
     } else {
       res.status(400).send(`Id data: '${id_user}', not found.`);
     }
   } catch (err) {
-    console.log(err);
     res.status(400).send(`Something wrong while getting data id: '${id_user}', for deleting it as user.`);
   }
 }
@@ -219,6 +231,7 @@ const deleteAllUsers = async (req, res) => {
 module.exports = {
   showAll,
   showById,
+  showMyRecipe,
   showByName,
   newUser,
   userLogin,

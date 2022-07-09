@@ -11,7 +11,6 @@ const showAll = async (req, res) => {
       res.send("No one Comment record in this apps.");
     }
   } catch (err) {
-    clg
     res.status(400).send("Something wrong while progress all comment data.");
   }
 };
@@ -19,7 +18,7 @@ const showAll = async (req, res) => {
 // SHOW NEWEST COMMENTS AND LIMIT IT
 const showNew = async (req, res) => {
   try {
-    const { id_recipe, limit } = req.body;
+    const { id_recipe, limit } = req.query;
     const show = await model.showNew(id_recipe, limit);
     if (show.rowCount > 0){
       res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
