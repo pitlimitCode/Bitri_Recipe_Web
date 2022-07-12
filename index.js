@@ -5,13 +5,18 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
 const helmet = require("helmet");
 app.use(helmet());
 
 const cors = require("cors");
 app.use(cors());
-var allowlist = ["http://localhost:8000/", "https://www.pijarmahir.id", "https://www.telkom.co.id"];
+var allowlist = 
+  [
+    "http://localhost:8000/", 
+    "http://localhost:3000/", 
+    "https://www.pijarmahir.id", 
+    "https://www.telkom.co.id"
+  ];
 var corsOptionsDelegate = function (req, callback) {
   var corsOptions;
   if (allowlist.indexOf(req.header("Origin")) !== -1) {
@@ -21,6 +26,9 @@ var corsOptionsDelegate = function (req, callback) {
   }
   callback(null, corsOptions); // callback expects two parameters: error and options
 };
+
+// static path
+app.use('/images', express.static('images'));
 
 // Routes
 const userAllRoutes = require("./routes/usersRoutes");

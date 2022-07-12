@@ -41,6 +41,17 @@ const showById = async (req, res) => {
   }
 };
 
+// JUST GET/RES ID USER
+const justGetId = async (req, res) => {
+  try {
+    const id_user = req.tokenUserId;
+    // console.log(req.tokenUserId);
+    res.status(200).send({id: id_user});
+  } catch (err) {
+    res.status(400).send("Something wrong while finding user data by id.");
+  }
+};
+
 // SHOW USER RECIPE
 const showMyRecipe = async (req, res) => {
   try {
@@ -86,15 +97,17 @@ const newUser = async (req, res) => {
         var token = jwt.sign(
           show2.rows[0],
           process.env.JWK_KEY,
-          { expiresIn: 60 * 60 }, // EXPIRED TOKEN IN n SECOND
+          { expiresIn: 24 * 60 * 60 }, // EXPIRED TOKEN IN n SECOND
           { algorithm: process.env.JWK_ALG }
         );
-        res.status(200).send(`Ok '${name}', your data succesfully to be added...
-        Your id_user = ${show2.rows[0].id}
-        Your Token is : 
-        ${token}`);
+        res.status(200).send({token: token, name: show2.rows[0].name, id: show2.rows[0].id});
+        // res.status(200).send(`Ok '${name}', your data succesfully to be added...
+        // Your id_user = ${show2.rows[0].id}
+        // Your Token is : 
+        // ${token}`);
       } catch (err) {
-        res.status(400).send("Success register but failed to Log In." + err);
+        console.log(err)
+        res.status(400).send("Success to Register but somtehing wrong, because: " + err);
       }
     } catch (err) {
       res.status(400).send("Please try another 'name' and/or 'email'.");
@@ -115,16 +128,13 @@ const userLogin = async (req, res) => {
       var token = jwt.sign(
         show.rows[0],
         process.env.JWK_KEY,
-        { expiresIn: 60 * 60 }, // EXPIRED TOKEN IN n SECOND
+        { expiresIn: 24 * 60 * 60 }, // EXPIRED TOKEN IN n SECOND
         { algorithm: process.env.JWK_ALG }
       );
-      
-      res.status(200).send(`Success to login...
-      Hi ${show.rows[0].name}, [id: ${show.rows[0].id}], your Token is : 
-      ${token}`);
+      res.status(200).send({token: token, name: show.rows[0].name, id: show.rows[0].id});
 
     } else {
-      res.send(`Wrong password !`);
+      res.status(400).send(`Wrong password !`);
     }
   } catch (err) {
     res.send("Please try another email to Log In.");
@@ -154,7 +164,18 @@ const addAvatar = async (req, res) => {
     const show = await model.showById(id_user);
     if (show.rowCount > 0) {
       try {
-        const avatar = req?.file?.path || "images/defaultAvatar.jpeg";
+        // console.log(req?.file?.path);
+        // console.log(req?.file);
+        // const avatar = req?.file?.path || "images/defaultAvatar.jpeg";
+
+        let avatar;
+        if(req?.file?.path){
+          let correctPathImage = (req.file.path).split("\\").join("/")
+          avatar = `http://localhost:8000/${correctPathImage}`
+        } else {
+          avatar = `http://localhost:8000/images/defaultAvatar.jpeg`
+        }
+        
         const show2 = await model.addAvatar(id_user, avatar);
         if (req.file == undefined) {
           res.status(400).send("Image type file must be: png / jpg / jpeg");
@@ -231,6 +252,7 @@ const deleteAllUsers = async (req, res) => {
 module.exports = {
   showAll,
   showById,
+  justGetId,
   showMyRecipe,
   showByName,
   newUser,

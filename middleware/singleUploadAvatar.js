@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
   // },
   destination: "./images/users_avatar/",
 });
-const singleUpload = multer({
+const singleUploadAvatar = multer({
   fileFilter: (req, file, cb) => {
     // console.log(req);
     // console.log(file);
@@ -42,4 +42,4 @@ const singleUpload = multer({
   storage: storage,
 })
 
-module.exports = singleUpload;
+module.exports = singleUploadAvatar;

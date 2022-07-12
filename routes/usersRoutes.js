@@ -5,6 +5,7 @@ const singleUploadAvatar = require("../middleware/singleUploadAvatar");
 
 Router.get("/users/show/all", controller.showAll); // SHOW ALL USERS
 Router.get("/users/show/id", controller.showById); // FIND USER BY ID
+Router.get("/users/getid", verifyToken.checkToken, controller.justGetId); // FIND USER BY ID
 Router.get("/users/show/myrecipe", controller.showMyRecipe); // SHOW USER RECIPE
 Router.get("/users/show/name", controller.showByName); // FIND USER BY NAME
 Router.post("/users/add", controller.newUser); // ADD NEW USER / REGISTER

@@ -2,9 +2,9 @@ const multer = require("multer");
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+
 const storage = multer.diskStorage({
   filename: (req, file, cb) => {
-    // console.log(req.body.id);
     let theId = 'id' ;
     jwt.verify( req.rawHeaders[1].split(' ')[1], process.env.JWK_KEY, async function(err, decoded) {
       theId = decoded.id;
@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
   },
   destination: "images/food_images/",
 });
-const singleUpload = multer({
+const singleUploadRecipe = multer({
   fileFilter: (req, file, cb) => {
     if (
       file.mimetype == "image/png" ||
@@ -31,4 +31,4 @@ const singleUpload = multer({
   storage: storage,
 })
 
-module.exports = singleUpload;
+module.exports = singleUploadRecipe;

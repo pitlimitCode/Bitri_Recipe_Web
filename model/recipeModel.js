@@ -25,7 +25,7 @@ const showInPages = (limit, offset) => {
 // SHOW 5 NEW RECIPES
 const showNew = () => {
   return new Promise((resolve, reject) => {
-    db.query(`SELECT recipes.id AS Id_recipe, users.name AS name, recipes.name AS name_recipe FROM recipes JOIN users ON recipes.id_user = users.id ORDER BY recipes.id DESC LIMIT 5`,
+    db.query(`SELECT recipes.id AS Id_recipe, users.name AS name, recipes.name AS name_recipe, recipes.image AS image_recipe FROM recipes JOIN users ON recipes.id_user = users.id ORDER BY recipes.id DESC LIMIT 5`,
       (err, result) => {
         if (err) { reject (err) } else { resolve (result); }
       }
