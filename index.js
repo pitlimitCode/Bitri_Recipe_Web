@@ -10,11 +10,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const helmet = require("helmet");
 app.use(helmet());
 
+// Static path from express.js local storage.
+app.use('/images', express.static('images'));
+
 // CORS.
 const cors = require("cors");
 app.use(cors());
 var allowlist = 
   [
+    "https://bitri-recipe.herokuapp.com/",
     "http://localhost:8000/", 
     "http://localhost:3000/", 
     "https://www.pijarmahir.id", 
@@ -30,9 +34,6 @@ var corsOptionsDelegate = function (req, callback) {
   callback(null, corsOptions); // callback expects two parameters: error and options
 };
 
-// Static path from express.js local storage.
-app.use('/images', express.static('images'));
-
 // Routes.
 const userAllRoutes = require("./routes/usersRoutes");
 const recipesRoutes = require("./routes/recipesRoutes");
@@ -42,10 +43,10 @@ app.use("/", cors(corsOptionsDelegate), recipesRoutes);
 app.use("/", cors(corsOptionsDelegate), commentsRoutes);
 // app.use("*", (req, res) => {res.send("You access no one valid URL in this Site.")});
 app.use("*", (req, res) => {res.send({ 
-  SHOW_ALL_USERS: "users/show/all",
-  SHOW_ALL_RECIPES: "recipes/show/all",
-  SHOW_5_NEW_RECIPES: "recipes/show/new",
-  SHOW_ALL_COMMENTS_PUBLIC: "comments/all"
+  SHOW_ALL_USERS: ` users/show/all `,
+  SHOW_ALL_RECIPES: ` recipes/show/all `,
+  SHOW_5_NEW_RECIPES: ` recipes/show/new `,
+  SHOW_ALL_COMMENTS_PUBLIC: ` comments/all `
 })});
 
 // Listen the Port.
