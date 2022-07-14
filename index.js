@@ -19,6 +19,7 @@ app.use(cors());
 var allowlist = 
   [
     "https://bitri-recipe.herokuapp.com/",
+    "https://herokuapp.com/",
     "http://localhost:8000/", 
     "http://localhost:3000/", 
     "https://www.pijarmahir.id", 
@@ -46,8 +47,10 @@ app.use("*", (req, res) => {res.send({
   SHOW_ALL_USERS: ` users/show/all `,
   SHOW_ALL_RECIPES: ` recipes/show/all `,
   SHOW_5_NEW_RECIPES: ` recipes/show/new `,
-  SHOW_ALL_COMMENTS_PUBLIC: ` comments/all `
+  SHOW_ALL_COMMENTS_PUBLIC: ` comments/all `,
+  TES_TANPA_CORS: ` tes `,
 })});
+app.use("/tes", (req, res) => {res.send("tes tanpa Cors, berhasil.")});
 
 // Listen the Port.
 require('dotenv').config();
