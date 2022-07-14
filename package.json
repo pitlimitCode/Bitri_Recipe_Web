@@ -13,5 +13,8 @@
   "devDependencies": {
     "eslint": "^8.19.0",
     "nodemon": "^2.0.18"
+  },
+  "scripts": {
+    "start": "node index.js"
   }
 }

@@ -72,10 +72,10 @@ const showById = async (req, res) => {
     const { id } = req.query;
     const show = await model.showById(id);
     if (show.rowCount > 0) {
-      res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
+      res.status(200).send(show.rows);
     }
     if (show.rowCount == 0) {
-      res.send(`No one Recipe id: '${id}' on Database.`);
+      res.status(400).send(`No one Recipe id: '${id}' on Database.`);
     }
   } catch (err) {
     console.log(err);
@@ -104,6 +104,7 @@ const showByName = async (req, res) => {
 // ADD NEW RECIPE
 const newRecipe = async (req, res) => {
   try {
+    // console.log(req.tokenUserId);
     const id_user = req.tokenUserId;
     const image = "images/defaultAvatar.jpeg";
     const { name, ingredients, step } = req.body;

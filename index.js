@@ -1,13 +1,16 @@
 const express = require("express");
 const app = express(); 
 
+// Body Parser.
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// Helmet.
 const helmet = require("helmet");
 app.use(helmet());
 
+// CORS.
 const cors = require("cors");
 app.use(cors());
 var allowlist = 
@@ -27,17 +30,19 @@ var corsOptionsDelegate = function (req, callback) {
   callback(null, corsOptions); // callback expects two parameters: error and options
 };
 
-// static path
+// Static path from express.js local storage.
 app.use('/images', express.static('images'));
 
-// Routes
+// Routes.
 const userAllRoutes = require("./routes/usersRoutes");
 const recipesRoutes = require("./routes/recipesRoutes");
 const commentsRoutes = require("./routes/commentsRoutes");
 app.use("/", cors(corsOptionsDelegate), userAllRoutes);
 app.use("/", cors(corsOptionsDelegate), recipesRoutes);
 app.use("/", cors(corsOptionsDelegate), commentsRoutes);
+// app.use("*", (req, res) => {res.send("You access no one valid URL in this Site.")});
 
-// Port listen
-const port = 8000; // port database
+// Listen the Port.
+require('dotenv').config();
+const port = process.env.PORT || 8000; // port database
 app.listen(port, () => console.log(`[nodemon] running from port: '${port}'.`));
