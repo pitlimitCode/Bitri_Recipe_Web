@@ -40,7 +40,13 @@ const commentsRoutes = require("./routes/commentsRoutes");
 app.use("/", cors(corsOptionsDelegate), userAllRoutes);
 app.use("/", cors(corsOptionsDelegate), recipesRoutes);
 app.use("/", cors(corsOptionsDelegate), commentsRoutes);
-app.use("*", (req, res) => {res.send("You access no one valid URL in this Site.")});
+// app.use("*", (req, res) => {res.send("You access no one valid URL in this Site.")});
+app.use("*", (req, res) => {res.send({ 
+  SHOW_ALL_USERS: "users/show/all",
+  SHOW_ALL_RECIPES: "recipes/show/all",
+  SHOW_5_NEW_RECIPES: "recipes/show/new",
+  SHOW_ALL_COMMENTS_PUBLIC: "comments/all"
+})});
 
 // Listen the Port.
 require('dotenv').config();
