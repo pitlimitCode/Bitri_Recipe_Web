@@ -45,13 +45,13 @@ app.use("/", cors(corsOptionsDelegate), userAllRoutes);
 app.use("/", recipesRoutes); // CORSNYA DIMATIKAN SEMENTARA UNTUK COBA RUNNING DI HEROKU
 app.use("/", cors(corsOptionsDelegate), commentsRoutes);
 // app.use("*", (req, res) => {res.send("You access no one valid URL in this Site.")});
-// app.use("*", (req, res) => {res.send({ 
-//   SHOW_ALL_USERS: ' users/show/all ' ,
-//   SHOW_ALL_RECIPES__NO_CORS: ' recipes/show/all ' ,
-//   SHOW_5_NEW_RECIPES: ' recipes/show/new ',
-//   SHOW_ALL_COMMENTS_PUBLIC: ' comments/all ' ,
-// })});
-// app.use("/tes", (req, res) => {res.send("tes tanpa Cors, berhasil.")});
+app.use("*", (req, res) => {res.send({ 
+  SHOW_ALL_USERS: ' users/show/all ' ,
+  SHOW_ALL_RECIPES__NO_CORS: ' recipes/show/all ' ,
+  SHOW_5_NEW_RECIPES: ' recipes/show/new ',
+  SHOW_ALL_COMMENTS_PUBLIC: ' comments/all ' ,
+})});
+app.use("/tes", (req, res) => {res.send("tes tanpa Cors, berhasil.")});
 
 // Listen the Port.
 require('dotenv').config();
