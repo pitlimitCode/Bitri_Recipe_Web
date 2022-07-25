@@ -7,8 +7,7 @@
 <!-- [Soal asli / original](#Soal-asli--original)  -->
 
 ## Tugas Frontend dgn React 05 juli:
-- Melanjutkan program Backend Sebelumnya
-- Semua requirement dari Week sebelumnya
+- Lanjutkan program dan selesaikan requirement dari Backend Sebelumnya
 - Navigation (Public & Private) (private *)
 - Slicing: 
   - Login, 
@@ -38,6 +37,8 @@
 - Css design pakai react bootstrap atau bootstrap
 (*)dijelaskan di kelas tambahan  
 
+
+
 ### Catatan revisi setelah presentase Intermediate Backend 01 Juli:
 1. kirim variabel dari function sebelumnya. (Sudah)  
 2. pagination ada limit page nya dari keseluruhan data. (Sudah)  
@@ -53,7 +54,7 @@
   - Belum handle error Multer maximum size
   - Belum buat Multer.array (upload lebih dari 1 file)
 
-## Tugas Intermediate Backend 27 Juni:
+## Persyaratan Intermediate Backend 27 Juni:
   - Revisi sebelumnya harus selesai.
   - Penggunaan CORS.
   - Hash password (di register user).
@@ -88,6 +89,7 @@
 | id_commenter   | integer   |     y     |    -    |      -       |  (users.id)  |
 | comment_text   | text      |     y     |    -    |      -       |       -      |
 
+PSQL syntax to create 3 tabel in database:  
 CREATE TABLE users (  
 id SERIAL PRIMARY KEY,  
 name varchar(32) NOT NULL,  
@@ -124,7 +126,6 @@ comment_text text NOT NULL
  public | users_id_seq    | sequence | postgres  
 (6 rows)  
 
----
 ---
 ### Catatan revisi setelah presentasi Beginner Backend:
   - Perbaiki penggunaan .env bersama db.js
