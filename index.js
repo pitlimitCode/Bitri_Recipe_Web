@@ -19,7 +19,6 @@ var allowlist =
   [
     "https://bitri-recipe.herokuapp.com/",
     "https://herokuapp.com/",
-    "http://localhost:8000/", 
     "http://localhost:3000/", 
     // "https://www.pijarmahir.id", 
     // "https://www.telkom.co.id",
