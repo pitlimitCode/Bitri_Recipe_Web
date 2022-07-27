@@ -122,20 +122,22 @@ const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
     const show = await model.userLogin(email);
-    const compare = await bcrypt.compare(password, show.rows[0].password);
-    if(compare == true) {
-
-      var token = jwt.sign(
-        show.rows[0],
-        process.env.JWT_KEY,
-        { expiresIn: 24 * 60 * 60 }, // EXPIRED TOKEN IN n SECOND
-        { algorithm: process.env.JWT_ALG }
-      );
-      res.status(200).send({token: token, name: show.rows[0].name, id: show.rows[0].id});
-
-    } else {
-      res.status(400).send(`Wrong password !`);
+    if(show.rowCount == 0){
+      return res.status(400).send(`Email didn't valid`);
     }
+    const compare = await bcrypt.compare(password, show.rows[0].password);
+    if(compare == false) {
+      return res.status(400).send(`Wrong password !`);
+    }
+
+    var token = jwt.sign(
+      show.rows[0],
+      process.env.JWT_KEY,
+      { expiresIn: 24 * 60 * 60 }, // EXPIRED TOKEN IN n SECOND
+      { algorithm: process.env.JWT_ALG }
+    );
+    res.status(200).send({token: token, name: show.rows[0].name, id: show.rows[0].id});
+
   } catch (err) {
     res.send("Please try another email to Log In.");
   }
@@ -171,9 +173,9 @@ const addAvatar = async (req, res) => {
         let avatar;
         if(req?.file?.path){
           let correctPathImage = (req.file.path).split("\\").join("/")
-          avatar = `http://localhost:8000/${correctPathImage}`
+          avatar = `${correctPathImage}`
         } else {
-          avatar = `http://localhost:8000/images/defaultAvatar.jpeg`
+          avatar = `images/defaultAvatar.jpeg`
         }
         
         const show2 = await model.addAvatar(id_user, avatar);

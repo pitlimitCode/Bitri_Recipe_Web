@@ -106,8 +106,9 @@ const newRecipe = async (req, res) => {
   try {
     // console.log(req.tokenUserId);
     const id_user = req.tokenUserId;
-    const image = "images/defaultAvatar.jpeg";
+    const image = "images/food_images/defaultRecipe.jpeg";
     const { name, ingredients, step } = req.body;
+    console.log(`${id_user}, ${name}, ${ingredients}, ${step}, ${image}`);
     try {
       const show = await model.newRecipe(
         id_user,
@@ -123,6 +124,7 @@ const newRecipe = async (req, res) => {
         .send("Something wrong while adding new recipe: " + err.message);
     }
   } catch (err) {
+    console.log(err);
     res.status(400).send("Error in req.body data.");
   }
 };
@@ -169,43 +171,43 @@ const editImage = async (req, res) => {
     // console.log(inpId);
     // console.log(id);
     const show = await model.showById(id);
-    if (show.rowCount > 0) {
-      if (show.rows[0].id_user == id_user) {
-        try {
-          // const inpImage = req?.file?.path || "images/defaultAvatar.jpeg";
-          let inpImage;
-          console.log(req.file.path);
-          if(req?.file?.path){
-            let correctPathImage = (req.file.path).split("\\").join("/")
-            // console.log(correctPathImage);
-            inpImage = `http://localhost:8000/${correctPathImage}`
-          } else {
-            inpImage = `http://localhost:8000/images/defaultRecipe.jpeg`
-          }
-          
-          // console.log(inpImage);
 
-          const show = await model.editImage(id_user, inpImage, inpId);
-          if (req.file == undefined) {
-            res.status(400).send("Image type file must be: png / jpg / jpeg");
-          } else {
-            res
-              .status(200)
-              .send(
-                `Image of id recipe: '${inpId}' successfully to be edited.`
-              );
-          }
-        } catch (err) {
-          console.log(err)
-          res
-            .status(400)
-            .send("Something wrong while edit image recipe data by id.");
-        }
+    if (show.rowCount = 0) {
+      return res.status(400).send(`Recipe data id: '${id}' not found.`);
+    }
+    if (show.rows[0].id_user !== id_user) {
+      return res.status(400).send(`You cann't edit other user of image recipe.`);
+    }
+
+    try {
+      // const inpImage = req?.file?.path || "images/defaultAvatar.jpeg";
+      let inpImage;
+      console.log(req.file.path);
+      if(req?.file?.path){
+        let correctPathImage = (req.file.path).split("\\").join("/")
+        // console.log(correctPathImage);
+        inpImage = `${correctPathImage}`
       } else {
-        res.status(400).send(`You cann't edit other user of image recipe.`);
+        inpImage = `images/defaultRecipe.jpeg`
       }
-    } else {
-      res.status(400).send(`Recipe data id: '${id}' not found.`);
+      
+      // console.log(inpImage);
+
+      const show = await model.editImage(id_user, inpImage, inpId);
+      if (req.file == undefined) {
+        res.status(400).send("Image type file must be: png / jpg / jpeg");
+      } else {
+        res
+          .status(200)
+          .send(
+            `Image of id recipe: '${inpId}' successfully to be edited.`
+          );
+      }
+    } catch (err) {
+      console.log(err)
+      res
+        .status(400)
+        .send("Something wrong while edit image recipe data by id.");
     }
   } catch (err) {
     res.status(400).send("Something wrong while editing recipe data.");
