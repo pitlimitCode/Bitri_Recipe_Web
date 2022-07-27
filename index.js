@@ -1,6 +1,17 @@
 const express = require("express");
 const app = express(); 
 
+// Body Parser.
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Helmet.
+const helmet = require("helmet");
+app.use(helmet({
+  crossOriginResourcePolicy: false,
+}));
+
 // CORS.
 const cors = require("cors");
 app.use(cors());
@@ -23,17 +34,6 @@ var corsOptionsDelegate = function (req, callback) {
   callback(null, corsOptions); // callback expects two parameters: error and options
 };
 
-// Body Parser.
-const bodyParser = require("body-parser");
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// Helmet.
-const helmet = require("helmet");
-app.use(helmet({
-  crossOriginResourcePolicy: false,
-}));
-
 // Static path from express.js local storage.
 app.use('/images', express.static('images'));
 
@@ -42,17 +42,17 @@ const userAllRoutes = require("./routes/usersRoutes");
 const recipesRoutes = require("./routes/recipesRoutes");
 const commentsRoutes = require("./routes/commentsRoutes");
 app.use("/", cors(corsOptionsDelegate), userAllRoutes);
-app.use("/", recipesRoutes); // CORSNYA DIMATIKAN SEMENTARA UNTUK COBA RUNNING DI HEROKU
+app.use("/", cors(corsOptionsDelegate), recipesRoutes); // CORSNYA DIMATIKAN SEMENTARA UNTUK COBA RUNNING DI HEROKU
 app.use("/", cors(corsOptionsDelegate), commentsRoutes);
 
-app.use("/tes", (req, res) => {res.send("tes tanpa Cors, berhasil.")});
+// app.use("/tes", (req, res) => {res.send("tes tanpa Cors, berhasil.")});
 // app.use("*", (req, res) => {res.send("You access no one valid URL in this Site.")});
-app.use("*", (req, res) => {res.send({ 
-  SHOW_ALL_USERS: ' users/show/all ' ,
-  SHOW_ALL_RECIPES__NO_CORS: ' recipes/show/all ' ,
-  SHOW_5_NEW_RECIPES: ' recipes/show/new ',
-  SHOW_ALL_COMMENTS_PUBLIC: ' comments/all ' ,
-})});
+// app.use("*", (req, res) => {res.send({ 
+//   SHOW_ALL_USERS: ' users/show/all ' ,
+//   SHOW_ALL_RECIPES__NO_CORS: ' recipes/show/all ' ,
+//   SHOW_5_NEW_RECIPES: ' recipes/show/new ',
+//   SHOW_ALL_COMMENTS_PUBLIC: ' comments/all ' ,
+// })});
 
 // Listen the Port.
 require('dotenv').config();

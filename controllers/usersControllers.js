@@ -3,11 +3,11 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 
-// var token = jwt.sign({ foo: 'bar' }, process.env.JWK_KEY, { expiresIn: 60 * 60 }, { algorithm: process.env.JWK_ALG }, 
+// var token = jwt.sign({ foo: 'bar' }, process.env.JWT_KEY, { expiresIn: 60 * 60 }, { algorithm: process.env.JWT_ALG }, 
 //   // function(err, token) {
 //   //   console.log(token);
-//   //   console.log(process.env.JWK_KEY); 
-//   //   console.log(process.env.JWK_ALG);
+//   //   console.log(process.env.JWT_KEY); 
+//   //   console.log(process.env.JWT_ALG);
 //   // }
 // );
 // // console.log(token);
@@ -96,9 +96,9 @@ const newUser = async (req, res) => {
         const show2 = await model.userLogin(email);
         var token = jwt.sign(
           show2.rows[0],
-          process.env.JWK_KEY,
+          process.env.JWT_KEY,
           { expiresIn: 24 * 60 * 60 }, // EXPIRED TOKEN IN n SECOND
-          { algorithm: process.env.JWK_ALG }
+          { algorithm: process.env.JWT_ALG }
         );
         res.status(200).send({token: token, name: show2.rows[0].name, id: show2.rows[0].id});
         // res.status(200).send(`Ok '${name}', your data succesfully to be added...
@@ -127,9 +127,9 @@ const userLogin = async (req, res) => {
 
       var token = jwt.sign(
         show.rows[0],
-        process.env.JWK_KEY,
+        process.env.JWT_KEY,
         { expiresIn: 24 * 60 * 60 }, // EXPIRED TOKEN IN n SECOND
-        { algorithm: process.env.JWK_ALG }
+        { algorithm: process.env.JWT_ALG }
       );
       res.status(200).send({token: token, name: show.rows[0].name, id: show.rows[0].id});
 

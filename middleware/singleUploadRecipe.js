@@ -6,7 +6,7 @@ require('dotenv').config();
 const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     let theId = 'id' ;
-    jwt.verify( req.rawHeaders[1].split(' ')[1], process.env.JWK_KEY, async function(err, decoded) {
+    jwt.verify( req.rawHeaders[1].split(' ')[1], process.env.JWT_KEY, async function(err, decoded) {
       theId = decoded.id;
     })
     cb(null, "foodImage_" + req.body.id + "." + file.mimetype.split("/")[1]);
