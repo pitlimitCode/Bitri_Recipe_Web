@@ -36,7 +36,9 @@ const showNew = () => {
 // FIND RECIPE BY ID
 const showById = (id) => {
   return new Promise((resolve, reject) => {
-    db.query(`SELECT * FROM recipes WHERE id = $1`, [id], (err, result) => {
+    // `users.name AS Username FROM recipes LEFT JOIN users ON recipes.id_user = users.id WHERE LOWER(recipes.name) LIKE '%${nameLower}%'`;
+    // LEFT JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+    db.query(`SELECT recipes.*, users.name AS Username FROM recipes LEFT JOIN users ON recipes.id_user = users.id WHERE recipes.id = $1`, [id], (err, result) => {
       if (err) { reject (err) } else { resolve (result); }
     })
   })

@@ -55,10 +55,10 @@ const showByName = (nameLower) => {
 }
 
 // ADD NEW USER / REGISTER
-const newUser = ( name, email, phone_number, password ) => { 
+const newUser = ( name, email, phone_number, password, avatar ) => { 
   return new Promise((resolve, reject) => {
-    db.query(`INSERT INTO users (name, email, phone_number, password) VALUES ($1, $2, $3, $4)`,
-    [name, email, phone_number, password],
+    db.query(`INSERT INTO users (name, email, phone_number, password, avatar) VALUES ($1, $2, $3, $4, $5)`,
+    [name, email, phone_number, password, avatar],
     (err, result) => {
       if (err) { reject (err) } else { resolve (result); }
     })

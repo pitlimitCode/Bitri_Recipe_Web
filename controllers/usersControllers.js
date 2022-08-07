@@ -88,10 +88,11 @@ const showByName = async (req, res) => {
 // ADD NEW USER / REGISTER
 const newUser = async (req, res) => {
   const { name, email, phone_number, password, password2 } = req.body;
+  const avatar = "images/users_avatar/defaultAvatar.jpg";
   if (password == password2) {
     const hash = await bcrypt.hash(password, 5);
     try {
-      const show = await model.newUser( name, email, phone_number, hash);
+      const show = await model.newUser( name, email, phone_number, hash, avatar);
       try {
         const show2 = await model.userLogin(email);
         var token = jwt.sign(
@@ -168,14 +169,14 @@ const addAvatar = async (req, res) => {
       try {
         // console.log(req?.file?.path);
         // console.log(req?.file);
-        // const avatar = req?.file?.path || "images/defaultAvatar.jpeg";
+        // const avatar = req?.file?.path || "images/users_avatar/defaultAvatar.jpg";
 
         let avatar;
         if(req?.file?.path){
           let correctPathImage = (req.file.path).split("\\").join("/")
           avatar = `${correctPathImage}`
         } else {
-          avatar = `images/defaultAvatar.jpeg`
+          avatar = `images/defaultAvatar.jpg`
         }
         
         const show2 = await model.addAvatar(id_user, avatar);
@@ -259,7 +260,6 @@ module.exports = {
   showByName,
   newUser,
   userLogin,
-  addAvatar,
   addAvatar,
   editUserData,
   deleteUser,
