@@ -89,8 +89,26 @@ const showByName = async (req, res) => {
 const newUser = async (req, res) => {
   const { name, email, phone_number, password, password2 } = req.body;
   const avatar = "images/users_avatar/defaultAvatar.jpg";
-  if (password == password2) {
+  
+  if(name == ''){
+    return res.status(400).send(`Please input name`);
+  }
+  if(email == ''){
+    return res.status(400).send(`Please input email`);
+  }
+  if(phone_number == ''){
+    return res.status(400).send(`Please input phone_number`);
+  }
+  if(password == '' || password2 == ''){
+    return res.status(400).send(`Please input password`);
+  }
+
+  if (password !== password2) {
+    res.status(400).send("Password didn't same.");
+  }
+
     const hash = await bcrypt.hash(password, 5);
+
     try {
       const show = await model.newUser( name, email, phone_number, hash, avatar);
       try {
@@ -113,16 +131,21 @@ const newUser = async (req, res) => {
     } catch (err) {
       res.status(400).send("Please try another 'name' and/or 'email'.");
     }
-  } else {
-    res.status(400).send("Password didn't same.");
-  }
 }
 
 // USER LOGIN
 const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
+    if(email == ''){
+      return res.status(400).send(`Please input email`);
+    }
+    if(password == ''){
+      return res.status(400).send(`Please input password`);
+    }
+
     const show = await model.userLogin(email);
+    
     if(show.rowCount == 0){
       return res.status(400).send(`Email didn't valid`);
     }
