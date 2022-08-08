@@ -56,7 +56,7 @@ const justGetId = async (req, res) => {
 const showMyRecipe = async (req, res) => {
   try {
     const { id } = req.query;
-    console.log(id)
+    // console.log(id)
     const show = await model.showMyRecipe(id);
     if (show.rowCount > 0){
       res.status(200).send({ data: show.rows, count_of_data: show.rowCount });

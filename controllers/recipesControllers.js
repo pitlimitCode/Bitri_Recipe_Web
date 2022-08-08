@@ -108,7 +108,7 @@ const newRecipe = async (req, res) => {
     const id_user = req.tokenUserId;
     const image = "images/food_images/defaultRecipe.jpeg";
     const { name, ingredients, step } = req.body;
-    console.log(`${id_user}, ${name}, ${ingredients}, ${step}, ${image}`);
+    // console.log(`${id_user}, ${name}, ${ingredients}, ${step}, ${image}`);
     try {
       const show = await model.newRecipe(
         id_user,
@@ -182,7 +182,7 @@ const editImage = async (req, res) => {
     try {
       // const inpImage = req?.file?.path || "images/defaultAvatar.jpeg";
       let inpImage;
-      console.log(req.file.path);
+      // console.log(req.file.path);
       if(req?.file?.path){
         let correctPathImage = (req.file.path).split("\\").join("/")
         // console.log(correctPathImage);
