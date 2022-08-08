@@ -48,7 +48,7 @@ const showById = (id) => {
 const showByName = (nameLower) => {
   return new Promise((resolve, reject) => {
     // console.log(nameLower)
-    const x = `SELECT users.name AS Username, recipes.id AS recipe_id, recipes.name AS name_recipe, recipes.ingredients, recipes.step FROM recipes JOIN users ON recipes.id_user = users.id WHERE LOWER(recipes.name) LIKE '%${nameLower}%'`;
+    const x = `SELECT users.name AS Username, recipes.id AS recipe_id, recipes.name AS name_recipe, recipes.ingredients, recipes.step, recipes.image AS image_recipe FROM recipes JOIN users ON recipes.id_user = users.id WHERE LOWER(recipes.name) LIKE '%${nameLower}%'`;
     db.query( x,
     (err, result) => {
       if (err) { reject (err) } else { resolve (result); }
