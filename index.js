@@ -44,7 +44,7 @@ app.use("/", cors(corsOptionsDelegate), userAllRoutes);
 app.use("/", cors(corsOptionsDelegate), recipesRoutes); // CORSNYA DIMATIKAN SEMENTARA UNTUK COBA RUNNING DI HEROKU
 app.use("/", cors(corsOptionsDelegate), commentsRoutes);
 
-// app.use("/tes", (req, res) => {res.send("tes tanpa Cors, berhasil.")});
+app.use("/tes", (req, res) => {res.send("tes tanpa Cors, berhasil.")});
 // app.use("*", (req, res) => {res.send("You access no one valid URL in this Site.")});
 app.use("*", (req, res) => {res.send({ 
   SHOW_ALL_USERS: ' users/show/all ' ,
