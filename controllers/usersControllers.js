@@ -22,7 +22,7 @@ const showAll = async (req, res) => {
       res.send("No one User on Database.");
     }
   } catch (err) {
-    res.status(400).send(err);
+    res.status(400).send(err.message);
     // res.status(400).send("Something wrong while getting all users data.");
   }
 };
