@@ -103,9 +103,8 @@ const newUser = async (req, res) => {
   if(password == '' || password2 == ''){
     return res.status(400).send(`Please input password`);
   }
-
   if (password !== password2) {
-    res.status(400).send("Password didn't same.");
+    return res.status(400).send("Password didn't same.");
   }
 
     const hash = await bcrypt.hash(password, 5);
@@ -130,7 +129,8 @@ const newUser = async (req, res) => {
         res.status(400).send("Success to Register but somtehing wrong, because: " + err);
       }
     } catch (err) {
-      res.status(400).send("Please try another 'name' and/or 'email'.");
+      res.status(400).send(err.message);
+      // res.status(400).send("Please try another 'name' and/or 'email'.");
     }
 }
 
