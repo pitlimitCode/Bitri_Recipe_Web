@@ -11,7 +11,8 @@ const showAll = async (req, res) => {
       res.send("No one Comment record in this apps.");
     }
   } catch (err) {
-    res.status(400).send("Something wrong while progress all comment data.");
+    res.status(400).send(err);
+    // res.status(400).send("Something wrong while progress all comment data.");
   }
 };
 

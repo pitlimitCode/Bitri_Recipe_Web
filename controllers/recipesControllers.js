@@ -62,7 +62,8 @@ const showNew = async (req, res) => {
       res.send("No one recipe on Database.");
     }
   } catch (err) {
-    res.status(400).send("Something wrong while getting all recipes data.");
+    res.status(400).send(err);
+    // res.status(400).send("Something wrong while getting all recipes data.");
   }
 };
 
