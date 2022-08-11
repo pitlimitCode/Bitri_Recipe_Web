@@ -17,7 +17,7 @@ if (process.env.ENV_MODE === "prod") {
 		database: process.env.DB_NAME,
 		password: process.env.DB_PASS,
 		port: process.env.DB_PORT,
-		sslmode: require
+		sslmode: true
 	});
 }
 module.exports = conn;
