@@ -40,7 +40,7 @@ app.use('/images', express.static('images'));
 const userAllRoutes = require("./routes/usersRoutes");
 const recipesRoutes = require("./routes/recipesRoutes");
 const commentsRoutes = require("./routes/commentsRoutes");
-app.use("/", cors(corsOptionsDelegate), userAllRoutes);
+app.use("/", userAllRoutes);
 app.use("/", cors(corsOptionsDelegate), recipesRoutes); // CORSNYA DIMATIKAN SEMENTARA UNTUK COBA RUNNING DI HEROKU
 app.use("/", cors(corsOptionsDelegate), commentsRoutes);
 
