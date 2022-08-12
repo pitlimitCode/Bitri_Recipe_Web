@@ -171,21 +171,6 @@ const userLogin = async (req, res) => {
 // ADD USER AVATAR
 const addAvatar = async (req, res) => {
   try {
-  //   singleUpload(req, res, function (err) {
-  //     if (err instanceof multer.MulterError) {
-  //       // A Multer error occurred when uploading.
-  //       console.log(err);
-  //       res.send(err)
-  //     } else if (err) {
-  //       // An unknown error occurred when uploading.
-  //       console.log(err);
-  //       res.send(err)
-  //     }
-    
-  //     console.log(req.file)
-  //     // Everything went fine.
-  //   })
-
     // console.log(req);
     const id_user = req.tokenUserId;
     const show = await model.showById(id_user);
@@ -200,7 +185,7 @@ const addAvatar = async (req, res) => {
           let correctPathImage = (req.file.path).split("\\").join("/")
           avatar = `${correctPathImage}`
         } else {
-          avatar = `images/defaultAvatar.jpg`
+          avatar = "images/users_avatar/defaultAvatar.jpg";
         }
         
         const show2 = await model.addAvatar(id_user, avatar);

@@ -105,10 +105,25 @@ const showByName = async (req, res) => {
 // ADD NEW RECIPE
 const newRecipe = async (req, res) => {
   try {
+    // console.log(req?.file);
     // console.log(req.tokenUserId);
     const id_user = req.tokenUserId;
-    const image = "images/food_images/defaultRecipe.jpeg";
     const { name, ingredients, step } = req.body;
+
+    // console.log("req 1 " + req.Symbol('kHeaders'));
+    // console.log("req 2 " + req.Symbol);
+    console.log("req 3 " + req.headers );
+
+    // console.log(req);
+    // console.log(req?.file?.path);
+    let image;
+    if(req?.file?.path){
+      let correctPathImage = (req.file.path).split("\\").join("/")
+      image = `${correctPathImage}`
+    } else {
+      image = "images/food_images/defaultRecipe.jpeg";
+    }
+    
     // console.log(`${id_user}, ${name}, ${ingredients}, ${step}, ${image}`);
     try {
       const show = await model.newRecipe(
@@ -116,7 +131,7 @@ const newRecipe = async (req, res) => {
         name,
         ingredients,
         step,
-        image
+        image 
       );
       res.status(200).send(`Your recipe: '${name}', succesfully to be added.`);
     } catch (err) {
@@ -180,16 +195,15 @@ const editImage = async (req, res) => {
       return res.status(400).send(`You cann't edit other user of image recipe.`);
     }
 
+    // console.log(req?.file);
     try {
-      // const inpImage = req?.file?.path || "images/defaultAvatar.jpeg";
+      // const inpImage = req?.file?.path || "images/food_images/defaultRecipe.jpeg";
       let inpImage;
-      // console.log(req.file.path);
       if(req?.file?.path){
         let correctPathImage = (req.file.path).split("\\").join("/")
-        // console.log(correctPathImage);
         inpImage = `${correctPathImage}`
       } else {
-        inpImage = `images/defaultRecipe.jpeg`
+        inpImage = "images/food_images/defaultRecipe.jpeg";
       }
       
       // console.log(inpImage);

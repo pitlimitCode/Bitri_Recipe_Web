@@ -19,7 +19,8 @@ var allowlist =
   [
     "https://bitri-recipe.herokuapp.com/",
     "https://herokuapp.com/",
-    "http://localhost:3000/", 
+    "http://localhost:3000/",
+    "http://localhost:8000/",
     // "https://www.pijarmahir.id", 
     // "https://www.telkom.co.id",
   ];
@@ -32,6 +33,15 @@ var corsOptionsDelegate = function (req, callback) {
   }
   callback(null, corsOptions); // callback expects two parameters: error and options
 };
+// const corsOptionsDelegate = {
+// 	origin: function (origin, callback) {
+// 		if (allowlist.indexOf(origin) !== -1) {
+// 			callback(null, true);
+// 		} else {
+// 			callback(new Error("Not allowaned by CORS"));
+// 		}
+// 	},
+// };
 
 // Static path from express.js local storage.
 app.use('/images', express.static('images'));
@@ -41,7 +51,7 @@ const userAllRoutes = require("./routes/usersRoutes");
 const recipesRoutes = require("./routes/recipesRoutes");
 const commentsRoutes = require("./routes/commentsRoutes");
 app.use("/", cors(corsOptionsDelegate), userAllRoutes);
-app.use("/", cors(corsOptionsDelegate), recipesRoutes); // CORSNYA DIMATIKAN SEMENTARA UNTUK COBA RUNNING DI HEROKU
+app.use("/", cors(corsOptionsDelegate), recipesRoutes);
 app.use("/", cors(corsOptionsDelegate), commentsRoutes);
 
 app.use("/tes", (req, res) => {res.send("tes tanpa Cors, berhasil.")});
