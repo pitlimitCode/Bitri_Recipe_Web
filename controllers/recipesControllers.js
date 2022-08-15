@@ -112,9 +112,9 @@ const newRecipe = async (req, res) => {
 
     // console.log("req 1 " + req.Symbol('kHeaders'));
     // console.log("req 2 " + req.Symbol);
-    console.log("req 3 " + req.headers );
+    // console.log("req 3 " + req.headers );
 
-    // console.log(req);
+    console.log(req);
     // console.log(req?.file?.path);
     let image;
     if(req?.file?.path){

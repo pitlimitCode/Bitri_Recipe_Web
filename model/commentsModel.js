@@ -15,7 +15,7 @@ const showAll = () => {
 const showNew = (id_recipe, limit) => {
   return new Promise((resolve, reject) => {
     db.query(
-      `SELECT users.name, comments.comment_text FROM comments JOIN users ON comments.id_commenter = users.id WHERE id_recipe = $1 ORDER BY comments.id DESC LIMIT $2`,
+      `SELECT comments.id AS id, users.name, users.id AS id_commenter, users.avatar, comments.comment_text FROM comments JOIN users ON comments.id_commenter = users.id WHERE id_recipe = $1 ORDER BY comments.id DESC LIMIT $2`,
       [id_recipe, limit],
       (error, result) => {
         if (error) { reject (error) } else { resolve (result); }
