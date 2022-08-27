@@ -7,6 +7,15 @@ Lompat ke:
 [Set Up Postman](#Set-Up-Postman)  
 [Persyaratan Tugas: Beginner Backend & Intermediate Backend](#Persyaratan-Tugas)  
 
+notes untuk pribadi, sementara:  
+handling error multer limits fileSize, & membuat multer dalam function. Lihat di repo live coding.  
+Step revisi:  
+*buat multer dalam function dan semua multer dimasukkan ke dalam 1 file.js di folder middleware  
+*buat multer array  
+*cari tahu handling error multer limits fileSize (terlalu rumit, minim problem solver reference)  
+link invite postman  
+back up an postgres  
+
 ---
 ## Cloning dan Set Up program ini di Local Device  
 ### Cloning:  
@@ -31,95 +40,23 @@ JWT_KEY=your_jwt_key_named
 
 ---
 ## Set Up PostgreSQL  
-### Buat Database:  
+PostgreSQl sebagai penyimpanan data di database local
+### Buat nama Database:  
 Buat nama Database di postgreSQL sesuai keinginan.  
-
-### Penulisan syntax di terminal untuk membuat table (Create Table) di database postgreSQl:  
+### Back Up an data PostgreSQL  
 ```shell
-CREATE TABLE users (  
-id SERIAL PRIMARY KEY,  
-name varchar(32) NOT NULL,  
-email varchar(32) NOT NULL UNIQUE,  
-phone_number integer,  
-password varchar(64) NOT NULL,  
-avatar varchar(32)  
-); 
+coming soon (Back Up an data PostgreSQL)  
 ```
-
-```shell
-CREATE TABLE recipes (  
-id SERIAL PRIMARY KEY,  
-id_user integer NOT NULL,  
-name varchar(64) NOT NULL,  
-ingredients varchar(32) NOT NULL,  
-step text,  
-image text,  
-video varchar(32)  
-);  
-```
-
-```shell
-CREATE TABLE comments (  
-id SERIAL PRIMARY KEY,  
-id_recipe integer NOT NULL,  
-id_commenter integer NOT NULL,  
-comment_text text NOT NULL  
-);  
-``` 
-
-### Command Terminal untuk melihat semua tabel di postgreSQL:  
-```shell
-\d
-```
-
-List of relations  
-| Schema | Name            | Type     | Owner    |
-| ------ | --------------- | -------- | -------- |
-| public | comments        | table    | postgres |
-| public | comments_id_seq | sequence | postgres |
-| public | recipes         | table    | postgres |
-| public | recipes_id_seq  | sequence | postgres |
-| public | users           | table    | postgres |
-| public | users_id_seq    | sequence | postgres |
-(6 rows)  
-
-### Format database yang telah dibuat:  
-| users table  | data type | not_null? | unique? | primary_key? | foreign_key |
-| ------------ | --------- | --------- | ------- | -----------  | ----------- |
-| id           | int       |     y     |    y    |      y       |      -      |
-| name         | varchar   |     y     |    -    |      -       |      -      |
-| email        | varchar   |     y     |    y    |      -       |      -      |
-| phone_number | int       |     -     |    -    |      -       |      -      |
-| password     | varchar   |     y     |    -    |      -       |      -      |
-| avatar       | varchar   |     -     |    -    |      -       |      -      |
-
-| recipes table | data type | not_null? | unique? | primary_key? | foreign_key  |
-| ------------- | --------- | --------- | ------- | ------------ | ------------ |
-| id            | integer   |     y     |    y    |      y       |       -      |
-| id_user       | integer   |     y     |    -    |      -       |  (users.id)  |
-| name          | varchar   |     y     |    -    |      -       |       -      |
-| ingredients   | varchar   |     y     |    -    |      -       |       -      |
-| step          | varchar   |     -     |    -    |      -       |       -      |
-| image         | varchar   |     -     |    -    |      -       |       -      |
-| video         | varchar   |     -     |    -    |      -       |       -      |
-
-| comments table | data type | not_null? | unique? | primary_key? | foreign_key  |
-| -------------- | --------- | --------- | ------- | ------------ | ------------ |
-| id             | integer   |     y     |    y    |      y       |       -      |
-| id_recipe      | integer   |     y     |    -    |      -       | (recipes.id) |
-| id_commenter   | integer   |     y     |    -    |      -       |  (users.id)  |
-| comment_text   | text      |     y     |    -    |      -       |       -      |
 
 ---
 ## Set Up Postman  
-Postman untuk mengetes seluruh Routes REST API sebelum dipakai di Front-end
-(link invite postman)
+Postman aplikasi untuk bisa melakukan CRUD pada REST API, sebelum digunakan di Front-end  
 ```shell
-coming soon 
+coming soon (link invite postman)  
 ```
 
 ---
-## Jalankan REST API / program  
+## Jalankan REST API / program di local  
 ```shell
 nodemon 
 ```
@@ -128,13 +65,9 @@ nodemon
 # Persyaratan Tugas  
 ## Intermediate Backend  
 ### Catatan revisi setelah presentase Intermediate Backend 01 Juli:  
-1. kirim variabel dari function sebelumnya. (Sudah)  
-2. pagination ada limit page nya dari keseluruhan data. (Sudah)  
-3. handling error multer limits fileSize, & membuat multer dalam function. Lihat di repo live coding. (Belum)  
-  Step revisi:  
-  *buat multer dalam function dan semua multer dimasukkan ke dalam 1 file.js di folder middleware  
-  *buat multer array  
-  *cari tahu handling error multer limits fileSize (terlalu rumit, minim problem solver reference)  
+  - kirim variabel dari function sebelumnya.  
+  - pagination ada limit page nya dari keseluruhan data.  
+  - handling error multer limits fileSize, & membuat multer dalam function. Lihat di repo live coding.  
 
 ### Persyaratan yang belum selesai saat presentasi Intermediate Backend 01 Juli:  
   - Belum menggunakan middleware JWT Verify dari Controllers
@@ -173,8 +106,7 @@ nodemon
   - Resep by user
 
 ### Tugas Beginner Backend:
-Referensi tampilan User Interface:  
-https://www.figma.com/file/SUbBTYCq1e4ngRt20lSdqr/Food-Recipe?node-id=47%3A1273  
+Referensi: [```Figma UI```](https://www.figma.com/file/SUbBTYCq1e4ngRt20lSdqr/Food-Recipe?node-id=47%3A1273)  
 Persyaratan:  
   - Gunakan Bahasa Inggris untuk nama File dan Fungsi  
   - Table (Recipe, User, Comment)  
@@ -208,3 +140,83 @@ Persyaratan tambahan lain-lain (opsional):
   - Crypto-js
   - Validator
   - Autentifikator
+
+---
+
+
+## notes lain-lain:
+### Penulisan syntax di terminal untuk membuat table (Create Table) di database postgreSQl:  
+```shell
+CREATE TABLE users (  
+id SERIAL PRIMARY KEY,  
+name varchar(32) NOT NULL,  
+email varchar(32) NOT NULL UNIQUE,  
+phone_number integer,  
+password varchar(64) NOT NULL,  
+avatar varchar(32)  
+); 
+```
+
+```shell
+CREATE TABLE recipes (  
+id SERIAL PRIMARY KEY,  
+id_user integer NOT NULL,  
+name varchar(64) NOT NULL,  
+ingredients varchar(32) NOT NULL,  
+step text,  
+image text,  
+video varchar(32)  
+);  
+```
+
+```shell
+CREATE TABLE comments (  
+id SERIAL PRIMARY KEY,  
+id_recipe integer NOT NULL,  
+id_commenter integer NOT NULL,  
+comment_text text NOT NULL  
+);  
+``` 
+
+### Command Terminal untuk melihat semua tabel di postgreSQL:  
+```shell
+\d
+```
+
+### List of relations  
+(6 rows)  
+| Schema | Name            | Type     | Owner    |
+| ------ | --------------- | -------- | -------- |
+| public | comments        | table    | postgres |
+| public | comments_id_seq | sequence | postgres |
+| public | recipes         | table    | postgres |
+| public | recipes_id_seq  | sequence | postgres |
+| public | users           | table    | postgres |
+| public | users_id_seq    | sequence | postgres |
+
+### Format database yang telah dibuat:  
+| users table  | data type | not_null? | unique? | primary_key? | foreign_key |
+| ------------ | --------- | --------- | ------- | -----------  | ----------- |
+| id           | int       |     y     |    y    |      y       |      -      |
+| name         | varchar   |     y     |    -    |      -       |      -      |
+| email        | varchar   |     y     |    y    |      -       |      -      |
+| phone_number | int       |     -     |    -    |      -       |      -      |
+| password     | varchar   |     y     |    -    |      -       |      -      |
+| avatar       | varchar   |     -     |    -    |      -       |      -      |
+
+| recipes table | data type | not_null? | unique? | primary_key? | foreign_key  |
+| ------------- | --------- | --------- | ------- | ------------ | ------------ |
+| id            | integer   |     y     |    y    |      y       |       -      |
+| id_user       | integer   |     y     |    -    |      -       |  (users.id)  |
+| name          | varchar   |     y     |    -    |      -       |       -      |
+| ingredients   | varchar   |     y     |    -    |      -       |       -      |
+| step          | varchar   |     -     |    -    |      -       |       -      |
+| image         | varchar   |     -     |    -    |      -       |       -      |
+| video         | varchar   |     -     |    -    |      -       |       -      |
+
+| comments table | data type | not_null? | unique? | primary_key? | foreign_key  |
+| -------------- | --------- | --------- | ------- | ------------ | ------------ |
+| id             | integer   |     y     |    y    |      y       |       -      |
+| id_recipe      | integer   |     y     |    -    |      -       | (recipes.id) |
+| id_commenter   | integer   |     y     |    -    |      -       |  (users.id)  |
+| comment_text   | text      |     y     |    -    |      -       |       -      |
