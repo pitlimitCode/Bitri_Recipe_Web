@@ -17,7 +17,9 @@ Lompat ke:
 ---
 ## Cloning dan Set Up program ini di Local Device  
 ### Cloning:  
-> ....  
+```shell
+git clone -b FrontEnd+ https://github.com/pitlimitCode/Bitri_Recipe_Web.git 
+```
 ### NPM Install:  
 > npm install  
 
@@ -61,9 +63,8 @@ comment_text text NOT NULL
 );  
 
 ### Command Terminal untuk melihat semua tabel di postgreSQL:  
-\d  
-
-               List of relations  
+> \d  
+List of relations  
 | Schema | Name            | Type     | Owner    |
 | ------ | --------------- | -------- | -------- |
 | public | comments        | table    | postgres |
@@ -104,6 +105,8 @@ comment_text text NOT NULL
 ---
 ## Set Up Postman  
 Postman untuk mengetes seluruh Routes REST API sebelum dipakai di Front-end
+(link invite postman)
+> coming soon
 
 ---
 ## Jalankan REST API / program  
@@ -157,7 +160,8 @@ Postman untuk mengetes seluruh Routes REST API sebelum dipakai di Front-end
   - Resep by user
 
 ### Tugas Beginner Backend:
-Referensi tampilan User Interface: https://www.figma.com/file/SUbBTYCq1e4ngRt20lSdqr/Food-Recipe?node-id=47%3A1273  
+Referensi tampilan User Interface:  
+https://www.figma.com/file/SUbBTYCq1e4ngRt20lSdqr/Food-Recipe?node-id=47%3A1273  
 Persyaratan:  
   - Gunakan Bahasa Inggris untuk nama File dan Fungsi  
   - Table (Recipe, User, Comment)  
