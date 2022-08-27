@@ -21,7 +21,9 @@ Lompat ke:
 git clone -b FrontEnd+ https://github.com/pitlimitCode/Bitri_Recipe_Web.git 
 ```
 ### NPM Install:  
-> npm install  
+```shell
+npm install  
+```
 
 ### Isian .env:  
 DB_HOST=postgresql_localhostname  
@@ -38,6 +40,7 @@ JWT_KEY=your_jwt_key_named
 Buat nama Database di postgreSQL sesuai keinginan.  
 
 ### Penulisan syntax di terminal untuk membuat table (Create Table) di database postgreSQl:  
+```shell
 CREATE TABLE users (  
 id SERIAL PRIMARY KEY,  
 name varchar(32) NOT NULL,  
@@ -45,7 +48,10 @@ email varchar(32) NOT NULL UNIQUE,
 phone_number integer,  
 password varchar(64) NOT NULL,  
 avatar varchar(32)  
-);  
+); 
+```
+
+```shell
 CREATE TABLE recipes (  
 id SERIAL PRIMARY KEY,  
 id_user integer NOT NULL,  
@@ -55,15 +61,22 @@ step text,
 image text,  
 video varchar(32)  
 );  
+```
+
+```shell
 CREATE TABLE comments (  
 id SERIAL PRIMARY KEY,  
 id_recipe integer NOT NULL,  
 id_commenter integer NOT NULL,  
 comment_text text NOT NULL  
 );  
+``` 
 
 ### Command Terminal untuk melihat semua tabel di postgreSQL:  
-> \d  
+```shell
+\d
+```
+
 List of relations  
 | Schema | Name            | Type     | Owner    |
 | ------ | --------------- | -------- | -------- |
@@ -106,11 +119,16 @@ List of relations
 ## Set Up Postman  
 Postman untuk mengetes seluruh Routes REST API sebelum dipakai di Front-end
 (link invite postman)
-> coming soon
+```shell
+coming soon 
+```
 
 ---
 ## Jalankan REST API / program  
-> nodemon
+```shell
+nodemon 
+```
+
 ---
 # Persyaratan Tugas  
 ## Intermediate Backend  
