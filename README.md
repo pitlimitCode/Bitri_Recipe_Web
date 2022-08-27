@@ -6,8 +6,9 @@ Lompat ke:
 [Set Up PostgreSQL](#Set-Up-PostgreSQL)  
 [Set Up Postman](#Set-Up-Postman)  
 [Jalankan REST API / program:](#Jalankan-rest-api--program)  
-[Intermediate Backend](#Intermediate-Backend)  
-[Beginner Backend](#Beginner-Backend)  
+<!-- [Intermediate Backend](#Intermediate-Backend)  
+[Beginner Backend](#Beginner-Backend)   -->
+[Persyaratan Tugas: Beginner Backend & Intermediate Backend](#Persyaratan-Tugas)  
 
 ---
 ## Cloning dan Set Up program ini di Local Device  
@@ -159,7 +160,7 @@ nodemon
   - Buat pagination
   - Buat multer untuk inputan file data, lengkap dengan limitasi data file
   - Pakai Cors
-  - Push tugas di github pakai file .gitignore yang mengabaikan node_modules
+  - Push tugas di github pakai file .gitignore untuk mengabaikan node_modules dan .env
 
 ### Persyaratan yang telah selesai saat presentasi Beginner Backend:  
   - Gunakan Bahasa Inggris untuk nama File dan Fungsi
