@@ -1,5 +1,6 @@
 # Bitri Recipe - REST API
-Repository Github : [```https://github.com/pitlimitCode/Bitri_Recipe_Web```](https://github.com/pitlimitCode/Bitri_Recipe_Web)
+Repository Github: [```https://github.com/pitlimitCode/Bitri_Recipe_Web```](https://github.com/pitlimitCode/Bitri_Recipe_Web)
+Referensi User Interface: [```Figma UI```](https://www.figma.com/file/SUbBTYCq1e4ngRt20lSdqr/Food-Recipe?node-id=47%3A1273)  
 
 Lompat ke:  
 [Cloning dan Set Up program ini di Local Device](#Cloning-dan-Set-Up-program-ini-di-Local-Device)  
@@ -106,7 +107,6 @@ nodemon
   - Resep by user
 
 ### Tugas Beginner Backend:
-Referensi: [```Figma UI```](https://www.figma.com/file/SUbBTYCq1e4ngRt20lSdqr/Food-Recipe?node-id=47%3A1273)  
 Persyaratan:  
   - Gunakan Bahasa Inggris untuk nama File dan Fungsi  
   - Table (Recipe, User, Comment)  
@@ -143,7 +143,6 @@ Persyaratan tambahan lain-lain (opsional):
 
 ---
 
-
 ## notes lain-lain:
 ### Penulisan syntax di terminal untuk membuat table (Create Table) di database postgreSQl:  
 ```shell
@@ -156,7 +155,6 @@ password varchar(64) NOT NULL,
 avatar varchar(32)  
 ); 
 ```
-
 ```shell
 CREATE TABLE recipes (  
 id SERIAL PRIMARY KEY,  
@@ -168,7 +166,6 @@ image text,
 video varchar(32)  
 );  
 ```
-
 ```shell
 CREATE TABLE comments (  
 id SERIAL PRIMARY KEY,  
