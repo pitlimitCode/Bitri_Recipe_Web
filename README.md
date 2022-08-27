@@ -1,10 +1,5 @@
 # Bitri Recipe - REST API
-Repository Github : ...
-
-<!-- [Cloning dan Set Up program ini di Local Device](#Cloning-dan-Set-Up-program-ini-di-Local-Device)  
-[Ringkasan tugas](#Ringkasan-tugas)  
-[Format database yang ku buat](#Format-database-yang-ku-buat)  
-[Soal asli / original](#Soal-asli--original)  -->
+Repository Github : [```https://github.com/pitlimitCode/Bitri_Recipe_Web```](https://github.com/pitlimitCode/Bitri_Recipe_Web)
 
 Lompat ke:  
 [Cloning dan Set Up program ini di Local Device](#Cloning-dan-Set-Up-program-ini-di-Local-Device)  
@@ -26,6 +21,7 @@ npm install
 ```
 
 ### Isian .env:  
+```shell
 DB_HOST=postgresql_localhostname  
 DB_NAME=postgresql_database_name  
 DB_PORT=postgresql_port  
@@ -33,6 +29,7 @@ DB_USER=postgresql_username
 DB_PASS=postgresql_password  
 JWT_ALG=jwt_algorithm_default_HS256  
 JWT_KEY=your_jwt_key_named  
+```
 
 ---
 ## Set Up PostgreSQL  
