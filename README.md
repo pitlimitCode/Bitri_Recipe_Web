@@ -6,6 +6,7 @@ Repository Github : ...
 [Format database yang ku buat](#Format-database-yang-ku-buat)  
 [Soal asli / original](#Soal-asli--original)  -->
 
+Lompat ke:  
 [Cloning dan Set Up program ini di Local Device](#Cloning-dan-Set-Up-program-ini-di-Local-Device)  
 [Set Up PostgreSQL](#Set-Up-PostgreSQL)  
 [Set Up Postman](#Set-Up-Postman)  
@@ -34,7 +35,7 @@ JWT_KEY=your_jwt_key_named
 ### Buat Database:  
 Buat nama Database di postgreSQL sesuai keinginan.  
 
-### Penulisan syntax di terminal untuk membuat 3 table (Create Table) yang digunakan di database postgreSQl:  
+### Penulisan syntax di terminal untuk membuat table (Create Table) di database postgreSQl:  
 CREATE TABLE users (  
 id SERIAL PRIMARY KEY,  
 name varchar(32) NOT NULL,  
@@ -59,21 +60,21 @@ id_commenter integer NOT NULL,
 comment_text text NOT NULL  
 );  
 
-Command Terminal untuk melihat semua table data di postgreSQLtab
-> \d  
+### Command Terminal untuk melihat semua tabel di postgreSQL:  
+\d  
 
                List of relations  
- Schema |      Name       |   Type   |  Owner     
---------+-----------------+----------+----------  
- public | comments        | table    | postgres  
- public | comments_id_seq | sequence | postgres  
- public | recipes         | table    | postgres  
- public | recipes_id_seq  | sequence | postgres  
- public | users           | table    | postgres  
- public | users_id_seq    | sequence | postgres  
+| Schema | Name            | Type     | Owner    |
+| ------ | --------------- | -------- | -------- |
+| public | comments        | table    | postgres |
+| public | comments_id_seq | sequence | postgres |
+| public | recipes         | table    | postgres |
+| public | recipes_id_seq  | sequence | postgres |
+| public | users           | table    | postgres |
+| public | users_id_seq    | sequence | postgres |
 (6 rows)  
 
-### Format database yang dibuat:  
+### Format database yang telah dibuat:  
 | users table  | data type | not_null? | unique? | primary_key? | foreign_key |
 | ------------ | --------- | --------- | ------- | -----------  | ----------- |
 | id           | int       |     y     |    y    |      y       |      -      |
@@ -103,6 +104,7 @@ Command Terminal untuk melihat semua table data di postgreSQLtab
 ---
 ## Set Up Postman  
 Postman untuk mengetes seluruh Routes REST API sebelum dipakai di Front-end
+
 ---
 ## Jalankan REST API / program  
 > nodemon
@@ -155,7 +157,7 @@ Postman untuk mengetes seluruh Routes REST API sebelum dipakai di Front-end
   - Resep by user
 
 ### Tugas Beginner Backend:
-Referensi UI: https://www.figma.com/file/SUbBTYCq1e4ngRt20lSdqr/Food-Recipe?node-id=47%3A1273  
+Referensi tampilan User Interface: https://www.figma.com/file/SUbBTYCq1e4ngRt20lSdqr/Food-Recipe?node-id=47%3A1273  
 Persyaratan:  
   - Gunakan Bahasa Inggris untuk nama File dan Fungsi  
   - Table (Recipe, User, Comment)  
