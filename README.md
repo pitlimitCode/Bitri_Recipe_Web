@@ -6,7 +6,7 @@ Lompat ke:
 [Cloning dan Set Up program ini di Local Device](#Cloning-dan-Set-Up-program-ini-di-Local-Device)  
 [Set Up PostgreSQL](#Set-Up-PostgreSQL)  
 [Set Up Postman](#Set-Up-Postman)  
-[Persyaratan Tugas: Beginner Backend & Intermediate Backend](#Persyaratan-Tugas)  
+[Persyaratan Tugas: Beginner Backend & Intermediate Backend, dan Revisi](#Persyaratan-Tugas-dan-Revisi)  
 
 notes untuk pribadi, sementara:  
 handling error multer limits fileSize, & membuat multer dalam function. Lihat di repo live coding.  
@@ -19,10 +19,12 @@ back up an postgres
 
 ---
 ## Cloning dan Set Up program ini di Local Device  
+
 ### Cloning:  
 ```shell
 git clone -b FrontEnd+ https://github.com/pitlimitCode/Bitri_Recipe_Web.git 
 ```
+
 ### NPM Install:  
 ```shell
 npm install  
@@ -42,8 +44,10 @@ JWT_KEY=your_jwt_key_named
 ---
 ## Set Up PostgreSQL  
 PostgreSQl sebagai penyimpanan data di database local
+
 ### Buat nama Database:  
 Buat nama Database di postgreSQL sesuai keinginan.  
+
 ### Back Up an data PostgreSQL  
 ```shell
 coming soon (Back Up an data PostgreSQL)  
@@ -63,7 +67,7 @@ nodemon
 ```
 
 ---
-# Persyaratan Tugas  
+# Persyaratan Tugas dan Revisi  
 ## Intermediate Backend  
 ### Catatan revisi setelah presentase Intermediate Backend 01 Juli:  
   - kirim variabel dari function sebelumnya.  
