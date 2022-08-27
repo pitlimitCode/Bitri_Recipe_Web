@@ -9,27 +9,27 @@ Repository Github : ...
 [Cloning dan Set Up program ini di Local Device](#Cloning-dan-Set-Up-program-ini-di-Local-Device)  
 [Set Up PostgreSQL](#Set-Up-PostgreSQL)  
 [Set Up Postman](#Set-Up-Postman)  
-[Jalankan REST API / program:](#Jalankan-REST-API--program:)  
+[Jalankan REST API / program:](#Jalankan-rest-api--program)  
 [Intermediate Backend](#Intermediate-Backend)  
 [Beginner Backend](#Beginner-Backend)  
 
 ---
 ## Cloning dan Set Up program ini di Local Device  
 ### Cloning:  
-
+> ....  
 ### NPM Install:  
+> npm install  
 
 ### Isian .env:  
-DB_HOST=postgresql_localhostname
-DB_NAME=postgresql_database_name
-DB_PORT=postgresql_port
-DB_USER=postgresql_username
-DB_PASS=postgresql_password
+DB_HOST=postgresql_localhostname  
+DB_NAME=postgresql_database_name  
+DB_PORT=postgresql_port  
+DB_USER=postgresql_username  
+DB_PASS=postgresql_password  
+JWT_ALG=jwt_algorithm_default_HS256  
+JWT_KEY=your_jwt_key_named  
 
-JWT_ALG=jwt_algorithm_default_HS256
-JWT_KEY=your_jwt_key_named
-
-
+---
 ## Set Up PostgreSQL  
 ### Buat Database:  
 Buat nama Database di postgreSQL sesuai keinginan.  
@@ -61,6 +61,7 @@ comment_text text NOT NULL
 
 Command Terminal untuk melihat semua table data di postgreSQLtab
 > \d  
+
                List of relations  
  Schema |      Name       |   Type   |  Owner     
 --------+-----------------+----------+----------  
@@ -102,12 +103,11 @@ Command Terminal untuk melihat semua table data di postgreSQLtab
 ---
 ## Set Up Postman  
 Postman untuk mengetes seluruh Routes REST API sebelum dipakai di Front-end
-
-## Jalankan REST API / program:  
-> nodemon
-
 ---
-# Persyarata Tugas  
+## Jalankan REST API / program  
+> nodemon
+---
+# Persyaratan Tugas  
 ## Intermediate Backend  
 ### Catatan revisi setelah presentase Intermediate Backend 01 Juli:  
 1. kirim variabel dari function sebelumnya. (Sudah)  
