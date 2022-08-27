@@ -5,9 +5,6 @@ Lompat ke:
 [Cloning dan Set Up program ini di Local Device](#Cloning-dan-Set-Up-program-ini-di-Local-Device)  
 [Set Up PostgreSQL](#Set-Up-PostgreSQL)  
 [Set Up Postman](#Set-Up-Postman)  
-[Jalankan REST API / program:](#Jalankan-rest-api--program)  
-<!-- [Intermediate Backend](#Intermediate-Backend)  
-[Beginner Backend](#Beginner-Backend)   -->
 [Persyaratan Tugas: Beginner Backend & Intermediate Backend](#Persyaratan-Tugas)  
 
 ---
