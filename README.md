@@ -1,5 +1,5 @@
 # Bitri Recipe - REST API
-Repository Github: [```https://github.com/pitlimitCode/Bitri_Recipe_Web```](https://github.com/pitlimitCode/Bitri_Recipe_Web)
+Repository Github: [```https://github.com/pitlimitCode/Bitri_Recipe_Web```](https://github.com/pitlimitCode/Bitri_Recipe_Web)  
 Referensi User Interface: [```Figma UI```](https://www.figma.com/file/SUbBTYCq1e4ngRt20lSdqr/Food-Recipe?node-id=47%3A1273)  
 
 Lompat ke:  
@@ -108,27 +108,23 @@ nodemon
 
 ### Tugas Beginner Backend:
 Persyaratan:  
-  - Gunakan Bahasa Inggris untuk nama File dan Fungsi  
-  - Table (Recipe, User, Comment)  
-  - Linter  
+  - Table Database (Recipe, User, Comment)  
   - ENV  
-  - Cors  
+  - Linter  
+  - CORS  
+  - Gunakan Bahasa Inggris untuk nama File dan Fungsi  
   - CRUD (Create Read Update Delete)  
-  - Error Handling  
   - Pencarian Resep berdasarkan nama  
   - Resep terbaru maksimal 5  
-  - Presentasikan (ppt) :  
-    - apa yang telah Anda lakukan dalam minggu ini  
-      - Express 
-      - Body-parser  
-      - Helmet  
-      - Nodemon  
-      - Postgre  
+  - Error Handling  
+  - Upload/push tugas kamu ke GitHub dan gunakan nama yang profesional  
+  - Presentasikan:  
+    - Apa yang telah Anda lakukan dalam minggu ini  
+    - Jelaskan: Express, Body-parser, Helmet, Nodemon, Postgre 
     - Ceritakan dan Demokan tentang proyek ini  
     - Flowchart Aplikasi  
     - Dokumentasi Postman  
     - Dapat didemokan menggunakan postman  
-  - Upload/push tugas kamu ke GitHub dan gunakan nama yang profesional  
 
 Persyaratan tambahan (opsional):
   - Pagination
