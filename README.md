@@ -56,9 +56,7 @@ coming soon (Back Up an data PostgreSQL)
 ---
 ## Set Up Postman  
 Postman aplikasi untuk bisa melakukan CRUD pada REST API, sebelum digunakan di Front-end  
-```shell
 [```Join Team Postman```](https://app.getpostman.com/join-team?invite_code=da9a8abdcba442fdfc6ea16e678e566a)  
-```
 
 ---
 ## Jalankan REST API / program di local  
