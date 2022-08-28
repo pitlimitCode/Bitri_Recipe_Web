@@ -11,16 +11,16 @@ const showAll = async (req, res) => {
       res.send("No one Comment record in this apps.");
     }
   } catch (err) {
-    res.status(400).send(err);
-    // res.status(400).send("Something wrong while progress all comment data.");
+    // res.status(400).send(err);
+    res.status(400).send("Something wrong while progress all comment data.");
   }
 };
 
-// SHOW NEWEST COMMENTS AND LIMIT IT
+// SHOW NEWEST COMMENTS
 const showNew = async (req, res) => {
   try {
-    const { id_recipe, limit } = req.query;
-    const show = await model.showNew(id_recipe, limit);
+    const { id_recipe } = req.query;
+    const show = await model.showNew(id_recipe);
     if (show.rowCount > 0){
       res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
     } 
@@ -34,9 +34,9 @@ const showNew = async (req, res) => {
 
 // ADD NEW COMMENT
 const newComment = async (req, res) => {
-  const id_commenter = req.tokenUserId;
-  const { id_recipe, comment_text } = req.body;
   try {
+    const id_commenter = req.tokenUserId;
+    const { id_recipe, comment_text } = req.body;
     const show = await model.newComment(id_recipe, id_commenter, comment_text);
     res.status(200).send(`Your comment succesfully to be added.`);
   } catch (err) {
@@ -46,57 +46,39 @@ const newComment = async (req, res) => {
 
 // EDIT A COMMENT BY ID
 const editComment = async (req, res) => {
-  const id_commenter = req.tokenUserId;
-  const { id, comment_text } = req.body;
-  if (id == null || comment_text == null) {
-    res.status(400).send("Please input id and/or your comment");
-  } else {
-    try {
-      const show = await model.selectById(id);
-      if (show.rows[0].id_commenter == id_commenter) {
-        try {
-          const show2 = await model.editComment(id, id_commenter, comment_text);
-          res.status(200).send(`Comment has been edited.`);  
-        } catch (err) {
-          res.status(400).send("Something wrong while editing comment.");
-        }
-      } else {
-        res.status(400).send("You cann't edit other user comment.");
-      }
-    } catch (err) {
-      res.status(400).send("Something wrong in data input for editing comment.");
-    }
+  try {
+    const id_commenter = req.tokenUserId;
+    const { id, comment_text } = req.body;
+    if (id == null || comment_text == null) { return res.status(400).send("Please input id and/or your comment"); }
+    
+    const show = await model.selectById(id);
+    if (show.rows[0].id_commenter !== id_commenter) { return res.status(400).send("You cann't edit other user comment."); }
+    
+    await model.editComment(id, id_commenter, comment_text);
+    return res.status(200).send(`Comment has been edited.`);  
+
+  } catch (err) {
+    res.status(400).send("Something wrong in data input for editing comment.");
   }
 } 
 
 // DELETE A COMMENT BY COMMENTS.ID
 const deleteComment = async (req, res) => {
-  const id_commenter = req.tokenUserId;
-  const { id } = req.body;
-  if (id) {
+  try {
+    const id_commenter = req.tokenUserId;
+    const { id } = req.body;
+    if (id == '') { return res.status(400).send("Please input Id comment"); }
+
     let inpId = id;
-    try {
-      const show = await model.selectById(id);
-      if (show.rowCount > 0) {
-        if (show.rows[0].id_commenter == id_commenter) {
-          try {
-            const show2 = await model.deleteComment(id, id_commenter);
-            res.status(200).send(`Your comment id: '${inpId}' succesfully to be deleted.`);
-          } catch (err) { 
-            res.status(400).send(`Id data: catch, not found`);
-          }
-          
-        } else {
-          res.status(400).send("You cann't delete other user recipe.");
-        }
-      } else {
-        res.status(400).send(`No one Comment id: '${id}' on Database.`);
-      }
-    } catch (err) {
-      res.status(400).send("Something wrong while deleting data by id");
-    }
-  } else {
-    res.status(400).send("Please input Id comment");
+    const show = await model.selectById(id);
+    if (show.rowCount == 0) { return res.status(400).send(`No one Comment Id: '${id}' on Database.`); }
+    if (show.rows[0].id_commenter !== id_commenter) { return res.status(400).send("You cann't delete other user recipe."); }
+      
+    const show2 = await model.deleteComment(id, id_commenter);
+    return res.status(200).send(`Your comment id: '${inpId}' succesfully to be deleted.`);
+      
+  } catch (err) {
+    res.status(400).send("Something wrong while deleting data by id");
   }
 }
 

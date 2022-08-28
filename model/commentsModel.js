@@ -3,23 +3,26 @@ const db = require("./db");
 // SHOW ALL COMMENTS PUBLIC
 const showAll = () => {
   return new Promise((resolve, reject) => {
-    db.query(`SELECT * FROM comments ORDER BY id DESC`,
-      (error, result) => {
-        if (error) { reject (error) } else { resolve (result); }
-      }
+    db.query(
+      `SELECT * 
+      FROM comments 
+      ORDER BY id DESC`,
+      (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
   })
 }; 
 
 // SHOW NEWEST COMMENTS AND LIMIT IT
-const showNew = (id_recipe, limit) => {
+const showNew = (id_recipe) => {
   return new Promise((resolve, reject) => {
     db.query(
-      `SELECT comments.id AS id, users.name, users.id AS id_commenter, users.avatar, comments.comment_text FROM comments JOIN users ON comments.id_commenter = users.id WHERE id_recipe = $1 ORDER BY comments.id DESC LIMIT $2`,
-      [id_recipe, limit],
-      (error, result) => {
-        if (error) { reject (error) } else { resolve (result); }
-      }
+      `SELECT comments.id AS id, users.name, users.id AS id_commenter, users.avatar, comments.comment_text 
+      FROM comments 
+      JOIN users ON comments.id_commenter = users.id 
+      WHERE id_recipe = $1 
+      ORDER BY comments.id DESC`,
+      [id_recipe],
+      (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
   });
 };
@@ -30,9 +33,7 @@ const newComment = (id_recipe, id_commenter, comment_text) => {
     db.query(
       `INSERT INTO comments (id_recipe, id_commenter, comment_text) VALUES ($1, $2, $3)`,
       [id_recipe, id_commenter, comment_text],
-      (error, result) => {
-        if (error) { reject (error) } else { resolve (result); }
-      }
+      (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
   });
 };
@@ -42,9 +43,7 @@ const selectById = (id) => {
   return new Promise((resolve, reject) => {
     db.query(
       `SELECT * FROM comments WHERE id = $1`, [id],
-      (error, result) => {
-        if (error) { reject (error) } else { resolve (result); }
-      }
+      (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
   });
 };
@@ -55,9 +54,7 @@ const editComment = (id, id_commenter, comment_text) => {
     db.query(
       `UPDATE comments SET comment_text = $1 WHERE id_commenter = $2 and id = $3`,
       [comment_text, id_commenter, id],
-      (error, result) => {
-        if (error) { reject (error) } else { resolve (result); }
-      }
+      (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
   });
 };
@@ -65,11 +62,11 @@ const editComment = (id, id_commenter, comment_text) => {
 // DELETE A COMMENT BY ID
 const deleteComment = (id, id_commenter) => {
   return new Promise((resolve, reject) => {
-    db.query(`DELETE FROM comments WHERE id = $1 and id_commenter = $2`,
-    [id, id_commenter],
-    (error, result) => {
-      if (error) { reject (error) } else { resolve (result); }
-    });
+    db.query(
+      `DELETE FROM comments WHERE id = $1 and id_commenter = $2`,
+      [id, id_commenter],
+      (error, result) => { if (error) { reject (error) } else { resolve (result) } }
+    );
   });
 };
 

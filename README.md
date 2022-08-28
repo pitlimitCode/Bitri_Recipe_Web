@@ -32,13 +32,13 @@ npm install
 
 ### Isian .env:  
 ```shell
-DB_HOST=postgresql_localhostname  
-DB_NAME=postgresql_database_name  
-DB_PORT=postgresql_port  
-DB_USER=postgresql_username  
-DB_PASS=postgresql_password  
-JWT_ALG=jwt_algorithm_default_HS256  
-JWT_KEY=your_jwt_key_named  
+DB_HOST="localhost"
+DB_NAME="SET_DB_NAME"
+DB_PORT="5432"
+DB_USER="postgres"
+DB_PASS="*****"
+JWT_ALG="HS256"
+JWT_KEY="gaspol"
 ```
 
 ---
@@ -57,7 +57,7 @@ coming soon (Back Up an data PostgreSQL)
 ## Set Up Postman  
 Postman aplikasi untuk bisa melakukan CRUD pada REST API, sebelum digunakan di Front-end  
 ```shell
-coming soon (link invite postman)  
+[```Join Team Postman```](https://app.getpostman.com/join-team?invite_code=da9a8abdcba442fdfc6ea16e678e566a)  
 ```
 
 ---

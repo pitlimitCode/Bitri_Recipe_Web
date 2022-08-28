@@ -13,6 +13,5 @@ Router.post("/users/login", controller.userLogin); // LOGIN
 Router.patch("/users/addavatar", verifyToken.checkToken, singleUploadAvatar.single('avatar'), controller.addAvatar); // ADD USER AVATAR
 Router.patch("/users/edit", verifyToken.checkToken, controller.editUserData); // EDIT USER DATA BY ID
 Router.delete("/users/delete/id", verifyToken.checkToken, controller.deleteUser); // DELETE USER BY ID
-// Router.delete("/users/deleteall", controller.deleteAllUsers); // DELETE ALL USERS
 
 module.exports = Router;
