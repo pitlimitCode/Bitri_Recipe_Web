@@ -27,7 +27,7 @@ const showAll = () => {
     db.query(
       `SELECT * 
       FROM users 
-      ORDER BY id DESC`, // id, name, avatar
+      ORDER BY id DESC`,
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
   })
@@ -39,19 +39,20 @@ const showById = (id) => {
     db.query(
       `SELECT * 
       FROM users 
-      WHERE id = $1`, [id],
+      WHERE id = $1`,
+      [id],
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
   })
 }
 
-// FIND USER BY ID * Privacy
+// FIND USER BY ID * Privacy (id, name, avatar)
 const showByIdPri = (id) => {
   return new Promise((resolve, reject) => {
     db.query(
       `SELECT id, name, avatar 
       FROM users 
-      WHERE id = $1`, 
+      WHERE id = $1`,
       [id],
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );

@@ -215,3 +215,9 @@ comment_text text NOT NULL
 | id_recipe      | integer   |     y     |    -    |      -       | (recipes.id) |
 | id_commenter   | integer   |     y     |    -    |      -       |  (users.id)  |
 | comment_text   | text      |     y     |    -    |      -       |       -      |
+
+---
+### Configurasi penggunakan ESlint untuk kerapihan penulisan Ecma Script
+```shell
+npm init @eslint/config
+```
