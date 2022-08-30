@@ -133,9 +133,9 @@ You can view my Postman collection [here](https://app.getpostman.com/join-team?i
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/YourNewBranch`)
-3. Commit your Changes (`git commit -m 'Add some YourNewBranch'`)
-4. Push to the Branch (`git push origin feature/YourNewBranch`)
+2. Create your Feature Branch (`git checkout -b feature/YourNewBranchName`)
+3. Commit your Changes (`git commit -m 'Add some YourNewBranchName'`)
+4. Push to the Branch (`git push origin feature/YourNewBranchName`)
 5. Open a Pull Request
 <p align="right">(<a href="#top">back to top</a>)</p>
 
