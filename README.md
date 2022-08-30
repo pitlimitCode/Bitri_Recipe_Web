@@ -1,5 +1,6 @@
 ### catatan edit
 - logo utama, urlnya dari cloud sendiri
+- sesuaikan dengan cv
 - url postman?
 - contributing?
 - lisence buat apa?
