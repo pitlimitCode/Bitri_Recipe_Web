@@ -50,9 +50,17 @@ app.use('/images', express.static('images'));
 const userAllRoutes = require("./routes/usersRoutes");
 const recipesRoutes = require("./routes/recipesRoutes");
 const commentsRoutes = require("./routes/commentsRoutes");
+const likesRoutes = require("./routes/likesRoutes");
+// const savesRoutes = require("./routes/savesRoutes");
 app.use("/", cors(corsOptionsDelegate), userAllRoutes);
 app.use("/", cors(corsOptionsDelegate), recipesRoutes);
 app.use("/", cors(corsOptionsDelegate), commentsRoutes);
+app.use("/", cors(corsOptionsDelegate), likesRoutes);
+// app.use("/", cors(corsOptionsDelegate), savesRoutes);
+
+
+const tesRoutes = require("./routes/tesRoutes");
+app.use("/", cors(corsOptionsDelegate), tesRoutes);
 
 app.use("/tes", (req, res) => {res.send("tes tanpa Cors, berhasil.")});
 // app.use("*", (req, res) => {res.send("You access no one valid URL in this Site.")});
