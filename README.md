@@ -13,15 +13,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/pitlimitCode/Bitri_Recipe_Web/tree/FrontEnd+">
-    <img src="https://res.cloudinary.com/dbpfwb5ok/image/upload/v1659148545/portofolio/recipe/2_kpnvj7.png" alt="Logo" width="150px">
-  </a>
-    <br />
-  <a href="https://github.com/pitlimitCode/Bitri_Recipe_Web/tree/FrontEnd+">
     <img src="https://lh3.googleusercontent.com/AUnVkYlLiu75LwM_KzpbV5nIq8I4rA6uqoLI-keYPMC6G7p7CAH3aXXsg3U5eaiO63i3uN_PNF3y3nk-0q6CEUT8xAn9fFzkjtvMtuAXDA-ynKrmemFP8oOREsfviSD2nNqbAoEDf-fbI3YzLXbxl1mDccduSLDcsPHaoZuCxC-o36_XPaO485MFoI1lnL2e5mHi-wEUfJpJz1tpzuF2EKZmhjgr3Vdae6Lz8fKT3amZfTSCdjufXBOJMVPVtmKPdD1kuzguty9uFlNVi33SWcpWQ8q_dv1ji1S8Y7K-qzvkO9g-tjuNT93YqlmIDf4K0vj3GhsiGbI6MSwtR5VaIPrbIswsTXGu0Pc0zoFHsVxlSyoNvr8JXXxGnLymENKGxUdZ8dWqEw8zKyim0o4cDMsPySCNQ9Cjd9LXBks_MCjG7pSjHHkZjQbdiMsf4sCNVC9SK0iY9UMjNAwmhuIMH2U0IM84l7bi3mlMpbOsRTdYvdCuQYj011mgaeVqiCzAxlbSPbK_kPyB6M6aUHUuJZLtc3ZQZMGQ0_a12-JyhQRKqHqM_uIPx-5UThleaPZQryGiRDJPZee8MQagbgxDBUPwUolIfT7wyUB0_47izt2oFjssaDjSTZrrI3WGBqZjSbD_viDLT5DVJdhA-pp5anNrTEpUgB1_76W9r-pc_gtQ72V_bEUJCaT0n4AbqDHA1w2oGt7T0XIRIy1MUsoO-HOLIpcCqKczqulGggU1BhfPh3Qemx657hxM8cGztt-p6mZ6zM93WTOPkr01_TkPOtCy4PyF60uSfFMY=w626-h625-no?authuser=1" alt="Logo" width="150px">
-  </a>
-    <br />
-  <a href="https://github.com/pitlimitCode/Bitri_Recipe_Web/tree/FrontEnd+">
-    <img src="https://photos.google.com/u/1/photo/AF1QipNsvk-QylHogYp5CdLYiwssE7xx0egw97Z9q5MJ" alt="Logo" width="150px">
   </a>
 
   <h3 align="center">Bitri Recipe Backend</h3>
