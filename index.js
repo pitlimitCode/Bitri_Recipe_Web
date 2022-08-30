@@ -17,10 +17,10 @@ const cors = require("cors");
 app.use(cors());
 var allowlist = 
   [
-    "https://bitri-recipe.herokuapp.com/",
-    "https://herokuapp.com/",
-    "http://localhost:3000/",
-    "http://localhost:8000/",
+    "https://bitri-recipe.herokuapp.com",
+    "https://herokuapp.com",
+    "http://localhost:3000",
+    "http://localhost:8000",
     // "https://www.pijarmahir.id", 
     // "https://www.telkom.co.id",
   ];

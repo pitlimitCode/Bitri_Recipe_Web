@@ -50,7 +50,7 @@ const userLogin = async (req, res) => {
       { expiresIn: 24 * 60 * 60 }, // EXPIRED TOKEN IN n SECOND
       { algorithm: process.env.JWT_ALG }
     );
-    console.log(token);
+    // console.log(token);
     res.status(200).send({
       name: show.rows[0].name, 
       id: show.rows[0].id,
