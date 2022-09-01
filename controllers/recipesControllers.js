@@ -183,7 +183,7 @@ const editImage = async (req, res) => {
 
     if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `Recipe data id: '${id}' not found.`, }); }
     if(show.rows[0].id_user !== id_user){ 
-      return res.json({ StatusCode: 400, isValid: false, message: `You cann't edit other user of image recipe.`, }); 
+      return res.json({ StatusCode: 400, isValid: false, message: `You can't edit other user of image recipe`, }); 
     }
 
     // console.log(req?.file);
@@ -244,16 +244,16 @@ const deleteRecipe = async (req, res) => {
   try {
     const id_user = req.tokenUserId;
     const { id } = req.body;
-    if (id == undefined || id == '') { return res.json({ StatusCode: 400, isValid: false, message: `Please input id recipe`, }); }
+    if (isNaN(id)) { return res.json({ StatusCode: 400, isValid: false, message: `Please input id recipe`, }); }
 
     let inpId = id;
     const show = await model.showById(id);
     if (show.rowCount == 0) { return res.json({ StatusCode: 200, isValid: true, message: `No one Recipe id: '${id}' on Database`, }); }
-    console.log(show.rows[0].id_user + "  " + id_user);
+    // console.log(show.rows[0].id_user + "  " + id_user);
     if (show.rows[0].id_user !== id_user) { return res.json({ StatusCode: 400, isValid: false, message: `You can't delete other user recipe`, }); }
     
     await model.deleteRecipe(id);
-    return res.status(200).send(`Recipe data id: '${inpId}' succesfully to be deleted.`);
+    return res.json({ StatusCode: 200, isValid: false, message: `Recipe data id: '${inpId}' succesfully to be deleted`, });
 
   } catch (err) {
     console.log(err);

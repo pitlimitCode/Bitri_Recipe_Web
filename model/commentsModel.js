@@ -42,7 +42,8 @@ const newComment = (id_recipe, id_commenter, comment_text) => {
 const selectById = (id) => {
   return new Promise((resolve, reject) => {
     db.query(
-      `SELECT * FROM comments WHERE id = $1`, [id],
+      `SELECT * FROM comments WHERE id = $1`, 
+      [id],
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
   });

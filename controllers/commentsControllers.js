@@ -1,4 +1,5 @@
 const model = require("../model/commentsModel");
+const recipemodel = require("../model/recipeModel");
 
 // SHOW ALL COMMENTS PUBLIC
 const showAll = async (req, res) => {
@@ -49,8 +50,12 @@ const newComment = async (req, res) => {
   try {
     const id_commenter = req.tokenUserId;
     const { id_recipe, comment_text } = req.body;
-    const show = await model.newComment(id_recipe, id_commenter, comment_text);
-    res.status(200).send(`Your comment succesfully to be added.`);
+    if(isNaN(id_recipe) || id_recipe == ''){ return res.json({ StatusCode: 400, isValid: false, message: `Id_recipe data-type must integer`, }); }
+    const checkidrecipe = await recipemodel.showById(id_recipe);
+    console.log(checkidrecipe.rowCount);
+    if(checkidrecipe.rowCount == 0){ return res.json({ StatusCode: 400, isValid: false, message: `No data id_recipe: ${id_recipe}`, }); }
+    await model.newComment(id_recipe, id_commenter, comment_text);
+    return res.json({ StatusCode: 200, isValid: true, message: `Your comment succesfully to be added.`, });
   } catch (err) {
     console.log(err);
     return res.json({ StatusCode: 500, isValid: false, message: err.message, });
@@ -62,13 +67,18 @@ const editComment = async (req, res) => {
   try {
     const id_commenter = req.tokenUserId;
     const { id, comment_text } = req.body;
-    if (id == null || comment_text == null) { return res.status(400).send("Please input id and/or your comment"); }
+    // console.log(id + " " + id_commenter + "  " + comment_text);
+    if (comment_text == null) { return res.status(400).send("Please input comment"); }
     
     const show = await model.selectById(id);
-    if (show.rows[0].id_commenter !== id_commenter) { return res.status(400).send("You cann't edit other user comment."); }
+    if(show.rowCount == 0){ return res.json({ StatusCode: 400, isValid: true, message: `No id comment: ${id}`, }); }
+    // console.log(show.rows[0].id_commenter + "  " + id_commenter);
+    if(show.rows[0].id_commenter !== id_commenter){ 
+      return res.json({ StatusCode: 400, isValid: false, message: `You can't edit other user comment`, }); 
+    }
     
     await model.editComment(id, id_commenter, comment_text);
-    return res.status(200).send(`Comment has been edited.`);  
+    return res.json({ StatusCode: 200, isValid: true, message: `Comment succesfully to be edited`, });
 
   } catch (err) {
     console.log(err);
@@ -81,15 +91,16 @@ const deleteComment = async (req, res) => {
   try {
     const id_commenter = req.tokenUserId;
     const { id } = req.body;
-    if (id == '') { return res.status(400).send("Please input Id comment"); }
+    if (isNaN(id)) { return res.json({ StatusCode: 400, isValid: false, message: `Please input Id comment`, }); }
 
     let inpId = id;
     const show = await model.selectById(id);
-    if (show.rowCount == 0) { return res.status(400).send(`No one Comment Id: '${id}' on Database.`); }
-    if (show.rows[0].id_commenter !== id_commenter) { return res.status(400).send("You cann't delete other user recipe."); }
+    if (show.rowCount == 0) { return res.json({ StatusCode: 200, isValid: true, message: `No one Comment Id: '${id}' on Database`, }); }
+    console.log(show.rows[0].id_commenter + "  " + id_commenter);
+    if (show.rows[0].id_commenter !== id_commenter) { return res.json({ StatusCode: 400, isValid: false, message: `You can't delete other user comment`, }); }
       
-    const show2 = await model.deleteComment(id, id_commenter);
-    return res.status(200).send(`Your comment id: '${inpId}' succesfully to be deleted.`);
+    await model.deleteComment(id, id_commenter);
+    return res.json({ StatusCode: 200, isValid: false, message: `Your comment id: '${inpId}' succesfully to be deleted`, });
       
   } catch (err) {
     console.log(err);
