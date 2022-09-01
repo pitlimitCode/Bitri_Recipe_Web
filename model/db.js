@@ -7,7 +7,7 @@ if (process.env.ENV_MODE === "prod") {
 	conn = new Client({
     connectionString: process.env.DB_URI,
     ssl: {
-      rejectUnauthorized: false,
+      rejectUnauthorized: process.env.DEPLOY_HEROKU,
     },
   });
 } else {
@@ -18,7 +18,7 @@ if (process.env.ENV_MODE === "prod") {
 		password: process.env.DB_PASS,
 		port: process.env.DB_PORT,
 		ssl: {
-		  rejectUnauthorized: false,
+		  rejectUnauthorized: process.env.DEPLOY_HEROKU,
 		},
 	});
 }
