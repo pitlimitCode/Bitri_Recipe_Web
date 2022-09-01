@@ -26,6 +26,14 @@ to do:
 kendala agak lama di penentuan asc desc, jadi wajib ada query asc desc dan di model maksa tulis ${} (tidak pakai $1 dsb)
 video, sql untuk data array ?
 
+notes:
+block SSL for deploy? uncomment line 9-11 and 20-22 in file db.js
+ssl: {
+  rejectUnauthorized: false,
+},
+
+
+
 <div id="top"></div>
 
 <!-- PROJECT LOGO -->

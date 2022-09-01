@@ -63,13 +63,20 @@ app.use("/", cors(corsOptionsDelegate), commentsRoutes);
 // app.use("/", cors(corsOptionsDelegate), tesRoutes);
 
 // app.use("/tes", (req, res) => {res.send("tes tanpa Cors, berhasil.")});
-app.use("*", (req, res) => {res.send("You access no one valid URL in this Site.")});
-// app.use("*", (req, res) => {res.send({ 
-//   SHOW_ALL_USERS: ' users/show/all ' ,
-//   SHOW_ALL_RECIPES: ' recipes/show/all ' ,
-//   SHOW_5_NEW_RECIPES: ' recipes/show/new ',
-//   SHOW_ALL_COMMENTS_PUBLIC: ' comments/all ' ,
-// })});
+// app.use("*", (req, res) => {res.send("You access no one valid URL in this Site.")});
+app.use("*", (req, res) => {res.send([
+  'testing endpoint?:',
+  '/users/getall',
+  '/users/id/:id',
+  '/users/name/:name',
+  '/recipes/getall',
+  '/recipes/pagination/',
+  '/recipes/fivenew',
+  '/recipes/id/:id',
+  '/recipes/name/:name',
+  '/comments/all',
+  '/comments/new',
+])});
 
 // Listen the Port.
 require('dotenv').config();
