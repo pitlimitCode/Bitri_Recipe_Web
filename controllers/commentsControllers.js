@@ -52,7 +52,7 @@ const newComment = async (req, res) => {
     const { id_recipe, comment_text } = req.body;
     if(isNaN(id_recipe) || id_recipe == ''){ return res.json({ StatusCode: 400, isValid: false, message: `Id_recipe data-type must integer`, }); }
     const checkidrecipe = await recipemodel.showById(id_recipe);
-    console.log(checkidrecipe.rowCount);
+    // console.log(checkidrecipe.rowCount);
     if(checkidrecipe.rowCount == 0){ return res.json({ StatusCode: 400, isValid: false, message: `No data id_recipe: ${id_recipe}`, }); }
     await model.newComment(id_recipe, id_commenter, comment_text);
     return res.json({ StatusCode: 200, isValid: true, message: `Your comment succesfully to be added.`, });
@@ -96,7 +96,7 @@ const deleteComment = async (req, res) => {
     let inpId = id;
     const show = await model.selectById(id);
     if (show.rowCount == 0) { return res.json({ StatusCode: 200, isValid: true, message: `No one Comment Id: '${id}' on Database`, }); }
-    console.log(show.rows[0].id_commenter + "  " + id_commenter);
+    // console.log(show.rows[0].id_commenter + "  " + id_commenter);
     if (show.rows[0].id_commenter !== id_commenter) { return res.json({ StatusCode: 400, isValid: false, message: `You can't delete other user comment`, }); }
       
     await model.deleteComment(id, id_commenter);
