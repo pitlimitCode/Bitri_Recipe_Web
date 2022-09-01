@@ -10,11 +10,11 @@ const showAll = async (req, res) => {
       return res.json({ 
         StatusCode: 400, 
         isValid: false, 
-        message: "Routes must be '/recipes/getall/?sort=asc' or '/recipes/getall/?sort=desc'" 
+        message: "Routes must be '/recipes/getall/?sort=asc' or '/recipes/all/?sort=desc'" 
       });
     }
     if(sort.toLowerCase() != 'asc' && sort.toLowerCase() != 'desc' ) {
-      return res.json({ StatusCode: 400, isValid: false, message: "Routes for '?sort=' must be 'asc' or 'desc'", });
+      return res.json({ StatusCode: 400, isValid: false, message: "Routes for '/?sort=' must be 'asc' or 'desc'", });
     }
 
     // SQL model Select all data in column Recipes table PostgreSQL Database
@@ -39,7 +39,7 @@ const showInPages = async (req, res) => {
     const { limit, pages, sort } = req.query;
     
     if(sort != 'asc' && sort != 'desc' ) {
-      return res.json({ StatusCode: 400, isValid: false, message: "Routes for '?sort=' must be 'asc' or 'desc'", });
+      return res.json({ StatusCode: 400, isValid: false, message: "Routes for '/?sort=' must be 'asc' or 'desc'", });
     }
 
     const offset = (pages - 1) * limit;
