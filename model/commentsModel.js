@@ -1,26 +1,26 @@
 const db = require("./db");
 
 // SHOW ALL COMMENTS PUBLIC
-const showAll = () => {
+const showAll = (sortby) => {
   return new Promise((resolve, reject) => {
     db.query(
       `SELECT * 
       FROM comments 
-      ORDER BY id DESC`,
+      ORDER BY id ${sortby}`,
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
   })
 }; 
 
-// SHOW NEWEST COMMENTS AND LIMIT IT
-const showNew = (id_recipe) => {
+// SHOW NEWEST COMMENTS BY ID RECIPE
+const showNew = (id_recipe, sort) => {
   return new Promise((resolve, reject) => {
     db.query(
       `SELECT comments.id AS id, users.name, users.id AS id_commenter, users.avatar, comments.comment_text 
       FROM comments 
       JOIN users ON comments.id_commenter = users.id 
       WHERE id_recipe = $1 
-      ORDER BY comments.id DESC`,
+      ORDER BY comments.id ${sort}`,
       [id_recipe],
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );

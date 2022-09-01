@@ -3,32 +3,44 @@ const model = require("../model/commentsModel");
 // SHOW ALL COMMENTS PUBLIC
 const showAll = async (req, res) => {
   try {
-    const show = await model.showAll();
-    if (show.rowCount > 0){
-      res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
-    } 
-    if (show.rowCount == 0 ){
-      res.send("No one Comment record in this apps.");
+    const { sort } = req.query;
+    
+    // Validation input query 'sort'
+    if(sort != 'asc' && sort != 'desc' ) {
+      return res.json({ StatusCode: 400, isValid: false, message: "Routes for 'sort=' must be 'asc' or 'desc'", });
     }
+
+    // SQL model Select all data in column Recipes table PostgreSQL Database
+    const show = await model.showAll(sort);
+    
+    // If no one Recipe on Database
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: "No one Comment on Database", }); }
+    
+    // Success show Recipe on Database
+    return res.json({ StatusCode: 200, isValid: true, result: { sort:sort, count_of_data: show.rowCount, data: show.rows }, });
+
   } catch (err) {
-    // res.status(400).send(err);
-    res.status(400).send("Something wrong while progress all comment data.");
+    // Error in This Controller or Model Used
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
 
-// SHOW NEWEST COMMENTS
+// SHOW NEWEST COMMENTS BY ID RECIPE
 const showNew = async (req, res) => {
   try {
-    const { id_recipe } = req.query;
-    const show = await model.showNew(id_recipe);
-    if (show.rowCount > 0){
-      res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
-    } 
-    if (show.rowCount == 0 ){
-      res.send("No one comments history.");
+    const { id_recipe, sort } = req.query;
+    if(isNaN(id_recipe)){ return res.json({ StatusCode: 400, isValid: false, message: `Id_recipe data-type must integer`, }); }
+    if(sort != 'asc' && sort != 'desc' ) {
+      return res.json({ StatusCode: 400, isValid: false, message: "Routes for 'sort=' must be 'asc' or 'desc'", });
     }
+    const show = await model.showNew(id_recipe, sort);
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: "No one comments history", }); }
+    return res.json({ StatusCode: 200, isValid: true, result: { sort:sort, count_of_data: show.rowCount, data: show.rows }, });
+
   } catch (err) {
-    res.status(400).send("Something wrong while getting comments of a recipe.");
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
 
@@ -40,7 +52,8 @@ const newComment = async (req, res) => {
     const show = await model.newComment(id_recipe, id_commenter, comment_text);
     res.status(200).send(`Your comment succesfully to be added.`);
   } catch (err) {
-    res.status(400).send("Something wrong while adding new comment.");
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 }
 
@@ -58,7 +71,8 @@ const editComment = async (req, res) => {
     return res.status(200).send(`Comment has been edited.`);  
 
   } catch (err) {
-    res.status(400).send("Something wrong in data input for editing comment.");
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 } 
 
@@ -78,7 +92,8 @@ const deleteComment = async (req, res) => {
     return res.status(200).send(`Your comment id: '${inpId}' succesfully to be deleted.`);
       
   } catch (err) {
-    res.status(400).send("Something wrong while deleting data by id");
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 }
 
