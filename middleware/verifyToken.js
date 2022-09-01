@@ -7,7 +7,7 @@ const checkToken = async (req, res, next) => {
   jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_KEY, function(err, decoded) {
     if (err) {
       // console.log(err);
-      if(err.message == "jwt expired") { return res.status(400).send(err.message) }
+      if(err.message == "jwt expired") { return res.json({ StatusCode: 400, isValid: false, message: err.message }) }
       return res.status(400).send('Error verify type: ' + err.message + '.');
     } else {
       // console.log(decoded);

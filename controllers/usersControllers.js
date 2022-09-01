@@ -18,31 +18,30 @@ const newUser = async (req, res) => {
     const { name, email, phone_number, password } = req.body;
     const avatar = "images/users_avatar/defaultAvatar.jpg";
     
-    if(name == ''){ return res.status(400).send(`Please input name`); }
-    if(email == ''){ return res.status(400).send(`Please input email`); }
+    if(name == ''){ return res.json({ StatusCode: 400, isValid: true, message: `Please input name`, }); }
+    if(email == ''){ return res.json({ StatusCode: 400, isValid: true, message: `Please input email`, }); }
     const checkemail = await model.checkemail(email);
-    if(checkemail.rowCount > 0){ return res.status(400).send(`Email already use, try another email`); }
-    if(password == '' ){ return res.status(400).send(`Please input password`); }
+    if(checkemail.rowCount > 0){ return res.json({ StatusCode: 200, isValid: true, message: `Email already use, try another email`, }); }
+    if(password == ''){ return res.json({ StatusCode: 400, isValid: true, message: `Please input password`, }); }
 
     const hash = await bcrypt.hash(password, 5);
-    const show = await model.newUser( name, email, phone_number, hash, avatar);
-    return res.status(200).send("Success to Register");
+    await model.newUser( name, email, phone_number, hash, avatar);
+    return res.json({ StatusCode: 200, isValid: true, message: "Success to Register", });
 
   } catch (err) {
-    return res.status(400).send(`Error to Registering User: ${err.message}`);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message });
   }
 }
 // USER LOGIN
 const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
-    if(email == ''){ return res.status(400).send(`Please input email`); }
-    if(password == ''){ return res.status(400).send(`Please input password`); }
-
+    if(email == ''){ return res.json({ StatusCode: 400, isValid: false, message: `Please input email`, }); }
+    if(password == ''){ return res.json({ StatusCode: 400, isValid: false, message: `Please input password`, }); }
     const show = await model.checkemail(email);
-    if(show.rowCount == 0){ return res.status(400).send(`Email didn't valid`); }
+    if(show.rowCount == 0){ return res.json({ StatusCode: 400, isValid: false, message: `Email already use, try another email`, }); }
     const compare = await bcrypt.compare(password, show.rows[0].password);
-    if(compare == false) { return res.status(400).send(`Wrong password !`); }
+    if(compare == false){ return res.json({ StatusCode: 400, isValid: false, message: `Wrong password !`, }); }
 
     var token = jwt.sign(
       show.rows[0],
@@ -51,24 +50,28 @@ const userLogin = async (req, res) => {
       { algorithm: process.env.JWT_ALG }
     );
     // console.log(token);
-    res.status(200).send({
+    return res.json({ 
+      StatusCode: 200,
+      isValid: true,
+      message: "Success to Login",
+      // id: show.rows[0].id,
       name: show.rows[0].name, 
-      id: show.rows[0].id,
       token: token, 
     });
 
   } catch (err) {
     console.log(err);
-    res.send(`Error to Login. ${err}`);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message });
   }
 };
 // JUST GET/RES ID USER
 const justGetId = async (req, res) => {
   try {
     const id_user = req.tokenUserId;
-    res.status(200).send({id: id_user});
+    return res.json({ StatusCode: 200, isValid: true, id: id_user });
   } catch (err) {
-    res.status(400).send("Something wrong while finding user data by id.");
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message });
   }
 };
 
@@ -76,25 +79,28 @@ const justGetId = async (req, res) => {
 const showAll = async (req, res) => {
   try {
     const { sort } = req.query;
-
     // console.log(sort.toLowerCase());
+
+    // Validation input query 'sort'
     if(sort){
-      if (sort.toLowerCase() != 'asc' && sort.toLowerCase() != 'desc' ) {
-        // return res.send("Input sort must be 'asc' or 'desc'")
+      if(sort.toLowerCase() != 'asc' && sort.toLowerCase() != 'desc' ) {
         return res.json({ StatusCode: 400, isValid: true, message: "Routes for 'sort' input must be 'asc' or 'desc'", });
       }
     }
 
+    // SQL model Select all data in column Users table PostgreSQL Database
     const show = await model.showAll(sort);
-    if (show.rowCount == 0){ 
-      return res.json({ StatusCode: 200, isValid: true, message: "No one User on Database", });
-    }
+
+    // If no one User on Database
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: "No one User on Database", }); }
     
-    return res.json({ StatusCode: 200, isValid: true, message: { data: show.rows, count_of_data: show.rowCount }, });
+    // Success show User on Database
+    return res.json({ StatusCode: 200, isValid: true, result: { count_of_data: show.rowCount, data: show.rows }, });
 
   } catch (err) {
-    res.status(400).send(err.message);
-    return res.json({ StatusCode: 400, isValid: true, message: err.message, });
+    // Error in This Controller or Model Used
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
 
@@ -103,13 +109,17 @@ const showById = async (req, res) => {
   try {
     // const { id } = req.query;
     const id = parseInt(req.params.id);
+    if(isNaN(id)){ return res.json({ StatusCode: 400, isValid: false, message: `Id type data must integer`, }); }
     const show = await model.showByIdPri(id);
-    if (show.rowCount == 0){ return res.send(`No one User id: '${id}' on Database.`); }
     
-    return res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `No one User id: '${id}' on Database`, }); }
+    
+    // return res.json({ StatusCode: 200, isValid: true, result: { count_of_data: show.rowCount, data: show.rows }, });
+    return res.json({ StatusCode: 200, isValid: true, data: show.rows[0], });
 
   } catch (err) {
-    res.status(400).send("Something wrong while finding user data by id.");
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
 
@@ -117,14 +127,13 @@ const showById = async (req, res) => {
 const showByName = async (req, res) => {
   try {
     const name = req.params.name;
-    console.log(name);
     const nameLower = name.toLowerCase();
     const show = await model.showByName(nameLower);
-    if (show.rowCount == 0){ return res.send(`No one User name: '${name}' on Database.`); }
-
-    return res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `No one User name: '${name}' on Database.`, }); }
+    return res.json({ StatusCode: 200, isValid: true, result: { count_of_data: show.rowCount, data: show.rows }, });
   } catch (err) {
-    res.status(400).send("Something wrong while finding user data by name.");
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
 
@@ -136,12 +145,12 @@ const showMyRecipe = async (req, res) => {
     // const id_user = parseInt(req.params.id_user);
     // console.log(id_user);
     const show = await model.showMyRecipe(id_user);
-    if (show.rowCount == 0){ return res.send(`No one User Recipe on Database.`); }
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `No one User Recipe on Database.`, }); }
 
-    return res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
+    return res.json({ StatusCode: 200, isValid: true, result: { count_of_data: show.rowCount, data: show.rows }, });
   } catch (err) {
     console.log(err);
-    res.status(400).send("Something wrong while finding user recipe.");
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
 
@@ -151,7 +160,7 @@ const addAvatar = async (req, res) => {
     // console.log(req);
     const id_user = req.tokenUserId;
     const show = await model.showById(id_user);
-    if (show.rowCount == 0) { return res.status(400).send(`Data id: '${id_user}' not found.`); }
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `Data id: '${id_user}' not found.`, }); }
     // console.log(req?.file?.path);
     // console.log(req?.file);
     // const avatar = req?.file?.path || "images/users_avatar/defaultAvatar.jpg";
@@ -165,12 +174,12 @@ const addAvatar = async (req, res) => {
     }
     
     const show2 = await model.addAvatar(id_user, avatar);
-    if (req.file == undefined) { return res.status(400).send("Image type file must be: png / jpg / jpeg"); } 
-
-    return res.status(200).send(`Ok id: '${id_user}', your avatar succesfully to be edited.`);
+    // if (req.file == undefined) { return res.status(400).send("Image type file must be: png / jpg / jpeg"); } 
+    if(req.file == undefined){ return res.json({ StatusCode: 400, isValid: false, message: `Image type file must be: png / jpg / jpeg`, }); }
+    return res.json({ StatusCode: 200, isValid: true, message: `Avatar id: '${id_user}' succesfully to be edited.`, path: avatar });
   } catch (err) {
-    console.log(`Error when add Avatar user: ${err}`);
-    res.status(400).send(`Something wrong while getting data id: '${id_user}', for adding user avatar.`);
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
 
@@ -182,22 +191,21 @@ const editUserData = async (req, res) => {
     
     if(email){
       const show = await model.checkemail(email);
-      if(show.rowCount > 0){ return res.status(400).send(`Email already use, try another email`); }
+      if(show.rowCount > 0){ return res.json({ StatusCode: 200, isValid: false, message: `Email already use, try another email`, }); }
     }
 
     const show = await model.showById(id_user);
-    if (show.rowCount == 0) { return res.status(400).send(`Data id: '${id_user}' not found.`); }
-
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `Data id: '${id_user}' not found.`, }); }
     let inpName = name || show?.rows[0]?.name; // not null
     let inpEmail = email || show?.rows[0]?.email; // not null
     let inpPhone_number = phone_number || show?.rows[0]?.phone_number;
 
-    const show2 = await model.editUserData( inpName, inpEmail, inpPhone_number, id_user );
-
-    return res.status(200).send(`Id: '${id_user}' successfully to be edited.`);
+    await model.editUserData( inpName, inpEmail, inpPhone_number, id_user );
+    return res.json({ StatusCode: 200, isValid: true, message: `Id: '${id_user}' successfully to be edited.`, });
 
   } catch (err) {
-    res.status(400).send("Something wrong while editing data by id.");
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
 
@@ -206,14 +214,15 @@ const deleteUser = async (req, res) => {
   try {
     const id_user = req.tokenUserId;
     const show = await model.showById(id_user);
-    
-    if (show.rows[0].id !== id_user) { return res.status(400).send("You cann't delete other user account."); } 
-    if (show.rowCount == 0) { return res.status(400).send(`Id data: '${id_user}', not found.`); }
-    const show2 = await model.deleteUser(id_user);
-    return res.send(`Data id: '${id_user}' succesfully to be deleted.`);
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `Data id: '${id_user}' not found.`, }); }
+    if(show.rows[0].id !== id_user){ return res.json({ StatusCode: 400, isValid: false, message: `You can't delete other user account`, }); }
+
+    await model.deleteUser(id_user);
+    return res.json({ StatusCode: 200, isValid: true, message: `Data id: '${id_user}' successfully to be deleted.`, });
 
   } catch (err) {
-    res.status(400).send(`Something wrong while deleting data by id`);
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 }
 
