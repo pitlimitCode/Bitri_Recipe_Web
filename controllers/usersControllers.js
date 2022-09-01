@@ -81,6 +81,8 @@ const showAll = async (req, res) => {
 const showById = async (req, res) => {
   try {
     const { id } = req.query;
+    // const id = parseInt(req.params.id);
+    // const { id } = parseInt(req.params.id);
     const show = await model.showByIdPri(id);
     if (show.rowCount == 0){ return res.send(`No one User id: '${id}' on Database.`); }
     

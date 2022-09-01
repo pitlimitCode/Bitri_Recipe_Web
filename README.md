@@ -7,6 +7,23 @@
 - link deploy di "View Web Service" (BE)
 - url deploy paling akhir untuk "Web Service" (BE) dan "Demo Bitri Recipe" (FE)
 
+to do:
+1. params GET, recipes/show/id, contoh: recipe/show/1 atau recipe/show/99
+2. tambah fitur/route sort dynamic , ?sort=DESC atau ?sort=ASC
+3. pelajari status response (200-500)
+
++ revisi backend:
+1. semua response dibuat jadi format json di backend, contoh
+{
+  "message": "Error data not found",
+  "errorCode" 404,
+  "isValid": false
+}
+2. params GET, recipes/show/id, contoh: recipe/show/1 atau recipe/show/99
+3. tambah fitur/route sort dynamic , ?sort=DESC atau ?sort=ASC
+
+
+
 <div id="top"></div>
 
 <!-- PROJECT LOGO -->

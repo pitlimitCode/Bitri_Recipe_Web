@@ -2,17 +2,15 @@ const multer = require("multer");
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-
 const storage = multer.diskStorage({
   filename: (req, file, cb) => {
-    let theId = 'id' ;
-    // console.log("REQ AN DI MULTER DISKSTORAGE" + req);
-    jwt.verify( req.rawHeaders[1].split(' ')[1], process.env.JWT_KEY, async function(err, decoded) {
-    // jwt.verify( req.[authorization].split(' ')[1], process.env.JWT_KEY, async function(err, decoded) {
-      // console.log("REQ AN DECODED JWT" + decoded);
+    // console.log(req);
+    // console.log(file);
+    // let theId = 'id' ;
+    jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_KEY, async function(err, decoded) {
       theId = decoded.id;
     })
-    cb(null, "foodImage_" + req.body.id + "." + file.mimetype.split("/")[1]);
+    cb(null, "foodImage_" + Math.floor(Math.random()*1000000) + "." + file.mimetype.split("/")[1]);
   },
   destination: "./images/food_images/",
 });

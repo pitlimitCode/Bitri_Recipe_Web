@@ -5,14 +5,14 @@ const showAll = async (req, res) => {
   try {
     const show = await model.showAll();
     if (show.rowCount > 0) {
-      res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
+      // res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
+      res.json({ errorCode: 200, isValid: true, message: { data: show.rows, count_of_data: show.rowCount }, });
     }
     if (show.rowCount == 0) {
-      res.send("No one recipe on Database.");
+      res.json({ errorCode: 200, isValid: true, message: "No one Recipe on Database", });
     }
   } catch (err) {
-    console.log(err);
-    res.status(400).send("Something wrong while getting all recipes data.");
+    res.json({ errorCode: 400, isValid: false, message: err.message, });
   }
 };
 
@@ -23,11 +23,15 @@ const showInPages = async (req, res) => {
     const offset = (pages - 1) * limit;
     const show = await model.showAll();
 
-    if (offset < 0 || limit < 1) { return res.status(400).send("Invalid 'limit' or 'pages' input."); }
-    
+    if (offset < 0 || limit < 1) {
+      return res.status(400).send("Invalid 'limit' or 'pages' input.");
+    }
+    s
     const outOfPages = Math.ceil(Number(show.rowCount / limit));
     const show2 = await model.showInPages(limit, offset);
-    if (show2.rowCount == 0) { return res.send("Out of pages."); } 
+    if (show2.rowCount == 0) {
+      return res.send("Out of pages.");
+    } 
 
     return res.status(200).send({
       sett_limit_of_data_in_a_page: Number(limit),
@@ -38,6 +42,13 @@ const showInPages = async (req, res) => {
     });
 
   } catch (err) {
+    res.json(
+      {
+        "errorCode": 400,
+        "isValid": false,
+        "message": err.message,
+      }
+    );
     res.status(400).send("Something wrong while getting all recipes data.");
   }
 };
@@ -121,10 +132,10 @@ const newRecipe = async (req, res) => {
       step,
       image 
     );
-    res.status(200).send(`Your recipe: '${name}', succesfully to be added.`);
+    return res.status(200).send(`Your recipe: '${name}', succesfully to be added.`);
   } catch (err) {
     console.log(err);
-    res.status(400).send("Something wrong while adding new recipe.");
+    return res.status(400).send("Something wrong while adding new recipe.");
   }
 };
 

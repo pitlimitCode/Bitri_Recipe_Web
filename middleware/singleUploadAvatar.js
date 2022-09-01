@@ -4,9 +4,10 @@ require('dotenv').config();
 
 const storage = multer.diskStorage({
   filename: (req, file, cb) => {
+    // console.log(req?.file);
     let theId = 'id' ;
-    jwt.verify( req.rawHeaders[1].split(' ')[1], process.env.JWT_KEY, async function(err, decoded) {
-      theId = decoded.id; ///////////// !!!!!!! hapus jwt.verify dan terima req -an decoded,id sebelumnya
+    jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_KEY, async function(err, decoded) {
+      theId = decoded.id;
     })
     cb(null, "avatar_" + theId + "." + file.mimetype.split("/")[1]);
   },
@@ -26,12 +27,7 @@ const singleUploadAvatar = multer({
       file.mimetype == "image/jpg" ||
       file.mimetype == "image/jpeg"
     ) {
-      // // if (req.rawHeaders[17] > 1000 * 1000) {
-      // if (req.rawHeaders[17] > 150 * 1000) {
-      //   return cb(null, false);
-      // } else {
-        return cb(null, true); 
-      // }
+      return cb(null, true); 
     } else {
       return cb(null, false);
 		}
