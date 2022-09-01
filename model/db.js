@@ -7,7 +7,7 @@ if (process.env.ENV_MODE === "prod") {
 	conn = new Client({
     connectionString: process.env.DB_URI,
     ssl: {
-      rejectUnauthorized: process.env.FALSE_FOR_DEPLOY,
+      rejectUnauthorized: false,
     },
   });
 } else {
@@ -18,7 +18,7 @@ if (process.env.ENV_MODE === "prod") {
 		password: process.env.DB_PASS,
 		port: process.env.DB_PORT,
 		ssl: {
-		  rejectUnauthorized: process.env.FALSE_FOR_DEPLOY,
+		  rejectUnauthorized: false,
 		},
 	});
 }
