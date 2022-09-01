@@ -1,39 +1,3 @@
-### catatan edit
-- logo utama, urlnya dari cloud sendiri
-- sesuaikan dengan cv
-- url postman?
-- contributing?
-- lisence buat apa?
-- link deploy di "View Web Service" (BE)
-- url deploy paling akhir untuk "Web Service" (BE) dan "Demo Bitri Recipe" (FE)
-
-to do:
-1. params GET, recipes/show/id, contoh: recipe/show/1 atau recipe/show/99
-2. tambah fitur/route sort dynamic , ?sort=DESC atau ?sort=ASC
-3. pelajari status response (200-500)
-
-+ revisi backend:
-1. semua response dibuat jadi format json di backend, contoh
-{
-  "message": "Error data not found",
-  "errorCode" 404,
-  "isValid": false
-}
-2. params GET, recipes/show/id, contoh: recipe/show/1 atau recipe/show/99
-3. tambah fitur/route sort dynamic , ?sort=DESC atau ?sort=ASC
-
-
-kendala agak lama di penentuan asc desc, jadi wajib ada query asc desc dan di model maksa tulis ${} (tidak pakai $1 dsb)
-video, sql untuk data array ?
-
-notes:
-deploy? block SSL with uncomment line 9-11 and 20-22 in file db.js
-// ssl: {
-//   rejectUnauthorized: false,
-// },
-
-
-
 <div id="top"></div>
 
 <!-- PROJECT LOGO -->
@@ -51,7 +15,7 @@ deploy? block SSL with uncomment line 9-11 and 20-22 in file db.js
     <a href="#table-of-contents"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="#">View Web Service</a>
+    <a href="https://bitri-recipe.herokuapp.com">View Web Service</a>
     ·
     <a href="https://github.com/pitlimitCode/Bitri_Recipe_Web/issues">Report Bug</a>
     ·
@@ -170,7 +134,7 @@ Contributions are what make the open source community such an amazing place to b
 :rocket: [`Backend Bitri Recipe`](https://github.com/pitlimitCode/Bitri_Recipe_Web/tree/FrontEnd+)
 :rocket: [`Frontend Bitri Recipe`](https://github.com/pitlimitCode/Bitri_Recipe_FrontEnd/tree/master)
 :rocket: [`Frontend Bitri Recipe Mobile`](https://github.com/pitlimitCode/Bitri_Recipe_FrontEnd/tree/master)
-:rocket: [`Web Service`](#)
+:rocket: [`Web Service`](https://bitri-recipe.herokuapp.com)
 :rocket: [`Demo Bitri Recipe`](#)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
