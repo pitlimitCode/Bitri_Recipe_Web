@@ -50,14 +50,13 @@ app.use('/images', express.static('images'));
 const usersRoutes = require("./routes/usersRoutes");
 const recipesRoutes = require("./routes/recipesRoutes");
 const commentsRoutes = require("./routes/commentsRoutes");
-// const likesRoutes = require("./routes/likesRoutes");
+const likesRoutes = require("./routes/likesRoutes");
 // const savesRoutes = require("./routes/savesRoutes");
 app.use("/", cors(corsOptionsDelegate), usersRoutes);
 app.use("/", cors(corsOptionsDelegate), recipesRoutes);
 app.use("/", cors(corsOptionsDelegate), commentsRoutes);
-// app.use("/", cors(corsOptionsDelegate), likesRoutes);
+app.use("/", cors(corsOptionsDelegate), likesRoutes);
 // app.use("/", cors(corsOptionsDelegate), savesRoutes);
-
 
 // const tesRoutes = require("./routes/tesRoutes");
 // app.use("/", cors(corsOptionsDelegate), tesRoutes);

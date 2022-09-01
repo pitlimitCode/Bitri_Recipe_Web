@@ -62,6 +62,17 @@ const showByIdPri = (id) => {
   })
 }
 
+// FIND USER BY NAME
+const showByName = (nameLower) => {
+  return new Promise((resolve, reject) => {
+    const x = `SELECT id, name, avatar From users WHERE LOWER(name) LIKE '%${nameLower}%'`;
+    db.query( x,
+    // db.query(`SELECT * FROM users WHERE name = $1`, [nameLower],
+      (error, result) => { if (error) { reject (error) } else { resolve (result) } }
+    );
+  })
+}
+
 // SHOW USER RECIPE
 const showMyRecipe = (id_user) => {
   return new Promise((resolve, reject) => {
@@ -77,16 +88,20 @@ const showMyRecipe = (id_user) => {
   })
 };
 
-// FIND USER BY NAME
-const showByName = (nameLower) => {
+// SHOW USER LIKES RECIPE !!!
+const showMyLikes = (id_user) => {
   return new Promise((resolve, reject) => {
-    const x = `SELECT id, name, avatar From users WHERE LOWER(name) LIKE '%${nameLower}%'`;
-    db.query( x,
-    // db.query(`SELECT * FROM users WHERE name = $1`, [nameLower],
+    db.query( 
+      `SELECT users.id AS id_user, recipes.id AS id_recipe, recipes.name AS recipe_name, recipes.image AS image 
+      FROM users
+      JOIN recipes ON recipes.id_user = users.id 
+      WHERE users.id = $1
+      ORDER BY users.id DESC`,
+      [id_user],
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
   })
-}
+};
 
 // ADD USER AVATAR
 const addAvatar = ( id, avatar ) => { 
@@ -130,8 +145,9 @@ module.exports = {
   showAll,
   showById,
   showByIdPri,
-  showMyRecipe,
   showByName,
+  showMyRecipe,
+  showMyLikes,
   addAvatar,
   editUserData,
   deleteUser,

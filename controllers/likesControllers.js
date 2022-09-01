@@ -1,85 +1,75 @@
 const model = require("../model/likesModel");
+const recipemodel = require("../model/recipeModel");
 
-// SHOW ALL COMMENTS PUBLIC
+// SHOW ALL LIKES PUBLIC
 const showAll = async (req, res) => {
   try {
+    // SQL model Select all data in column Likes table PostgreSQL Database
     const show = await model.showAll();
-    if (show.rowCount > 0){
-      res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
-    } 
-    if (show.rowCount == 0 ){
-      res.send("No one Comment record in this apps.");
-    }
+    
+    // If no one Like on Database
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: "No one Like on Database", }); }
+    
+    // Success show Likes on Database
+    return res.json({ StatusCode: 200, isValid: true, result: { count_of_data: show.rowCount, data: show.rows }, });
+
   } catch (err) {
-    // res.status(400).send(err);
-    res.status(400).send("Something wrong while progress all comment data.");
+    // Error in This Controller or Model Used
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
 
-// SHOW NEWEST COMMENTS
-const showByUser = async (req, res) => {
-  try {
-    const { id_recipe } = req.query;
-    const show = await model.showNew(id_recipe);
-    if (show.rowCount > 0){
-      res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
-    } 
-    if (show.rowCount == 0 ){
-      res.send("No one comments history.");
-    }
-  } catch (err) {
-    res.status(400).send("Something wrong while getting comments of a recipe.");
-  }
-};
-
-// ADD NEW COMMENT
+// ADD NEW LIKE
 const newLike = async (req, res) => {
   try {
-    const id_commenter = req.tokenUserId;
-    const { id_recipe, comment_text } = req.body;
-    const show = await model.newComment(id_recipe, id_commenter, comment_text);
-    res.status(200).send(`Your comment succesfully to be added.`);
+    const id_user = req.tokenUserId;
+    const { id_recipe } = req.body;
+    if(isNaN(id_recipe) || id_recipe == ''){ return res.json({ StatusCode: 400, isValid: false, message: `Id_recipe data-type must integer`, }); }
+
+    const checkidrecipe = await recipemodel.showById(id_recipe);
+    // console.log(checkidrecipe.rowCount);
+    if(checkidrecipe.rowCount == 0){ return res.json({ StatusCode: 400, isValid: false, message: `No data id_recipe: ${id_recipe}`, }); }
+
+    const isLike = await model.checkLike(id_user, id_recipe);
+    // console.log(isLike.rowCount);
+    if(isLike.rowCount == 1){ return res.json({ StatusCode: 400, isValid: false, message: `Id user: ${id_user} already has like Id recipe: ${id_recipe}`, }); }
+
+    const status_type = 1;
+    await model.newLike(id_user, id_recipe, status_type);
+
+    return res.json({ StatusCode: 200, isValid: true, message: `Id user: ${id_user} success to like Id recipe: ${id_recipe}`, });
   } catch (err) {
-    res.status(400).send("Something wrong while adding new comment.");
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 }
 
-// EDIT A COMMENT BY ID
-const editLike = async (req, res) => {
-  try {
-    const id_commenter = req.tokenUserId;
-    const { id, comment_text } = req.body;
-    if (id == null || comment_text == null) { return res.status(400).send("Please input id and/or your comment"); }
-    
-    const show = await model.selectById(id);
-    if (show.rows[0].id_commenter !== id_commenter) { return res.status(400).send("You cann't edit other user comment."); }
-    
-    await model.editComment(id, id_commenter, comment_text);
-    return res.status(200).send(`Comment has been edited.`);  
-
-  } catch (err) {
-    res.status(400).send("Something wrong in data input for editing comment.");
-  }
-} 
-
-// DELETE A COMMENT BY COMMENTS.ID
+// DELETE A LIKE BY LIKES.ID !!!
 const deleteLike = async (req, res) => {
   try {
-    const id_commenter = req.tokenUserId;
+    const id_user = req.tokenUserId;
     const { id } = req.body;
-    if (id == '') { return res.status(400).send("Please input Id comment"); }
+    if (isNaN(id)) { return res.json({ StatusCode: 400, isValid: false, message: `Please input Id like`, }); }
 
     let inpId = id;
     const show = await model.selectById(id);
-    if (show.rowCount == 0) { return res.status(400).send(`No one Comment Id: '${id}' on Database.`); }
-    if (show.rows[0].id_commenter !== id_commenter) { return res.status(400).send("You cann't delete other user recipe."); }
+    if (show.rowCount == 0) { return res.json({ StatusCode: 200, isValid: true, message: `No one Like Id: '${id}' on Database`, }); }
+    
+    // console.log(show.rows[0].id_user + "  " + id_user);
+    if (show.rows[0].id_user !== id_user) { return res.json({ StatusCode: 400, isValid: false, message: `User id: '${id}' can't delete other user like`, }); }
       
-    const show2 = await model.deleteComment(id, id_commenter);
-    return res.status(200).send(`Your comment id: '${inpId}' succesfully to be deleted.`);
-      
+    await model.deleteLike(id, id_user);
+    return res.json({ StatusCode: 200, isValid: false, message: `Like id: '${inpId}' succesfully to be deleted`, });
+
   } catch (err) {
-    res.status(400).send("Something wrong while deleting data by id");
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 }
 
-module.exports = { showAll, showByUser, newLike, editLike, deleteLike };
+module.exports = { 
+  showAll, 
+  newLike, 
+  deleteLike, 
+};

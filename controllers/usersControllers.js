@@ -159,6 +159,20 @@ const showMyRecipe = async (req, res) => {
   }
 };
 
+// SHOW USER LIKES RECIPE !!!
+const showMyLikes = async (req, res) => {
+  try {
+    const id_user = req.tokenUserId;
+    const show = await model.showMyRecipe(id_user);
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `No one User Recipe on Database.`, }); }
+
+    return res.json({ StatusCode: 200, isValid: true, result: { count_of_data: show.rowCount, data: show.rows }, });
+  } catch (err) {
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
+  }
+};
+
 // ADD USER AVATAR
 const addAvatar = async (req, res) => {
   try {
@@ -238,6 +252,7 @@ module.exports = {
   showById,
   justGetId,
   showMyRecipe,
+  showMyLikes,
   showByName,
   addAvatar,
   editUserData,

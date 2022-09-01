@@ -115,4 +115,10 @@ const deleteComment = async (req, res) => {
   }
 }
 
-module.exports = { showAll, showNew, newComment, editComment, deleteComment };
+module.exports = { 
+  showAll, 
+  showNew, 
+  newComment, 
+  editComment, 
+  deleteComment 
+};
