@@ -66,16 +66,16 @@ app.use("/", cors(corsOptionsDelegate), commentsRoutes);
 // app.use("*", (req, res) => {res.send("You access no one valid URL in this Site.")});
 app.use("*", (req, res) => {res.send([
   'testing endpoint?:',
-  '/users/getall',
+  '/users/all/',
   '/users/id/:id',
   '/users/name/:name',
-  '/recipes/getall',
+  '/recipes/all/',
   '/recipes/pagination/',
   '/recipes/fivenew',
   '/recipes/id/:id',
   '/recipes/name/:name',
-  '/comments/all',
-  '/comments/new',
+  '/comments/all/',
+  '/comments/new/',
 ])});
 
 // Listen the Port.

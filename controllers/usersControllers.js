@@ -91,7 +91,7 @@ const showAll = async (req, res) => {
       });
     }
     if(sort.toLowerCase() != 'asc' && sort.toLowerCase() != 'desc' ) {
-      return res.json({ StatusCode: 400, isValid: false, message: "Routes params 'sort=' must be 'asc' or 'desc'", });
+      return res.json({ StatusCode: 400, isValid: false, message: "Routes params '?sort=' must be 'asc' or 'desc'", });
     }
     
     // SQL model Select all data in column Users table PostgreSQL Database

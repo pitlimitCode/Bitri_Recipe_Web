@@ -39,7 +39,7 @@ const showInPages = async (req, res) => {
     const { limit, pages, sort } = req.query;
     
     if(sort != 'asc' && sort != 'desc' ) {
-      return res.json({ StatusCode: 400, isValid: false, message: "Routes for 'sort=' must be 'asc' or 'desc'", });
+      return res.json({ StatusCode: 400, isValid: false, message: "Routes for '?sort=' must be 'asc' or 'desc'", });
     }
 
     const offset = (pages - 1) * limit;

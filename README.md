@@ -27,10 +27,10 @@ kendala agak lama di penentuan asc desc, jadi wajib ada query asc desc dan di mo
 video, sql untuk data array ?
 
 notes:
-block SSL for deploy? uncomment line 9-11 and 20-22 in file db.js
-ssl: {
-  rejectUnauthorized: false,
-},
+deploy? block SSL with uncomment line 9-11 and 20-22 in file db.js
+// ssl: {
+//   rejectUnauthorized: false,
+// },
 
 
 

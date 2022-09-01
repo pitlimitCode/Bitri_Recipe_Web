@@ -7,8 +7,15 @@ const showAll = async (req, res) => {
     const { sort } = req.query;
     
     // Validation input query 'sort'
+    if(!req.query.sort){
+      return res.json({ 
+        StatusCode: 400, 
+        isValid: false, 
+        message: "Routes must be '/comments/all/?sort=asc' or '/comments/all/?sort=desc'" 
+      });
+    }
     if(sort != 'asc' && sort != 'desc' ) {
-      return res.json({ StatusCode: 400, isValid: false, message: "Routes for 'sort=' must be 'asc' or 'desc'", });
+      return res.json({ StatusCode: 400, isValid: false, message: "Routes for '?sort=' must be 'asc' or 'desc'", });
     }
 
     // SQL model Select all data in column Recipes table PostgreSQL Database
@@ -33,7 +40,7 @@ const showNew = async (req, res) => {
     const { id_recipe, sort } = req.query;
     if(isNaN(id_recipe)){ return res.json({ StatusCode: 400, isValid: false, message: `Id_recipe data-type must integer`, }); }
     if(sort != 'asc' && sort != 'desc' ) {
-      return res.json({ StatusCode: 400, isValid: false, message: "Routes for 'sort=' must be 'asc' or 'desc'", });
+      return res.json({ StatusCode: 400, isValid: false, message: "Routes for '?sort=' must be 'asc' or 'desc'", });
     }
     const show = await model.showNew(id_recipe, sort);
     if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: "No one comments history", }); }

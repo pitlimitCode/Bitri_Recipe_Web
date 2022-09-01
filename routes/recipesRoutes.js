@@ -4,7 +4,7 @@ const controller = require("../controllers/recipesControllers");
 const multiUpload = require("../middleware/multiUploadVideo");
 const singleUploadRecipe = require("../middleware/singleUploadRecipe");
 
-Router.get("/recipes/getall", controller.showAll); // SHOW ALL RECIPES
+Router.get("/recipes/all/", controller.showAll); // SHOW ALL RECIPES
 Router.get("/recipes/pagination/", controller.showInPages); // SHOW RECIPES IN PAGES
 Router.get("/recipes/fivenew", controller.showNew); // SHOW 5 NEW RECIPES
 Router.get("/recipes/id/:id", controller.showById); // FIND RECIPE BY ID
