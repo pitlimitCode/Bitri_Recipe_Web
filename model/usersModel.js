@@ -14,7 +14,9 @@ const newUser = ( name, email, phone_number, password, avatar ) => {
 const checkemail = ( email ) => { 
   return new Promise((resolve, reject) => {
     db.query(
-      `SELECT * FROM users WHERE email = $1`, 
+      `SELECT * 
+      FROM users 
+      WHERE email = $1`, 
       [email],
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     )
@@ -24,7 +26,6 @@ const checkemail = ( email ) => {
 // SHOW ALL USERS
 const showAll = (sortby) => {
   return new Promise((resolve, reject) => {
-    if(sortby == undefined ) { sortby = "desc" }
     db.query(
       `SELECT * 
       FROM users 
@@ -91,7 +92,8 @@ const showByName = (nameLower) => {
 const addAvatar = ( id, avatar ) => { 
   return new Promise((resolve, reject) => {
     db.query(
-      `UPDATE users SET avatar = $1 WHERE id = $2`, 
+      `UPDATE users SET avatar = $1 
+      WHERE id = $2`, 
       [avatar, id],
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     )
@@ -102,7 +104,8 @@ const addAvatar = ( id, avatar ) => {
 const editUserData = (inpName, inpEmail, inpPhone_number, id) => {
   return new Promise((resolve, reject) => {  
     db.query(
-      `UPDATE users SET name = $1, email = $2, phone_number = $3 WHERE id = $4`,
+      `UPDATE users SET name = $1, email = $2, phone_number = $3 
+      WHERE id = $4`,
       [inpName, inpEmail, inpPhone_number, id],
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     )
@@ -113,7 +116,8 @@ const editUserData = (inpName, inpEmail, inpPhone_number, id) => {
 const deleteUser = (id) => {
   return new Promise((resolve, reject) => {
     db.query(
-      `DELETE FROM users WHERE id = $1`, 
+      `DELETE FROM users 
+      WHERE id = $1`, 
       [id],
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     )

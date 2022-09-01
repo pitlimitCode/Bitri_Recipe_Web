@@ -1,12 +1,12 @@
 const db = require("./db");
 
 // SHOW ALL RECIPES
-const showAll = () => {
+const showAll = (sortby) => {
   return new Promise((resolve, reject) => {
     db.query(
       `SELECT * 
       FROM recipes
-      ORDER BY id DESC`,
+      ORDER BY id ${sortby}`,
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
   })

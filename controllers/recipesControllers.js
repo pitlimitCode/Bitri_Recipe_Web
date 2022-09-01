@@ -3,7 +3,15 @@ const model = require("../model/recipeModel");
 // SHOW ALL RECIPES
 const showAll = async (req, res) => {
   try {
-    const show = await model.showAll();
+    let { sort } = req.query;
+    if(sort){
+      if(sort.toLowerCase() != 'asc' && sort.toLowerCase() != 'desc' ) {
+        return res.json({ StatusCode: 400, isValid: true, message: "Routes for 'sort' input must be 'asc' or 'desc'", });
+      }
+    }
+    if(sort == undefined ) { sort = "desc" }
+
+    const show = await model.showAll(sort);
     if (show.rowCount > 0) {
       // res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
       res.json({ errorCode: 200, isValid: true, message: { data: show.rows, count_of_data: show.rowCount }, });
@@ -71,7 +79,7 @@ const showNew = async (req, res) => {
 // FIND RECIPE BY ID
 const showById = async (req, res) => {
   try {
-    const { id } = req.query;
+    const id = parseInt(req.params.id);
     const show = await model.showById(id);
     if (show.rowCount > 0) {
       res.status(200).send(show.rows);
@@ -88,7 +96,8 @@ const showById = async (req, res) => {
 // FIND RECIPES BY NAME
 const showByName = async (req, res) => {
   try {
-    const { name } = req.query;
+    // const { name } = req.query;
+    const name = req.params.name;
     const nameLower = name.toLowerCase();
 
     const show = await model.showByName(nameLower);

@@ -78,7 +78,7 @@ const justGetId = async (req, res) => {
 // SHOW ALL USERS
 const showAll = async (req, res) => {
   try {
-    const { sort } = req.query;
+    let { sort } = req.query;
     // console.log(sort.toLowerCase());
 
     // Validation input query 'sort'
@@ -87,6 +87,7 @@ const showAll = async (req, res) => {
         return res.json({ StatusCode: 400, isValid: true, message: "Routes for 'sort' input must be 'asc' or 'desc'", });
       }
     }
+    if(sort == undefined ) { sort = "desc" }
 
     // SQL model Select all data in column Users table PostgreSQL Database
     const show = await model.showAll(sort);
