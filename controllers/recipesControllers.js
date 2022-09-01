@@ -212,9 +212,10 @@ const editRecipe = async (req, res) => {
   try {
     const id_user = req.tokenUserId;
     const { id, name, ingredients, step } = req.body;
+
     const show = await model.showById(id);
-    if (show.rows[0].id_user != id_user) { return res.status(400).send(`You cann't edit other user recipe.`); }
-    if (show.rowCount > 0) { return res.status(400).send(`No one Recipe with Id: ${inpId}.`); }
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: false, message: `No one Recipe with Id: ${id}.`, }); }
+    if(show.rows[0].id_user != id_user){ return res.json({ StatusCode: 400, isValid: false, message: `You can't edit other user recipe`, }); }
 
     let inpId = id;
     let inpId_user = id_user; // not null
@@ -229,7 +230,8 @@ const editRecipe = async (req, res) => {
       inpStep,
       inpId
     );
-    return res.status(200).send(`Recipe id: '${inpId}' successfully to be edited.`);
+    
+    return res.json({ StatusCode: 200, isValid: false, message: `Recipe id: '${inpId}' successfully to be edited.`, });
 
   } catch (err) {
     console.log(err);
@@ -240,16 +242,17 @@ const editRecipe = async (req, res) => {
 // DELETE RECIPE BY ID
 const deleteRecipe = async (req, res) => {
   try {
-    const { id } = req.body;
-    if (id) { return res.status(400).send("Please input id recipe."); }
     const id_user = req.tokenUserId;
-    let inpId = id;
+    const { id } = req.body;
+    if (id == undefined || id == '') { return res.json({ StatusCode: 400, isValid: false, message: `Please input id recipe`, }); }
 
+    let inpId = id;
     const show = await model.showById(id);
-    if (show.rowCount == 0) { return res.status(400).send(`No one Recipe id: '${id}' on Database.`); }
-    if (show.rows[0].id_user !== id_user) { return res.status(400).send("You cann't delete other user recipe."); }
+    if (show.rowCount == 0) { return res.json({ StatusCode: 200, isValid: true, message: `No one Recipe id: '${id}' on Database`, }); }
+    console.log(show.rows[0].id_user + "  " + id_user);
+    if (show.rows[0].id_user !== id_user) { return res.json({ StatusCode: 400, isValid: false, message: `You can't delete other user recipe`, }); }
     
-    const show2 = await model.deleteRecipe(id);
+    await model.deleteRecipe(id);
     return res.status(200).send(`Recipe data id: '${inpId}' succesfully to be deleted.`);
 
   } catch (err) {
