@@ -4,60 +4,71 @@ const model = require("../model/recipeModel");
 const showAll = async (req, res) => {
   try {
     let { sort } = req.query;
-    if(sort){
-      if(sort.toLowerCase() != 'asc' && sort.toLowerCase() != 'desc' ) {
-        return res.json({ StatusCode: 400, isValid: true, message: "Routes for 'sort' input must be 'asc' or 'desc'", });
-      }
-    }
-    if(sort == undefined ) { sort = "desc" }
 
+    // Validation input query 'sort'
+    if(!req.query.sort){
+      return res.json({ 
+        StatusCode: 400, 
+        isValid: false, 
+        message: "Routes must be '/recipes/getall/?sort=asc' or '/recipes/getall/?sort=desc'" 
+      });
+    }
+    if(sort.toLowerCase() != 'asc' && sort.toLowerCase() != 'desc' ) {
+      return res.json({ StatusCode: 400, isValid: false, message: "Routes for '?sort=' must be 'asc' or 'desc'", });
+    }
+
+    // SQL model Select all data in column Recipes table PostgreSQL Database
     const show = await model.showAll(sort);
-    if (show.rowCount > 0) {
-      // res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
-      res.json({ errorCode: 200, isValid: true, message: { data: show.rows, count_of_data: show.rowCount }, });
-    }
-    if (show.rowCount == 0) {
-      res.json({ errorCode: 200, isValid: true, message: "No one Recipe on Database", });
-    }
+    
+    // If no one Recipe on Database
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: "No one Recipe on Database", }); }
+    
+    // Success show Recipe on Database
+    return res.json({ StatusCode: 200, isValid: true, result: { sort:sort, count_of_data: show.rowCount, data: show.rows }, });
+
   } catch (err) {
-    res.json({ errorCode: 400, isValid: false, message: err.message, });
+    // Error in This Controller or Model Used
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
 
 // SHOW RECIPES IN PAGES
 const showInPages = async (req, res) => {
   try {
-    const { limit, pages } = req.query;
+    const { limit, pages, sort } = req.query;
+    
+    if(sort != 'asc' && sort != 'desc' ) {
+      return res.json({ StatusCode: 400, isValid: false, message: "Routes for 'sort=' must be 'asc' or 'desc'", });
+    }
+
     const offset = (pages - 1) * limit;
-    const show = await model.showAll();
+    const show = await model.showAll(sort);
+    // console.log(show);
 
     if (offset < 0 || limit < 1) {
-      return res.status(400).send("Invalid 'limit' or 'pages' input.");
+      return res.json({ StatusCode: 400, isValid: true, message: "Invalid 'limit' or 'pages' input", });
     }
-    s
+    
     const outOfPages = Math.ceil(Number(show.rowCount / limit));
-    const show2 = await model.showInPages(limit, offset);
-    if (show2.rowCount == 0) {
-      return res.send("Out of pages.");
-    } 
+    const show2 = await model.showInPages(limit, offset, sort);
+    if(show.rowCount == 0){ return res.json({ StatusCode: 400, isValid: true, message: "Out of pages !", }); }
 
-    return res.status(200).send({
-      sett_limit_of_data_in_a_page: Number(limit),
-      data: show2.rows,
-      count_of_data_on_this_page: show2.rowCount,
-      your_on_page: Number(pages),
-      total_of_pages: outOfPages,
+    return res.json({ 
+      StatusCode: 200, 
+      isValid: true, 
+      result: { 
+        limit_data_in_a_page: Number(limit),
+        currently_page: Number(pages),
+        count_of_data_in_currently_page: show2.rowCount,
+        total_of_pages: outOfPages,
+        data: show2.rows,
+      }, 
     });
 
   } catch (err) {
-    res.json(
-      {
-        "errorCode": 400,
-        "isValid": false,
-        "message": err.message,
-      }
-    );
-    res.status(400).send("Something wrong while getting all recipes data.");
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
 
@@ -65,66 +76,52 @@ const showInPages = async (req, res) => {
 const showNew = async (req, res) => {
   try {
     const show = await model.showNew();
-    if (show.rowCount > 0) {
-      res.status(200).send({ count_of_data: show.rowCount, data: show.rows });
-    }
-    if (show.rowCount == 0) {
-      res.send("No one recipe on Database.");
-    }
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `No one recipe on Database`, }); }
+    return res.json({ StatusCode: 200, isValid: true, result: { count_of_data: show.rowCount, data: show.rows }, });
   } catch (err) {
-    res.status(400).send("Something wrong while getting show 5 new recipe data.");
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
 
 // FIND RECIPE BY ID
 const showById = async (req, res) => {
   try {
+    // const { id } = req.query;
     const id = parseInt(req.params.id);
+    if(isNaN(id)){ return res.json({ StatusCode: 400, isValid: false, message: `Id data-type must integer`, }); }
     const show = await model.showById(id);
-    if (show.rowCount > 0) {
-      res.status(200).send(show.rows);
-    }
-    if (show.rowCount == 0) {
-      res.status(400).send(`No one Recipe id: '${id}' on Database.`);
-    }
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `No one Recipe id: '${id}' on Database.`, }); }
+    
+    return res.json({ StatusCode: 200, isValid: true, data: show.rows, });
+    
   } catch (err) {
     console.log(err);
-    res.status(400).send("Something wrong while finding user data by id.");
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
 
 // FIND RECIPES BY NAME
 const showByName = async (req, res) => {
   try {
-    // const { name } = req.query;
     const name = req.params.name;
     const nameLower = name.toLowerCase();
-
     const show = await model.showByName(nameLower);
-    if (show.rowCount > 0) {
-      res.send({ data: show.rows, count_of_data: show.rowCount });
-    }
-    if (show.rowCount == 0) {
-      res.send(`No one recipe, include words: '${name}' from recipes data.`);
-    }
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `No one Recipe include words: '${name}' from recipes data`, }); }
+    return res.json({ StatusCode: 200, isValid: true, result: { count_of_data: show.rowCount, data: show.rows }, });
   } catch (err) {
-    res.status(400).send("Something wrong while finding recipe data by name.");
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
 
 // ADD NEW RECIPE
 const newRecipe = async (req, res) => {
   try {
-    // console.log(req?.file);
     // console.log(req.tokenUserId);
     const id_user = req.tokenUserId;
     const { name, ingredients, step } = req.body;
 
-    // console.log("req 1 " + req.Symbol('kHeaders'));
-    // console.log("req 2 " + req.Symbol);
-    // console.log("req 3 " + req.headers );
-
-    // console.log(req);
     // console.log(req?.file?.path);
     let image;
     if(req?.file?.path){
@@ -141,10 +138,10 @@ const newRecipe = async (req, res) => {
       step,
       image 
     );
-    return res.status(200).send(`Your recipe: '${name}', succesfully to be added.`);
+    return res.json({ StatusCode: 200, isValid: true, message: `Your recipe: '${name}', succesfully to be added.`, });
   } catch (err) {
     console.log(err);
-    return res.status(400).send("Something wrong while adding new recipe.");
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
 
@@ -155,7 +152,7 @@ const newVideo = async (req, res) => {
   const video = req?.file?.path || "";
   try {
     const show = await model.showById(id);
-    if (show.rowCount == 0) { return res.status(400).send(`Recipe data id: '${id}' not found.`); }
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `Recipe data id: '${id}' not found.`, }); }
 
     let inpId = id;
     let inpId_user = id_user || show?.rows[0]?.id_user; // not null
@@ -165,23 +162,18 @@ const newVideo = async (req, res) => {
     if (inpId_user) message += "id_user, ";
     if (inpVideo) message += "video, ";
 
-    try {
-      const show2 = await model.editRecipe(inpId_user, inpVideo, inpId);
-      res.status(200).send(`Success to add video.`);
-    } catch (err) {
-      res.status(400).send("Something wrong while adding video recipe.");
-    }
+    const show2 = await model.editRecipe(inpId_user, inpVideo, inpId);
+    return res.json({ StatusCode: 200, isValid: true, message: `Success to add video`, });
+
   } catch (err) {
-    res
-      .status(400).send("Something wrong while search id for adding video recipe.");
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
 
 // EDIT IMAGE RECIPE BY ID
 const editImage = async (req, res) => {
   try {
-    // console.log(req.file);
-    // console.log(req.file.path);
     const id_user = req.tokenUserId;
     const { id } = req.body;
     let inpId = id;
@@ -189,8 +181,10 @@ const editImage = async (req, res) => {
     // console.log(id);
     const show = await model.showById(id);
 
-    if (show.rowCount == 0) { return res.status(400).send(`Recipe data id: '${id}' not found.`); }
-    if (show.rows[0].id_user !== id_user) { return res.status(400).send(`You cann't edit other user of image recipe.`); }
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `Recipe data id: '${id}' not found.`, }); }
+    if(show.rows[0].id_user !== id_user){ 
+      return res.json({ StatusCode: 400, isValid: false, message: `You cann't edit other user of image recipe.`, }); 
+    }
 
     // console.log(req?.file);
     // const inpImage = req?.file?.path || "images/food_images/defaultRecipe.jpeg";
@@ -202,21 +196,14 @@ const editImage = async (req, res) => {
       inpImage = "images/food_images/defaultRecipe.jpeg";
     }
     
-    // console.log(inpImage);
+    // if(req.file == undefined){ return res.json({ StatusCode: 400, isValid: false, message: `Image type file must be: png / jpg / jpeg`, }); }
 
-    await model.editImage(id_user, inpImage, inpId);
-    if (req.file == undefined) {
-      res.status(400).send("Image type file must be: png / jpg / jpeg");
-    } else {
-      res
-        .status(200)
-        .send(
-          `Image of id recipe: '${inpId}' successfully to be edited.`
-        );
-    }
+    await model.editImage(id_user, inpImage);
+    return res.json({ StatusCode: 200, isValid: true, message: `Image of id recipe: '${inpId}' successfully to be edited`, path: inpImage });
+
   } catch (err) {
-    console.log(err)
-    res.status(400).send("Something wrong while editing recipe data.");
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
 
@@ -245,7 +232,8 @@ const editRecipe = async (req, res) => {
     return res.status(200).send(`Recipe id: '${inpId}' successfully to be edited.`);
 
   } catch (err) {
-    res.status(400).send("Something wrong while editing recipe data.");
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
 
@@ -265,7 +253,8 @@ const deleteRecipe = async (req, res) => {
     return res.status(200).send(`Recipe data id: '${inpId}' succesfully to be deleted.`);
 
   } catch (err) {
-    res.status(400).send(`Something wrong while try to delete id recipe: '${id}'.`);
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
 

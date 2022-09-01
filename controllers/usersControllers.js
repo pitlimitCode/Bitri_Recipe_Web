@@ -39,7 +39,7 @@ const userLogin = async (req, res) => {
     if(email == ''){ return res.json({ StatusCode: 400, isValid: false, message: `Please input email`, }); }
     if(password == ''){ return res.json({ StatusCode: 400, isValid: false, message: `Please input password`, }); }
     const show = await model.checkemail(email);
-    if(show.rowCount == 0){ return res.json({ StatusCode: 400, isValid: false, message: `Email already use, try another email`, }); }
+    if(show.rowCount == 0){ return res.json({ StatusCode: 400, isValid: false, message: `Wrong Email !`, }); }
     const compare = await bcrypt.compare(password, show.rows[0].password);
     if(compare == false){ return res.json({ StatusCode: 400, isValid: false, message: `Wrong password !`, }); }
 
@@ -78,17 +78,22 @@ const justGetId = async (req, res) => {
 // SHOW ALL USERS
 const showAll = async (req, res) => {
   try {
-    let { sort } = req.query;
-    // console.log(sort.toLowerCase());
+    const { sort } = req.query;
+    // console.log(req.query);
+    // console.log(sort);
 
     // Validation input query 'sort'
-    if(sort){
-      if(sort.toLowerCase() != 'asc' && sort.toLowerCase() != 'desc' ) {
-        return res.json({ StatusCode: 400, isValid: true, message: "Routes for 'sort' input must be 'asc' or 'desc'", });
-      }
+    if(!req.query.sort){
+      return res.json({ 
+        StatusCode: 400, 
+        isValid: false, 
+        message: "Routes must be '/users/getall/?sort=asc' or '/users/getall/?sort=desc'" 
+      });
     }
-    if(sort == undefined ) { sort = "desc" }
-
+    if(sort.toLowerCase() != 'asc' && sort.toLowerCase() != 'desc' ) {
+      return res.json({ StatusCode: 400, isValid: false, message: "Routes params 'sort=' must be 'asc' or 'desc'", });
+    }
+    
     // SQL model Select all data in column Users table PostgreSQL Database
     const show = await model.showAll(sort);
 
@@ -96,7 +101,7 @@ const showAll = async (req, res) => {
     if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: "No one User on Database", }); }
     
     // Success show User on Database
-    return res.json({ StatusCode: 200, isValid: true, result: { count_of_data: show.rowCount, data: show.rows }, });
+    return res.json({ StatusCode: 200, isValid: true, result: { sort:sort, count_of_data: show.rowCount, data: show.rows }, });
 
   } catch (err) {
     // Error in This Controller or Model Used
@@ -110,12 +115,11 @@ const showById = async (req, res) => {
   try {
     // const { id } = req.query;
     const id = parseInt(req.params.id);
-    if(isNaN(id)){ return res.json({ StatusCode: 400, isValid: false, message: `Id type data must integer`, }); }
+    if(isNaN(id)){ return res.json({ StatusCode: 400, isValid: false, message: `Id data-type must integer`, }); }
     const show = await model.showByIdPri(id);
     
     if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `No one User id: '${id}' on Database`, }); }
     
-    // return res.json({ StatusCode: 200, isValid: true, result: { count_of_data: show.rowCount, data: show.rows }, });
     return res.json({ StatusCode: 200, isValid: true, data: show.rows[0], });
 
   } catch (err) {
@@ -174,9 +178,9 @@ const addAvatar = async (req, res) => {
       avatar = "images/users_avatar/defaultAvatar.jpg";
     }
     
-    const show2 = await model.addAvatar(id_user, avatar);
-    // if (req.file == undefined) { return res.status(400).send("Image type file must be: png / jpg / jpeg"); } 
     if(req.file == undefined){ return res.json({ StatusCode: 400, isValid: false, message: `Image type file must be: png / jpg / jpeg`, }); }
+
+    await model.addAvatar(id_user, avatar);
     return res.json({ StatusCode: 200, isValid: true, message: `Avatar id: '${id_user}' succesfully to be edited.`, path: avatar });
   } catch (err) {
     console.log(err);

@@ -82,7 +82,7 @@ const showByName = (nameLower) => {
   return new Promise((resolve, reject) => {
     const x = `SELECT id, name, avatar From users WHERE LOWER(name) LIKE '%${nameLower}%'`;
     db.query( x,
-    // db.query(`SELECT * FROM users WHERE name = $1`, [name],
+    // db.query(`SELECT * FROM users WHERE name = $1`, [nameLower],
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
   })

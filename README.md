@@ -23,6 +23,8 @@ to do:
 3. tambah fitur/route sort dynamic , ?sort=DESC atau ?sort=ASC
 
 
+kendala agak lama di penentuan asc desc, jadi wajib ada query asc desc dan di model maksa tulis ${} (tidak pakai $1 dsb)
+video, sql untuk data array ?
 
 <div id="top"></div>
 

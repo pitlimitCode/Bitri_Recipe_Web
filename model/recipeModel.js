@@ -13,12 +13,13 @@ const showAll = (sortby) => {
 };
 
 // SHOW RECIPES IN PAGES
-const showInPages = (limit, offset) => {
+const showInPages = (limit, offset, sort) => {
+  // console.log(limit, offset, sort);
   return new Promise((resolve, reject) => {
     db.query(
       `SELECT id, name, image
       FROM recipes
-      ORDER BY id DESC
+      ORDER BY id ${sort}
       LIMIT $1 OFFSET $2`, 
       [limit, offset],
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
