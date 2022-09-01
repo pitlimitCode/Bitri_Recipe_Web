@@ -62,37 +62,6 @@ const userLogin = async (req, res) => {
     res.send(`Error to Login. ${err}`);
   }
 };
-
-// SHOW ALL USERS
-const showAll = async (req, res) => {
-  try {
-    const show = await model.showAll();
-    if (show.rowCount == 0){ return res.send("No one User on Database."); }
-    
-    return res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
-
-  } catch (err) {
-    res.status(400).send(err.message);
-    // res.status(400).send("Something wrong while getting all users data.");
-  }
-};
-
-// FIND USER BY ID
-const showById = async (req, res) => {
-  try {
-    const { id } = req.query;
-    // const id = parseInt(req.params.id);
-    // const { id } = parseInt(req.params.id);
-    const show = await model.showByIdPri(id);
-    if (show.rowCount == 0){ return res.send(`No one User id: '${id}' on Database.`); }
-    
-    return res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
-
-  } catch (err) {
-    res.status(400).send("Something wrong while finding user data by id.");
-  }
-};
-
 // JUST GET/RES ID USER
 const justGetId = async (req, res) => {
   try {
@@ -103,23 +72,52 @@ const justGetId = async (req, res) => {
   }
 };
 
-// SHOW USER RECIPE
-const showMyRecipe = async (req, res) => {
+// SHOW ALL USERS
+const showAll = async (req, res) => {
   try {
-    const { id_user } = req.query;
-    const show = await model.showMyRecipe(id_user);
-    if (show.rowCount == 0){ return res.send(`No one User Recipe on Database.`); }
+    const { sort } = req.query;
 
-    return res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
+    // console.log(sort.toLowerCase());
+    if(sort){
+      if (sort.toLowerCase() != 'asc' && sort.toLowerCase() != 'desc' ) {
+        // return res.send("Input sort must be 'asc' or 'desc'")
+        return res.json({ StatusCode: 400, isValid: true, message: "Routes for 'sort' input must be 'asc' or 'desc'", });
+      }
+    }
+
+    const show = await model.showAll(sort);
+    if (show.rowCount == 0){ 
+      return res.json({ StatusCode: 200, isValid: true, message: "No one User on Database", });
+    }
+    
+    return res.json({ StatusCode: 200, isValid: true, message: { data: show.rows, count_of_data: show.rowCount }, });
+
   } catch (err) {
-    res.status(400).send("Something wrong while finding user recipe.");
+    res.status(400).send(err.message);
+    return res.json({ StatusCode: 400, isValid: true, message: err.message, });
+  }
+};
+
+// FIND USER BY ID
+const showById = async (req, res) => {
+  try {
+    // const { id } = req.query;
+    const id = parseInt(req.params.id);
+    const show = await model.showByIdPri(id);
+    if (show.rowCount == 0){ return res.send(`No one User id: '${id}' on Database.`); }
+    
+    return res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
+
+  } catch (err) {
+    res.status(400).send("Something wrong while finding user data by id.");
   }
 };
 
 // FIND USER BY NAME
 const showByName = async (req, res) => {
   try {
-    const { name } = req.body;
+    const name = req.params.name;
+    console.log(name);
     const nameLower = name.toLowerCase();
     const show = await model.showByName(nameLower);
     if (show.rowCount == 0){ return res.send(`No one User name: '${name}' on Database.`); }
@@ -127,6 +125,23 @@ const showByName = async (req, res) => {
     return res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
   } catch (err) {
     res.status(400).send("Something wrong while finding user data by name.");
+  }
+};
+
+// SHOW USER RECIPE
+const showMyRecipe = async (req, res) => {
+  try {
+    const id_user = req.tokenUserId;
+    // const { id_user } = req.query;
+    // const id_user = parseInt(req.params.id_user);
+    // console.log(id_user);
+    const show = await model.showMyRecipe(id_user);
+    if (show.rowCount == 0){ return res.send(`No one User Recipe on Database.`); }
+
+    return res.status(200).send({ data: show.rows, count_of_data: show.rowCount });
+  } catch (err) {
+    console.log(err);
+    res.status(400).send("Something wrong while finding user recipe.");
   }
 };
 

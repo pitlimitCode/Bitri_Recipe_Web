@@ -10,7 +10,7 @@ const checkToken = async (req, res, next) => {
       if(err.message == "jwt expired") { return res.status(400).send(err.message) }
       return res.status(400).send('Error verify type: ' + err.message + '.');
     } else {
-      console.log(decoded);
+      // console.log(decoded);
       // console.log(decoded.id)
       req.tokenUserId = decoded.id;
       next();

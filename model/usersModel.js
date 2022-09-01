@@ -22,12 +22,14 @@ const checkemail = ( email ) => {
 }
 
 // SHOW ALL USERS
-const showAll = () => {
+const showAll = (sortby) => {
   return new Promise((resolve, reject) => {
+    if(sortby == undefined ) { sortby = "desc" }
     db.query(
       `SELECT * 
       FROM users 
-      ORDER BY id DESC`,
+      ORDER BY id ${sortby}`,
+      // [sortby],
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
   })
@@ -64,8 +66,10 @@ const showMyRecipe = (id_user) => {
   return new Promise((resolve, reject) => {
     db.query( 
       `SELECT users.id AS id_user, recipes.id AS id_recipe, recipes.name AS recipe_name, recipes.image AS image 
-      FROM users JOIN recipes ON recipes.id_user = users.id 
-      WHERE users.id = $1`, 
+      FROM users
+      JOIN recipes ON recipes.id_user = users.id 
+      WHERE users.id = $1
+      ORDER BY users.id DESC`,
       [id_user],
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );

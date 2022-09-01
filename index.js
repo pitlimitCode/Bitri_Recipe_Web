@@ -47,12 +47,12 @@ var corsOptionsDelegate = function (req, callback) {
 app.use('/images', express.static('images'));
 
 // Routes.
-const userAllRoutes = require("./routes/usersRoutes");
+const usersRoutes = require("./routes/usersRoutes");
 const recipesRoutes = require("./routes/recipesRoutes");
 const commentsRoutes = require("./routes/commentsRoutes");
 // const likesRoutes = require("./routes/likesRoutes");
 // const savesRoutes = require("./routes/savesRoutes");
-app.use("/", cors(corsOptionsDelegate), userAllRoutes);
+app.use("/", cors(corsOptionsDelegate), usersRoutes);
 app.use("/", cors(corsOptionsDelegate), recipesRoutes);
 app.use("/", cors(corsOptionsDelegate), commentsRoutes);
 // app.use("/", cors(corsOptionsDelegate), likesRoutes);
