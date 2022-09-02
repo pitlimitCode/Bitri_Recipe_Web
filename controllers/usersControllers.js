@@ -87,7 +87,7 @@ const showAll = async (req, res) => {
       return res.json({ 
         StatusCode: 400, 
         isValid: false, 
-        message: "Routes must be '/users/getall/?sort=asc' or '/users/all/?sort=desc'" 
+        message: "Routes must be '/users/all/?sort=asc' or '/users/all/?sort=desc'" 
       });
     }
     if(sort.toLowerCase() != 'asc' && sort.toLowerCase() != 'desc' ) {

@@ -10,7 +10,7 @@ const showAll = async (req, res) => {
       return res.json({ 
         StatusCode: 400, 
         isValid: false, 
-        message: "Routes must be '/recipes/getall/?sort=asc' or '/recipes/all/?sort=desc'" 
+        message: "Routes must be '/recipes/all/?sort=asc' or '/recipes/all/?sort=desc'" 
       });
     }
     if(sort.toLowerCase() != 'asc' && sort.toLowerCase() != 'desc' ) {
