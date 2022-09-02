@@ -142,7 +142,7 @@ const showByName = async (req, res) => {
   }
 };
 
-// SHOW USER RECIPE
+// SHOW ALL USER RECIPE
 const showMyRecipe = async (req, res) => {
   try {
     const id_user = req.tokenUserId;
@@ -159,12 +159,12 @@ const showMyRecipe = async (req, res) => {
   }
 };
 
-// SHOW USER LIKES RECIPE !!!
+// SHOW ALL USER LIKE TO RECIPES !!!
 const showMyLikes = async (req, res) => {
   try {
     const id_user = req.tokenUserId;
-    const show = await model.showMyRecipe(id_user);
-    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `No one User Recipe on Database.`, }); }
+    const show = await model.showMyLikes(id_user);
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `No one User Like on Database.`, }); }
 
     return res.json({ StatusCode: 200, isValid: true, result: { count_of_data: show.rowCount, data: show.rows }, });
   } catch (err) {

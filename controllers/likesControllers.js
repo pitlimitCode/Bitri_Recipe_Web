@@ -33,12 +33,12 @@ const newLike = async (req, res) => {
 
     const isLike = await model.checkLike(id_user, id_recipe);
     // console.log(isLike.rowCount);
-    if(isLike.rowCount == 1){ return res.json({ StatusCode: 400, isValid: false, message: `Id user: ${id_user} already like Id recipe: ${id_recipe}`, }); }
+    if(isLike.rowCount == 1){ return res.json({ StatusCode: 400, isValid: false, message: `Id user: ${id_user} ALREADY LIKE Id recipe: ${id_recipe}`, }); }
 
     const status_type = 1;
     await model.newLike(id_user, id_recipe, status_type);
 
-    return res.json({ StatusCode: 200, isValid: true, message: `Id user: ${id_user} success to like Id recipe: ${id_recipe}`, });
+    return res.json({ StatusCode: 200, isValid: true, message: `Id user: ${id_user} SUCCESS TO LIKE Id recipe: ${id_recipe}`, });
   } catch (err) {
     console.log(err);
     return res.json({ StatusCode: 500, isValid: false, message: err.message, });
