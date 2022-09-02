@@ -6,9 +6,9 @@ let conn;
 if (process.env.ENV_MODE === "prod") {
 	conn = new Client({
     connectionString: process.env.DB_URI,
-    ssl: {
-      rejectUnauthorized: false,
-    },
+    // ssl: {
+    //   rejectUnauthorized: false,
+    // },
   });
 } else {
 	conn = new Postgre({
@@ -17,9 +17,9 @@ if (process.env.ENV_MODE === "prod") {
 		database: process.env.DB_NAME,
 		password: process.env.DB_PASS,
 		port: process.env.DB_PORT,
-		ssl: {
-		  rejectUnauthorized: false,
-		},
+		// ssl: {
+		//   rejectUnauthorized: false,
+		// },
 	});
 }
 module.exports = conn;
