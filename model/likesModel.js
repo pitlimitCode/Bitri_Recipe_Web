@@ -53,13 +53,13 @@ const newLike = (id_user, id_recipe, status_type) => {
 };
 
 // DELETE A LIKE BY ID
-const deleteLike = (id, id_user) => {
+const deleteLike = (id_recipe, id_user) => {
   return new Promise((resolve, reject) => {
     db.query(
       `DELETE 
       FROM likes 
-      WHERE id = $1 AND id_user = $2`,
-      [id, id_user],
+      WHERE id_recipe = $1 AND id_user = $2`,
+      [id_recipe, id_user],
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
   });
