@@ -56,13 +56,13 @@ const deleteLike = async (req, res) => {
     const show = await recipemodel.showById(id_recipe);
     if (show.rowCount == 0) { return res.json({ StatusCode: 200, isValid: true, message: `No one Id recipe: '${id_recipe}' on Database`, }); }
     // console.log(show.rows[0].id_user + "  " + id_user);
-    if (show.rows[0].id_user !== id_user) { return res.json({ StatusCode: 400, isValid: false, message: `User id: '${id_user}' can't delete other user like`, }); }
+    // if (show.rows[0].id_user !== id_user) { return res.json({ StatusCode: 400, isValid: false, message: `User id: '${id_user}' can't delete other user like`, }); }
       
     const isLike = await model.checkLike(id_user, id_recipe);
     // console.log(isLike.rowCount);
     if(isLike.rowCount == 0){ return res.json({ StatusCode: 400, isValid: false, message: `No data history for Id user: ${id_user} like Id recipe: ${id_recipe}`, }); }
 
-    await model.deleteLike(id_recipe, id_user);
+    await model.deleteLike(id_user, id_recipe);
     return res.json({ StatusCode: 200, isValid: false, message: `Like id: '${inpId}' succesfully to be deleted`, });
 
   } catch (err) {
