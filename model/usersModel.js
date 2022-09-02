@@ -77,26 +77,27 @@ const showByName = (nameLower) => {
 const showMyRecipe = (id_user) => {
   return new Promise((resolve, reject) => {
     db.query( 
-      `SELECT users.id AS id_user, recipes.id AS id_recipe, recipes.name AS recipe_name, recipes.image AS image 
+      `SELECT recipes.id AS id_recipe, users.id AS id_user, recipes.name AS recipe_name, recipes.image AS image 
       FROM users
       JOIN recipes ON recipes.id_user = users.id 
       WHERE users.id = $1
-      ORDER BY users.id DESC`,
+      ORDER BY recipes.id DESC`,
       [id_user],
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
   })
 };
 
-// SHOW USER LIKES RECIPE !!!
+// SHOW ALL USER LIKE TO RECIPES
 const showMyLikes = (id_user) => {
   return new Promise((resolve, reject) => {
-    db.query( 
-      `SELECT users.id AS id_user, recipes.id AS id_recipe, recipes.name AS recipe_name, recipes.image AS image 
-      FROM users
-      JOIN recipes ON recipes.id_user = users.id 
-      WHERE users.id = $1
-      ORDER BY users.id DESC`,
+    db.query(
+      `SELECT likes.id AS id_like, users.id AS id_user, recipes.id AS id_recipe, recipes.name AS recipe_name, recipes.image AS image 
+      FROM likes
+      JOIN users ON likes.id_user = users.id
+      JOIN recipes ON likes.id_recipe = recipes.id
+      WHERE likes.id_user = $1
+      ORDER BY likes.id DESC`,
       [id_user],
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );

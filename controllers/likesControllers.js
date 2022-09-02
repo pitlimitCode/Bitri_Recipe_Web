@@ -33,33 +33,36 @@ const newLike = async (req, res) => {
 
     const isLike = await model.checkLike(id_user, id_recipe);
     // console.log(isLike.rowCount);
-    if(isLike.rowCount == 1){ return res.json({ StatusCode: 400, isValid: false, message: `Id user: ${id_user} already has like Id recipe: ${id_recipe}`, }); }
+    if(isLike.rowCount == 1){ return res.json({ StatusCode: 400, isValid: false, message: `Id user: ${id_user} ALREADY LIKE Id recipe: ${id_recipe}`, }); }
 
     const status_type = 1;
     await model.newLike(id_user, id_recipe, status_type);
 
-    return res.json({ StatusCode: 200, isValid: true, message: `Id user: ${id_user} success to like Id recipe: ${id_recipe}`, });
+    return res.json({ StatusCode: 200, isValid: true, message: `Id user: ${id_user} SUCCESS TO LIKE Id recipe: ${id_recipe}`, });
   } catch (err) {
     console.log(err);
     return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 }
 
-// DELETE A LIKE BY LIKES.ID !!!
+// DELETE A LIKE BY LIKES.ID
 const deleteLike = async (req, res) => {
   try {
     const id_user = req.tokenUserId;
-    const { id } = req.body;
-    if (isNaN(id)) { return res.json({ StatusCode: 400, isValid: false, message: `Please input Id like`, }); }
+    const { id_recipe } = req.body;
+    if (isNaN(id_recipe)) { return res.json({ StatusCode: 400, isValid: false, message: `Please input Id Recipe`, }); }
 
-    let inpId = id;
-    const show = await model.selectById(id);
-    if (show.rowCount == 0) { return res.json({ StatusCode: 200, isValid: true, message: `No one Like Id: '${id}' on Database`, }); }
-    
+    let inpId = id_recipe;
+    const show = await recipemodel.showById(id_recipe);
+    if (show.rowCount == 0) { return res.json({ StatusCode: 200, isValid: true, message: `No one Id recipe: '${id_recipe}' on Database`, }); }
     // console.log(show.rows[0].id_user + "  " + id_user);
-    if (show.rows[0].id_user !== id_user) { return res.json({ StatusCode: 400, isValid: false, message: `User id: '${id}' can't delete other user like`, }); }
+    // if (show.rows[0].id_user !== id_user) { return res.json({ StatusCode: 400, isValid: false, message: `User id: '${id_user}' can't delete other user like`, }); }
       
-    await model.deleteLike(id, id_user);
+    const isLike = await model.checkLike(id_user, id_recipe);
+    // console.log(isLike.rowCount);
+    if(isLike.rowCount == 0){ return res.json({ StatusCode: 400, isValid: false, message: `No data history for Id user: ${id_user} like Id recipe: ${id_recipe}`, }); }
+
+    await model.deleteLike(id_user, id_recipe);
     return res.json({ StatusCode: 200, isValid: false, message: `Like id: '${inpId}' succesfully to be deleted`, });
 
   } catch (err) {

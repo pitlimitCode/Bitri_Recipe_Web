@@ -10,7 +10,7 @@ const showAll = async (req, res) => {
       return res.json({ 
         StatusCode: 400, 
         isValid: false, 
-        message: "Routes must be '/recipes/getall/?sort=asc' or '/recipes/all/?sort=desc'" 
+        message: "Routes must be '/recipes/all/?sort=asc' or '/recipes/all/?sort=desc'" 
       });
     }
     if(sort.toLowerCase() != 'asc' && sort.toLowerCase() != 'desc' ) {
@@ -28,6 +28,37 @@ const showAll = async (req, res) => {
 
   } catch (err) {
     // Error in This Controller or Model Used
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
+  }
+};
+
+// FIND RECIPE BY ID
+const showById = async (req, res) => {
+  try {
+    // const { id } = req.query;
+    const id = parseInt(req.params.id);
+    if(isNaN(id)){ return res.json({ StatusCode: 400, isValid: false, message: `Id data-type must integer`, }); }
+    const show = await model.showById(id);
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `No one Recipe id: '${id}' on Database.`, }); }
+    
+    return res.json({ StatusCode: 200, isValid: true, data: show.rows, });
+    
+  } catch (err) {
+    console.log(err);
+    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
+  }
+};
+
+// FIND RECIPES BY NAME
+const showByName = async (req, res) => {
+  try {
+    const name = req.params.name;
+    const nameLower = name.toLowerCase();
+    const show = await model.showByName(nameLower);
+    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `No one Recipe include words: '${name}' from recipes data`, }); }
+    return res.json({ StatusCode: 200, isValid: true, result: { count_of_data: show.rowCount, data: show.rows }, });
+  } catch (err) {
     console.log(err);
     return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
@@ -77,37 +108,6 @@ const showNew = async (req, res) => {
   try {
     const show = await model.showNew();
     if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `No one recipe on Database`, }); }
-    return res.json({ StatusCode: 200, isValid: true, result: { count_of_data: show.rowCount, data: show.rows }, });
-  } catch (err) {
-    console.log(err);
-    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
-  }
-};
-
-// FIND RECIPE BY ID
-const showById = async (req, res) => {
-  try {
-    // const { id } = req.query;
-    const id = parseInt(req.params.id);
-    if(isNaN(id)){ return res.json({ StatusCode: 400, isValid: false, message: `Id data-type must integer`, }); }
-    const show = await model.showById(id);
-    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `No one Recipe id: '${id}' on Database.`, }); }
-    
-    return res.json({ StatusCode: 200, isValid: true, data: show.rows, });
-    
-  } catch (err) {
-    console.log(err);
-    return res.json({ StatusCode: 500, isValid: false, message: err.message, });
-  }
-};
-
-// FIND RECIPES BY NAME
-const showByName = async (req, res) => {
-  try {
-    const name = req.params.name;
-    const nameLower = name.toLowerCase();
-    const show = await model.showByName(nameLower);
-    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `No one Recipe include words: '${name}' from recipes data`, }); }
     return res.json({ StatusCode: 200, isValid: true, result: { count_of_data: show.rowCount, data: show.rows }, });
   } catch (err) {
     console.log(err);
@@ -263,10 +263,10 @@ const deleteRecipe = async (req, res) => {
 
 module.exports = {
   showAll,
-  showInPages,
-  showNew,
   showById,
   showByName,
+  showInPages,
+  showNew,
   newRecipe,
   newVideo,
   editImage,

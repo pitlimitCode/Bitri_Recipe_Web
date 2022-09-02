@@ -1,16 +1,55 @@
 const db = require("./db");
+// id_user
+// id_recipe
+// status_type
 
 // SHOW ALL RECIPES
+
 const showAll = (sortby) => {
   return new Promise((resolve, reject) => {
     db.query(
-      `SELECT * 
+      `SELECT recipes.*, COUNT(likes.status_type) AS total_likes 
       FROM recipes
-      ORDER BY id ${sortby}`,
+      JOIN likes ON recipes.id = likes.id_recipe
+      WHERE likes.status_type = 1
+      GROUP BY recipes.id
+      ORDER BY id ${sortby} `,
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
   })
 };
+
+// FIND RECIPE BY ID
+const showById = (id) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      `SELECT recipes.*, users.name AS username, COUNT(likes.status_type = 1) AS total_likes
+      FROM recipes 
+      JOIN users ON recipes.id_user = users.id
+      JOIN likes ON recipes.id = likes.id_recipe
+      WHERE recipes.id = $1
+      GROUP BY recipes.id, users.name `, 
+      [id], 
+      (error, result) => { if (error) { reject (error) } else { resolve (result) } }
+    )
+  })
+}
+
+// FIND RECIPES BY NAME
+const showByName = (nameLower) => {
+  return new Promise((resolve, reject) => {
+    // console.log(nameLower)
+    db.query( 
+      `
+      SELECT recipes.id AS recipe_id, recipes.name AS name_recipe, recipes.image AS image_recipe, users.name AS Username
+      FROM recipes 
+      JOIN users ON recipes.id_user = users.id 
+      WHERE LOWER(recipes.name) LIKE '%${nameLower}%'
+      `,
+      (error, result) => { if (error) { reject (error) } else { resolve (result) } }
+    );
+  })
+}
 
 // SHOW RECIPES IN PAGES
 const showInPages = (limit, offset, sort) => {
@@ -40,33 +79,6 @@ const showNew = () => {
     );
   })
 };
-
-// FIND RECIPE BY ID
-const showById = (id) => {
-  return new Promise((resolve, reject) => {
-    // `users.name AS Username FROM recipes LEFT JOIN users ON recipes.id_user = users.id WHERE LOWER(recipes.name) LIKE '%${nameLower}%'`;
-    // LEFT JOIN Orders ON Customers.CustomerID = Orders.CustomerID
-    db.query(
-      `SELECT recipes.*, users.name AS Username 
-      FROM recipes 
-      LEFT JOIN users ON recipes.id_user = users.id 
-      WHERE recipes.id = $1`, 
-      [id], 
-      (error, result) => { if (error) { reject (error) } else { resolve (result) } }
-    )
-  })
-}
-
-// FIND RECIPES BY NAME
-const showByName = (nameLower) => {
-  return new Promise((resolve, reject) => {
-    // console.log(nameLower)
-    const x = `SELECT users.name AS Username, recipes.id AS recipe_id, recipes.name AS name_recipe, recipes.ingredients, recipes.step, recipes.image AS image_recipe FROM recipes JOIN users ON recipes.id_user = users.id WHERE LOWER(recipes.name) LIKE '%${nameLower}%'`;
-    db.query( x,
-      (error, result) => { if (error) { reject (error) } else { resolve (result) } }
-    );
-  })
-}
 
 // ADD NEW RECIPE
 const newRecipe = (id_user, name, ingredients, step, image) => {
@@ -115,10 +127,10 @@ const deleteRecipe = (id) => {
 
 module.exports = {
   showAll,
-  showInPages,
-  showNew,
   showById,
   showByName,
+  showInPages,
+  showNew,
   newRecipe,
   editImage,
   editRecipe,
