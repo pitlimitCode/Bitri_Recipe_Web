@@ -88,23 +88,10 @@ const showMyRecipe = (id_user) => {
   })
 };
 
-// SHOW ALL USER LIKE TO RECIPES !!!
+// SHOW ALL USER LIKE TO RECIPES
 const showMyLikes = (id_user) => {
   return new Promise((resolve, reject) => {
-    db.query( 
-      // `SELECT users.id AS id_user, recipes.id AS id_recipe, recipes.name AS recipe_name, recipes.image AS image 
-      // FROM users
-      // JOIN recipes ON recipes.id_user = users.id 
-      // WHERE users.id = $1
-      // ORDER BY users.id DESC`,
-
-      // `SELECT likes.id AS id_like, users.id AS id_user, recipes.id AS id_recipe, recipes.name AS recipe_name, recipes.image AS image 
-      // FROM recipes
-      // JOIN users ON recipes.id_user = users.id
-      // JOIN likes ON recipes.id = likes.id_recipe
-      // WHERE likes.id_user = $1
-      // ORDER BY likes.id DESC`,
-      
+    db.query(
       `SELECT likes.id AS id_like, users.id AS id_user, recipes.id AS id_recipe, recipes.name AS recipe_name, recipes.image AS image 
       FROM likes
       JOIN users ON likes.id_user = users.id
