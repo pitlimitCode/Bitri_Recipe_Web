@@ -10,10 +10,9 @@ const showAll = (sortby) => {
     db.query(
       `SELECT recipes.*, COUNT(likes.status_type) AS total_likes 
       FROM recipes
-      JOIN likes ON recipes.id = likes.id_recipe
-      WHERE likes.status_type = 1
+      LEFT JOIN likes ON recipes.id = likes.id_recipe
       GROUP BY recipes.id
-      ORDER BY id ${sortby} `,
+      ORDER BY recipes.id ${sortby} `,
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
   })
@@ -25,8 +24,8 @@ const showById = (id) => {
     db.query(
       `SELECT recipes.*, users.name AS username, COUNT(likes.status_type = 1) AS total_likes
       FROM recipes 
-      JOIN users ON recipes.id_user = users.id
-      JOIN likes ON recipes.id = likes.id_recipe
+      LEFT JOIN users ON recipes.id_user = users.id
+      LEFT JOIN likes ON recipes.id = likes.id_recipe
       WHERE recipes.id = $1
       GROUP BY recipes.id, users.name `, 
       [id], 
@@ -41,10 +40,12 @@ const showByName = (nameLower) => {
     // console.log(nameLower)
     db.query( 
       `
-      SELECT recipes.id AS recipe_id, recipes.name AS name_recipe, recipes.image AS image_recipe, users.name AS Username
+      SELECT recipes.id AS recipe_id, recipes.name AS name_recipe, recipes.image AS image_recipe, users.name AS username, COUNT(likes.status_type) AS total_likes 
       FROM recipes 
-      JOIN users ON recipes.id_user = users.id 
+      LEFT JOIN users ON recipes.id_user = users.id 
+      LEFT JOIN likes ON recipes.id = likes.id_recipe
       WHERE LOWER(recipes.name) LIKE '%${nameLower}%'
+      GROUP BY recipes.id, users.name
       `,
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
