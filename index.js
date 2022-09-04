@@ -16,12 +16,12 @@ app.use(helmet({
 const cors = require("cors");
 app.use(cors());
 var allowlist = 
-  [
-    "https://bitri-recipe.herokuapp.com",
-    "http://localhost:8000",
-    "https://bitri-recipe.web.app/",
-    "http://localhost:3000"
-  ];
+[
+  "https://bitri-recipe.herokuapp.com",
+  "http://localhost:8000",
+  "https://bitri-recipe.web.app",
+  "http://localhost:3000"
+];
 var corsOptionsDelegate = function (req, callback) {
   var corsOptions;
   if (allowlist.indexOf(req.header("Origin")) !== -1) {
