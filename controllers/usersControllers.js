@@ -15,14 +15,16 @@ const bcrypt = require('bcrypt');
 // ADD NEW USER / REGISTER
 const newUser = async (req, res) => {
   try {
-    const { name, email, phone_number, password } = req.body;
+    const { name, email, phone_number, password, password2 } = req.body;
     const avatar = "images/users_avatar/defaultAvatar.jpg";
     
-    if(name == ''){ return res.json({ StatusCode: 400, isValid: true, message: `Please input name`, }); }
-    if(email == ''){ return res.json({ StatusCode: 400, isValid: true, message: `Please input email`, }); }
+    if(name == ''){ return res.json({ StatusCode: 400, isValid: false, message: `Please input name`, }); }
+    if(email == ''){ return res.json({ StatusCode: 400, isValid: false, message: `Please input email`, }); }
     const checkemail = await model.checkemail(email);
-    if(checkemail.rowCount > 0){ return res.json({ StatusCode: 200, isValid: true, message: `Email already use, try another email`, }); }
-    if(password == ''){ return res.json({ StatusCode: 400, isValid: true, message: `Please input password`, }); }
+    if(checkemail.rowCount > 0){ return res.json({ StatusCode: 200, isValid: false, message: `Email already use, try another email`, }); }
+    if(phone_number == ''){ return res.json({ StatusCode: 400, isValid: false, message: `Please input Phone Number`, }); }
+    if(password == ''){ return res.json({ StatusCode: 400, isValid: false, message: `Please input password`, }); }
+    if(password !== password2){ return res.json({ StatusCode: 400, isValid: false, message: `Password didn't same`, }); }
 
     const hash = await bcrypt.hash(password, 5);
     await model.newUser( name, email, phone_number, hash, avatar);
@@ -39,9 +41,9 @@ const userLogin = async (req, res) => {
     if(email == ''){ return res.json({ StatusCode: 400, isValid: false, message: `Please input email`, }); }
     if(password == ''){ return res.json({ StatusCode: 400, isValid: false, message: `Please input password`, }); }
     const show = await model.checkemail(email);
-    if(show.rowCount == 0){ return res.json({ StatusCode: 400, isValid: false, message: `Wrong Email !`, }); }
+    if(show.rowCount == 0){ return res.json({ StatusCode: 400, isValid: false, message: `Wrong Email`, }); }
     const compare = await bcrypt.compare(password, show.rows[0].password);
-    if(compare == false){ return res.json({ StatusCode: 400, isValid: false, message: `Wrong password !`, }); }
+    if(compare == false){ return res.json({ StatusCode: 400, isValid: false, message: `Wrong password`, }); }
 
     var token = jwt.sign(
       show.rows[0],

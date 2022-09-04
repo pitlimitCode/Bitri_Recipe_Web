@@ -18,8 +18,8 @@ app.use(cors());
 var allowlist = 
   [
     "https://bitri-recipe.herokuapp.com",
-    "http://bitri-recipe.web.app",
     "http://localhost:8000",
+    "http://bitri-recipe.web.app",
     "http://localhost:3000"
   ];
 var corsOptionsDelegate = function (req, callback) {
