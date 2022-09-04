@@ -31,6 +31,7 @@ const newUser = async (req, res) => {
     return res.json({ StatusCode: 200, isValid: true, message: "Success to Register", });
 
   } catch (err) {
+    console.log(err);
     return res.json({ StatusCode: 500, isValid: false, message: err.message });
   }
 }
