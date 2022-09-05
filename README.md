@@ -114,9 +114,10 @@ JWT_KEY=
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## REST API
-You can view my Postman collection [here](https://app.getpostman.com/join-team?invite_code=da9a8abdcba442fdfc6ea16e678e566a)
+You can view/join my Postman collection here:
 </br>
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/)  
+<!-- [![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/)   -->
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/join-team?invite_code=da9a8abdcba442fdfc6ea16e678e566a)  
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
