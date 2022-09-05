@@ -67,7 +67,7 @@ const userLogin = async (req, res) => {
 
   } catch (err) {
     console.log(err);
-    return res.json({ StatusCode: 500, isValid: false, message: err.message });
+    return res.json({ StatusCode: 500, isValid: false, message: err });
   }
 };
 // JUST GET/RES ID USER
