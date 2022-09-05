@@ -52,10 +52,7 @@ const userLogin = async (req, res) => {
       { expiresIn: 24 * 60 * 60 }, // EXPIRED TOKEN IN n SECOND
       { algorithm: process.env.JWT_ALG }
     );
-    
-    console.log("SHOW DATA BY EMAIL:", show.rows[0]);
-    console.log("TOKEN AFTER LOGIN:", token);
-
+    // console.log(token);
     return res.json({ 
       StatusCode: 200,
       isValid: true,
@@ -67,15 +64,7 @@ const userLogin = async (req, res) => {
 
   } catch (err) {
     console.log(err);
-    return res.json({
-      message: err,
-      StatusCode: 200,
-      isValid: true,
-      message: "Success to Login",
-      // id: show.rows[0].id,
-      name: show.rows[0].name, 
-      token: token,
-    });
+    return res.json({ StatusCode: 500, isValid: false, message: err.message });
   }
 };
 // JUST GET/RES ID USER
