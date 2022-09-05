@@ -11,7 +11,7 @@ Router.get("/users/id/:id", controller.showById); // FIND USER BY ID
 Router.get("/users/name/:name", controller.showByName); // FIND USER BY NAME
 Router.get("/users/myrecipes", verifyToken.checkToken, controller.showMyRecipe); // SHOW USER RECIPE
 Router.get("/users/mylikes", verifyToken.checkToken, controller.showMyLikes); // SHOW USER RECIPE
-Router.patch("/users/addavatar", verifyToken.checkToken, singleUploadAvatar.single('avatar'), controller.addAvatar); // ADD USER AVATAR
+Router.patch("/users/addavatar", verifyToken.checkToken, controller.addAvatar); // ADD USER AVATAR
 Router.patch("/users/edit", verifyToken.checkToken, controller.editUserData); // EDIT USER DATA BY ID
 Router.delete("/users/delete/id", verifyToken.checkToken, controller.deleteUser); // DELETE USER BY ID
 

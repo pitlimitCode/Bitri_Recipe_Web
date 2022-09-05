@@ -82,11 +82,11 @@ const showNew = () => {
 };
 
 // ADD NEW RECIPE
-const newRecipe = (id_user, name, ingredients, step, image) => {
+const newRecipe = (id_user, name, ingredients, step, image, video) => {
   return new Promise((resolve, reject) => {
     db.query(
-      `INSERT INTO recipes (id_user, name, ingredients, step, image) VALUES ($1, $2, $3, $4, $5)`,
-      [id_user, name, ingredients, step, image], 
+      `INSERT INTO recipes (id_user, name, ingredients, step, image, video) VALUES ($1, $2, $3, $4, $5, $6)`,
+      [id_user, name, ingredients, step, image, video], 
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     )
   })

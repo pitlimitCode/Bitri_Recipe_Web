@@ -1,4 +1,6 @@
 const model = require("../model/recipeModel");
+const multer = require('multer');
+const singleUploadRecipe = require("../middleware/singleUploadRecipe");
 
 // SHOW ALL RECIPES
 const showAll = async (req, res) => {
@@ -118,29 +120,47 @@ const showNew = async (req, res) => {
 // ADD NEW RECIPE
 const newRecipe = async (req, res) => {
   try {
-    // console.log(req.tokenUserId);
-    const id_user = req.tokenUserId;
-    const { name, ingredients, step } = req.body;
-
-    // console.log(req?.file?.path);
-    let image;
-    if(req?.file?.path){
-      let correctPathImage = (req.file.path).split("\\").join("/")
-      image = `${correctPathImage}`
-    } else {
-      image = "images/food_images/defaultRecipe.jpeg";
-    }
+    singleUploadRecipe(req, res, async function (err) {
+      // console.log(req);
+      if (err instanceof multer.MulterError) {
+        // A Multer error occurred when uploading.
+        return res.json({ StatusCode: 400, isValid: false, message: `err instanceof multer.MulterError`, });
+      } else if (err) {
+        // An unknown error occurred when uploading.
+        return res.json({ StatusCode: 400, isValid: false, message: err, });
+      }
     
-    const show = await model.newRecipe(
-      id_user,
-      name,
-      ingredients,
-      step,
-      image 
-    );
-    return res.json({ StatusCode: 200, isValid: true, message: `Your recipe: '${name}', succesfully to be added.`, });
+      const id_user = req.tokenUserId;
+      const { name, ingredients, step, video } = req.body;
+      // console.log(req);
+      // console.log(req?.file?.path);
+      let image;
+      if(req?.file?.path){
+        let correctPathImage = (req.file.path).split("\\").join("/")
+        image = `${correctPathImage}`
+      } else {
+        image = "images/food_images/defaultRecipe.jpeg";
+      }
+      
+      // console.log(req?.file);
+      // if(req.file == undefined){ return res.json({ StatusCode: 400, isValid: false, 
+      //   message: `Image type file must be: png / jpg / jpeg`, 
+      // }); }
+
+      await model.newRecipe(
+        id_user,
+        name,
+        ingredients,
+        step,
+        image,
+        video
+      );
+      return res.json({ StatusCode: 200, isValid: true, message: `Your recipe: '${name}', succesfully to be added.`, });
+
+    })
+
   } catch (err) {
-    console.log(err);
+    console.log("###99", err);
     return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
@@ -162,7 +182,7 @@ const newVideo = async (req, res) => {
     if (inpId_user) message += "id_user, ";
     if (inpVideo) message += "video, ";
 
-    const show2 = await model.editRecipe(inpId_user, inpVideo, inpId);
+    await model.editRecipe(inpId_user, inpVideo, inpId);
     return res.json({ StatusCode: 200, isValid: true, message: `Success to add video`, });
 
   } catch (err) {
@@ -174,32 +194,40 @@ const newVideo = async (req, res) => {
 // EDIT IMAGE RECIPE BY ID
 const editImage = async (req, res) => {
   try {
-    const id_user = req.tokenUserId;
-    const { id } = req.body;
-    let inpId = id;
-    // console.log(inpId);
-    // console.log(id);
-    const show = await model.showById(id);
-
-    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `Recipe data id: '${id}' not found.`, }); }
-    if(show.rows[0].id_user !== id_user){ 
-      return res.json({ StatusCode: 400, isValid: false, message: `You can't edit other user of image recipe`, }); 
-    }
-
-    // console.log(req?.file);
-    // const inpImage = req?.file?.path || "images/food_images/defaultRecipe.jpeg";
-    let inpImage;
-    if(req?.file?.path){
-      let correctPathImage = (req.file.path).split("\\").join("/")
-      inpImage = `${correctPathImage}`
-    } else {
-      inpImage = "images/food_images/defaultRecipe.jpeg";
-    }
+    singleUploadRecipe(req, res, async function (err) {
+      // console.log(req);
+      if (err instanceof multer.MulterError) {
+        // A Multer error occurred when uploading.
+        return res.json({ StatusCode: 400, isValid: false, message: `err instanceof multer.MulterError`, });
+      } else if (err) {
+        // An unknown error occurred when uploading.
+        return res.json({ StatusCode: 400, isValid: false, message: err, });
+      }
     
-    // if(req.file == undefined){ return res.json({ StatusCode: 400, isValid: false, message: `Image type file must be: png / jpg / jpeg`, }); }
+      const id_user = req.tokenUserId;
+      const { id_recipe } = req.body;
+      // console.log(id_recipe);
+      const show = await model.showById(id_recipe);
+      if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `Recipe data id: '${id_recipe}' not found.`, }); }
+      if(show.rows[0].id_user !== id_user){ 
+        return res.json({ StatusCode: 400, isValid: false, message: `You can't edit other user of image recipe`, }); 
+      }
 
-    await model.editImage(id_user, inpImage);
-    return res.json({ StatusCode: 200, isValid: true, message: `Image of id recipe: '${inpId}' successfully to be edited`, path: inpImage });
+      // console.log(req?.file);
+      // const inpImage = req?.file?.path || "images/food_images/defaultRecipe.jpeg";
+      let inpImage;
+      if(req?.file?.path){
+        let correctPathImage = (req.file.path).split("\\").join("/")
+        inpImage = `${correctPathImage}`
+      } else {
+        inpImage = show?.rows[0]?.image;
+      }
+      
+      // if(req.file == undefined){ return res.json({ StatusCode: 400, isValid: false, message: `Image type file must be: png / jpg / jpeg`, }); }
+
+      await model.editImage(id_user, inpImage);
+      return res.json({ StatusCode: 200, isValid: true, message: `Image of id recipe: '${id_recipe}' successfully to be edited`, path: inpImage });
+    })
 
   } catch (err) {
     console.log(err);

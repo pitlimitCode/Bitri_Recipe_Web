@@ -16,26 +16,32 @@ const storage = multer.diskStorage({
   // },
   destination: "./images/users_avatar/",
 });
+
 const singleUploadAvatar = multer({
+  // limits: {
+  //   fileSize: 1000 * 1000, // 1000 * 1000 = 1 MB
+  // },
   fileFilter: (req, file, cb) => {
     // console.log(req);
     // console.log(file);
-    // // console.log(req.[Symbol(kHeaders)].content-length);
-    // console.log(req.rawHeaders[17]);
     if (
       file.mimetype == "image/png" ||
       file.mimetype == "image/jpg" ||
       file.mimetype == "image/jpeg"
     ) {
-      return cb(null, true); 
+      const fileSizeUpload = req.headers['content-length'];
+      const maxUpload = 500 * 1000; // 1000 * 1000 = 1 MB
+      if (fileSizeUpload < maxUpload ) {
+        cb(null, true); 
+      } else {
+        cb(`Max. image size is '${maxUpload/1000} kb', you upload image with size '${fileSizeUpload/1000} kb'`, false); 
+      }
     } else {
-      return cb(null, false);
+      cb("Image type file must be: png / jpg / jpeg", false); 
+      // cb("Image type file must be: png / jpg / jpeg", true);
 		}
   },
-  // limits: {
-  //   fileSize: 150 * 1000, // 1 MB
-  // },
   storage: storage,
-})
+}).single('avatar')
 
 module.exports = singleUploadAvatar;
