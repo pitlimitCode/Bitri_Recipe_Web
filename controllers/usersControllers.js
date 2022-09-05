@@ -52,7 +52,10 @@ const userLogin = async (req, res) => {
       { expiresIn: 24 * 60 * 60 }, // EXPIRED TOKEN IN n SECOND
       { algorithm: process.env.JWT_ALG }
     );
-    // console.log(token);
+    
+    console.log("SHOW DATA BY EMAIL:", show.rows[0]);
+    console.log("TOKEN AFTER LOGIN:", token);
+
     return res.json({ 
       StatusCode: 200,
       isValid: true,
