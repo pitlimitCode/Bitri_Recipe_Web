@@ -67,7 +67,15 @@ const userLogin = async (req, res) => {
 
   } catch (err) {
     console.log(err);
-    return res.status(500).send({message: err});
+    return res.json({
+      message: err,
+      StatusCode: 200,
+      isValid: true,
+      message: "Success to Login",
+      // id: show.rows[0].id,
+      name: show.rows[0].name, 
+      token: token,
+    });
   }
 };
 // JUST GET/RES ID USER
