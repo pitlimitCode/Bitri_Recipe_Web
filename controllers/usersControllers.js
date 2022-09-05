@@ -67,7 +67,7 @@ const userLogin = async (req, res) => {
 
   } catch (err) {
     console.log(err);
-    return res.status(500).send(err);
+    return res.status(500).send({message: err});
   }
 };
 // JUST GET/RES ID USER
