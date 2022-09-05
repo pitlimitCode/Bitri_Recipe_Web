@@ -25,7 +25,7 @@ const singleUploadRecipe = multer({
       file.mimetype == "image/jpeg"
     ) {
       const fileSizeUpload = req.headers['content-length'];
-      const maxUpload = 500 * 1000; // 1000 * 1000 = 1 MB
+      const maxUpload = 1000 * 1000; // 1000 * 1000 = 1 MB
       if (fileSizeUpload < maxUpload ) {
         cb(null, true); 
       } else {
