@@ -1,7 +1,7 @@
 const Router = require("express").Router();
 const verifyToken = require("../middleware/verifyToken");
 const controller = require("../controllers/usersControllers");
-const singleUploadAvatar = require("../middleware/singleUploadAvatar");
+// const singleUploadAvatar = require("../middleware/singleUploadAvatar");
 
 Router.post("/users/add", controller.newUser); // ADD NEW USER / REGISTER
 Router.post("/users/login", controller.userLogin); // LOGIN
