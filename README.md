@@ -134,7 +134,7 @@ Contributions are what make the open source community such an amazing place to b
 ## Related Project
 :rocket: [`Backend Bitri Recipe`](https://github.com/pitlimitCode/Bitri_Recipe_Web/tree/FrontEnd+)  
 :rocket: [`Frontend Bitri Recipe`](https://github.com/pitlimitCode/Bitri_Recipe_FrontEnd/tree/master)  
-:rocket: [`Frontend Bitri Recipe Mobile`](https://github.com/pitlimitCode/Bitri_Recipe_FrontEnd/tree/master)  
+:rocket: [`Frontend Bitri Recipe Mobile`](https://github.com/pitlimitCode/bitri-recipe-mobile)  
 :rocket: [`Web Service`](https://bitri-recipe.herokuapp.com)  
 :rocket: [`Demo Bitri Recipe`](https://bitri-recipe.web.app/)  
 :rocket: [`Demo Bitri Recipe Mobile`](#)  
