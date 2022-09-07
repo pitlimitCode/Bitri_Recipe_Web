@@ -121,7 +121,7 @@ const showNew = async (req, res) => {
 const newRecipe = async (req, res) => {
   try {
     singleUploadRecipe(req, res, async function (err) {
-      // console.log(req);
+      // console.log(err);
       if (err instanceof multer.MulterError) {
         // A Multer error occurred when uploading.
         return res.json({ StatusCode: 400, isValid: false, message: `err instanceof multer.MulterError`, });
@@ -225,7 +225,7 @@ const editImage = async (req, res) => {
       
       // if(req.file == undefined){ return res.json({ StatusCode: 400, isValid: false, message: `Image type file must be: png / jpg / jpeg`, }); }
 
-      await model.editImage(id_user, inpImage);
+      await model.editImage(inpImage, id_recipe);
       return res.json({ StatusCode: 200, isValid: true, message: `Image of id recipe: '${id_recipe}' successfully to be edited`, path: inpImage });
     })
 
@@ -271,7 +271,8 @@ const editRecipe = async (req, res) => {
 const deleteRecipe = async (req, res) => {
   try {
     const id_user = req.tokenUserId;
-    const { id } = req.body;
+    const id = parseInt(req.params.id);
+    // const { id } = req.body;
     if (isNaN(id)) { return res.json({ StatusCode: 400, isValid: false, message: `Please input id recipe`, }); }
 
     let inpId = id;

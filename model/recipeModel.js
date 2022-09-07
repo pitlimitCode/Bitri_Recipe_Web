@@ -93,11 +93,11 @@ const newRecipe = (id_user, name, ingredients, step, image, video) => {
 }
 
 // EDIT IMAGE RECIPE BY ID
-const editImage = (inpId_user, inpImage, inpId) => {
+const editImage = (inpImage, inpId) => {
   return new Promise((resolve, reject) => {
     db.query(
-      `UPDATE recipes SET image = $1 WHERE id = $2 and id_user = $3`,
-      [inpImage, inpId, inpId_user], 
+      `UPDATE recipes SET image = $1 WHERE id = $2`,
+      [inpImage, inpId], 
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     )
   })
