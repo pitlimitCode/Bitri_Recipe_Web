@@ -5,8 +5,6 @@ require('dotenv').config();
 const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     // console.log(req);
-    // console.log(file);
-    // let theId = 'id' ;
     jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_KEY, async function(err, decoded) {
       theId = decoded.id;
     })
@@ -15,23 +13,30 @@ const storage = multer.diskStorage({
   destination: "./images/food_images/",
 });
 const singleUploadRecipe = multer({
+  // limits: {
+  //   fileSize: 1000 * 1000, // 1000 * 1000 = 1 MB
+  // },
   fileFilter: (req, file, cb) => {
-    // console.log("multer req:: " + req);
-    // console.log("multer req.file:: " + req.file);
+    // console.log(req);
+    // console.log(file);
     if (
       file.mimetype == "image/png" ||
       file.mimetype == "image/jpg" ||
       file.mimetype == "image/jpeg"
     ) {
-      return cb(null, true);
+      const fileSizeUpload = req.headers['content-length'];
+      const maxUpload = 1000 * 1000; // 1000 * 1000 = 1 MB
+      if (fileSizeUpload < maxUpload ) {
+        cb(null, true); 
+      } else {
+        cb(`Max. image size is '${maxUpload/1000} kb', you upload image with size '${fileSizeUpload/1000} kb'`, false); 
+      }
     } else {
-      return cb(null, false);
+      cb("Image type file must be: png / jpg / jpeg", false); 
+      // cb("Image type file must be: png / jpg / jpeg", true);
 		}
   },
-  // limits: {  ////////////////////////////
-  //   fileSize: 1000 * 1000, // 1 MB
-  // },
   storage: storage,
-})
+}).single('image')
 
 module.exports = singleUploadRecipe;

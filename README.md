@@ -114,9 +114,10 @@ JWT_KEY=
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## REST API
-You can view my Postman collection [here](https://app.getpostman.com/join-team?invite_code=da9a8abdcba442fdfc6ea16e678e566a)
+You can view/join my Postman collection here:
 </br>
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/)  
+<!-- [![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/)   -->
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/join-team?invite_code=da9a8abdcba442fdfc6ea16e678e566a)  
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
@@ -133,7 +134,7 @@ Contributions are what make the open source community such an amazing place to b
 ## Related Project
 :rocket: [`Backend Bitri Recipe`](https://github.com/pitlimitCode/Bitri_Recipe_Web/tree/FrontEnd+)  
 :rocket: [`Frontend Bitri Recipe`](https://github.com/pitlimitCode/Bitri_Recipe_FrontEnd/tree/master)  
-:rocket: [`Frontend Bitri Recipe Mobile`](https://github.com/pitlimitCode/Bitri_Recipe_FrontEnd/tree/master)  
+:rocket: [`Frontend Bitri Recipe Mobile`](https://github.com/pitlimitCode/bitri-recipe-mobile)  
 :rocket: [`Web Service`](https://bitri-recipe.herokuapp.com)  
 :rocket: [`Demo Bitri Recipe`](https://bitri-recipe.web.app/)  
 :rocket: [`Demo Bitri Recipe Mobile`](#)  

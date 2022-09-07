@@ -2,6 +2,8 @@ const model = require("../model/usersModel");
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const bcrypt = require('bcrypt');
+const multer = require('multer');
+const singleUploadAvatar = require("../middleware/singleUploadAvatar");
 
 // var token = jwt.sign({ foo: 'bar' }, process.env.JWT_KEY, { expiresIn: 60 * 60 }, { algorithm: process.env.JWT_ALG }, 
 //   // function(err, token) {
@@ -52,12 +54,11 @@ const userLogin = async (req, res) => {
       { expiresIn: 24 * 60 * 60 }, // EXPIRED TOKEN IN n SECOND
       { algorithm: process.env.JWT_ALG }
     );
-    // console.log(token);
+
     return res.json({ 
       StatusCode: 200,
       isValid: true,
       message: "Success to Login",
-      // id: show.rows[0].id,
       name: show.rows[0].name, 
       token: token,
     });
@@ -145,7 +146,7 @@ const showByName = async (req, res) => {
   }
 };
 
-// SHOW ALL USER RECIPE
+// USER - MY RECIPES
 const showMyRecipe = async (req, res) => {
   try {
     const id_user = req.tokenUserId;
@@ -161,8 +162,7 @@ const showMyRecipe = async (req, res) => {
     return res.json({ StatusCode: 500, isValid: false, message: err.message, });
   }
 };
-
-// SHOW ALL USER LIKE TO RECIPES
+// USER - MY LIKES
 const showMyLikes = async (req, res) => {
   try {
     const id_user = req.tokenUserId;
@@ -176,29 +176,63 @@ const showMyLikes = async (req, res) => {
   }
 };
 
+// const addAvatar2 = async (req, res) => {
+//   singleUploadAvatar(req, res, async function (err) {
+//     // console.log(req);
+//     if (err instanceof multer.MulterError) {
+//       // A Multer error occurred when uploading.
+//       return res.json({ StatusCode: 400, isValid: false, message: `err instanceof multer.MulterError`, });
+//     } else if (err) {
+//       // An unknown error occurred when uploading.
+//       return res.json({ StatusCode: 400, isValid: false, message: err, });
+//     }
+    
+//     const id_user = 10;
+//     let avatar;
+//     if(req?.file?.path){
+//       let correctPathImage = (req.file.path).split("\\").join("/")
+//       avatar = `${correctPathImage}`
+//     } else {
+//       avatar = "images/users_avatar/defaultAvatar.jpg";
+//     }
+    
+//     // if(req.file == undefined){ return res.json({ StatusCode: 400, isValid: false, message: `Image type file must be: png / jpg / jpeg`, }); }
+
+//     await model.addAvatar(id_user, avatar);
+//     return res.json({ StatusCode: 200, isValid: true, message: `Avatar id: '${id_user}' succesfully to be edited.`, path: avatar });
+//     // Everything went fine.
+//   })
+// }
+
 // ADD USER AVATAR
 const addAvatar = async (req, res) => {
   try {
-    // console.log(req);
-    const id_user = req.tokenUserId;
-    const show = await model.showById(id_user);
-    if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `Data id: '${id_user}' not found.`, }); }
-    // console.log(req?.file?.path);
-    // console.log(req?.file);
-    // const avatar = req?.file?.path || "images/users_avatar/defaultAvatar.jpg";
-
-    let avatar;
-    if(req?.file?.path){
-      let correctPathImage = (req.file.path).split("\\").join("/")
-      avatar = `${correctPathImage}`
-    } else {
-      avatar = "images/users_avatar/defaultAvatar.jpg";
-    }
     
-    if(req.file == undefined){ return res.json({ StatusCode: 400, isValid: false, message: `Image type file must be: png / jpg / jpeg`, }); }
+    singleUploadAvatar(req, res, async function (err) {
+      // console.log(req);
+      if (err instanceof multer.MulterError) {
+        // A Multer error occurred when uploading.
+        return res.json({ StatusCode: 400, isValid: false, message: `err instanceof multer.MulterError`, });
+      } else if (err) {
+        // An unknown error occurred when uploading.
+        return res.json({ StatusCode: 400, isValid: false, message: err, });
+      }
+    
+      const id_user = req.tokenUserId;
+      // console.log(req?.file?.path);
+      // console.log(req?.file);
+      let avatar;
+      if(req?.file?.path){
+        let correctPathImage = (req.file.path).split("\\").join("/")
+        avatar = `${correctPathImage}`
+      } else {
+        avatar = "images/users_avatar/defaultAvatar.jpg";
+      }
+      
+      await model.addAvatar(id_user, avatar);
+      return res.json({ StatusCode: 200, isValid: true, message: `Avatar id: '${id_user}' succesfully to be edited.`, path: avatar });
+    })
 
-    await model.addAvatar(id_user, avatar);
-    return res.json({ StatusCode: 200, isValid: true, message: `Avatar id: '${id_user}' succesfully to be edited.`, path: avatar });
   } catch (err) {
     console.log(err);
     return res.json({ StatusCode: 500, isValid: false, message: err.message, });

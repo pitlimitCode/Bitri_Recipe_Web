@@ -73,7 +73,7 @@ const showByName = (nameLower) => {
   })
 }
 
-// SHOW USER RECIPE
+// USER - MY RECIPES
 const showMyRecipe = (id_user) => {
   return new Promise((resolve, reject) => {
     db.query( 
@@ -88,7 +88,7 @@ const showMyRecipe = (id_user) => {
   })
 };
 
-// SHOW ALL USER LIKE TO RECIPES
+// USER - MY LIKES
 const showMyLikes = (id_user) => {
   return new Promise((resolve, reject) => {
     db.query(

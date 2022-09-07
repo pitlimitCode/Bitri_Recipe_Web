@@ -62,7 +62,7 @@ app.use("/", cors(corsOptionsDelegate), likesRoutes);
 // app.use("/tes", (req, res) => {res.send("tes tanpa Cors, berhasil.")});
 // app.use("*", (req, res) => {res.send("You access no one valid URL in this Site.")});
 app.use("*", (req, res) => {res.send([
-  'testing endpoint?:',
+  'Testing endpoint? ::',
   '/users/all/',
   '/users/id/:id',
   '/users/name/:name',
@@ -73,6 +73,7 @@ app.use("*", (req, res) => {res.send([
   '/recipes/name/:name',
   '/comments/all/',
   '/comments/new/',
+  '/likes/all',
 ])});
 
 // Listen the Port.
