@@ -17,6 +17,7 @@ const singleUploadRecipe = multer({
   //   fileSize: 1000 * 1000, // 1000 * 1000 = 1 MB
   // },
   fileFilter: (req, file, cb) => {
+    // console.log("singleUploadRecipe.js :", file);
     // console.log(req);
     // console.log(file);
     if (

@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const storage = multer.diskStorage({
   filename: (req, file, cb) => {
-    // console.log(req?.file);
+    // console.log("singleUploadAvatar.js :", req?.file);
     let theId = 'id' ;
     jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_KEY, async function(err, decoded) {
       theId = decoded.id;
@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
   // destination: (req, file, cb) => {
   // 	cb(null, 'images/users_avatar/')
   // },
-  destination: "./images/users_avatar/",
+  // destination: "./images/users_avatar/",
 });
 
 const singleUploadAvatar = multer({
@@ -23,7 +23,7 @@ const singleUploadAvatar = multer({
   // },
   fileFilter: (req, file, cb) => {
     // console.log(req);
-    // console.log(file);
+    // console.log("singleUploadAvatar.js :", file);
     if (
       file.mimetype == "image/png" ||
       file.mimetype == "image/jpg" ||

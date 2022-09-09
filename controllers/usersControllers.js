@@ -4,6 +4,7 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const singleUploadAvatar = require("../middleware/singleUploadAvatar");
+const cloudinary = require("../middleware/cloudinary");
 
 // var token = jwt.sign({ foo: 'bar' }, process.env.JWT_KEY, { expiresIn: 60 * 60 }, { algorithm: process.env.JWT_ALG }, 
 //   // function(err, token) {
@@ -176,34 +177,6 @@ const showMyLikes = async (req, res) => {
   }
 };
 
-// const addAvatar2 = async (req, res) => {
-//   singleUploadAvatar(req, res, async function (err) {
-//     // console.log(req);
-//     if (err instanceof multer.MulterError) {
-//       // A Multer error occurred when uploading.
-//       return res.json({ StatusCode: 400, isValid: false, message: `err instanceof multer.MulterError`, });
-//     } else if (err) {
-//       // An unknown error occurred when uploading.
-//       return res.json({ StatusCode: 400, isValid: false, message: err, });
-//     }
-    
-//     const id_user = 10;
-//     let avatar;
-//     if(req?.file?.path){
-//       let correctPathImage = (req.file.path).split("\\").join("/")
-//       avatar = `${correctPathImage}`
-//     } else {
-//       avatar = "images/users_avatar/defaultAvatar.jpg";
-//     }
-    
-//     // if(req.file == undefined){ return res.json({ StatusCode: 400, isValid: false, message: `Image type file must be: png / jpg / jpeg`, }); }
-
-//     await model.addAvatar(id_user, avatar);
-//     return res.json({ StatusCode: 200, isValid: true, message: `Avatar id: '${id_user}' succesfully to be edited.`, path: avatar });
-//     // Everything went fine.
-//   })
-// }
-
 // ADD USER AVATAR
 const addAvatar = async (req, res) => {
   try {
@@ -221,18 +194,32 @@ const addAvatar = async (req, res) => {
       const id_user = req.tokenUserId;
       // console.log(req?.file?.path);
       // console.log(req?.file);
-      let avatar;
-      if(req?.file?.path){
-        let correctPathImage = (req.file.path).split("\\").join("/")
-        avatar = `${correctPathImage}`
-      } else {
-        avatar = "images/users_avatar/defaultAvatar.jpg";
-      }
-      
-      await model.addAvatar(id_user, avatar);
-      return res.json({ StatusCode: 200, isValid: true, message: `Avatar id: '${id_user}' succesfully to be edited.`, path: avatar });
-    })
+      if(req?.file){
 
+        // codingan lama
+        // let correctPathImage = (req.file.path).split("\\").join("/")
+        // avatar = `${correctPathImage}`
+        
+        try {
+          const uploadImage = (await cloudinary.uploader.upload(req?.file?.path, {
+            folder: "bitri_recipe/avatar",
+          })) || null;
+          const avatar = uploadImage.secure_url;
+
+          await model.addAvatar(id_user, avatar);
+          return res.json({ StatusCode: 200, isValid: true, message: `Avatar id: '${id_user}' succesfully to be edited.`, path: avatar});
+        } catch (err) {
+          console.log(err);
+          return res.json({ StatusCode: 500, isValid: false, message: err, });
+        }
+        
+      } else {
+        // avatar = "images/users_avatar/defaultAvatar.jpg";
+        const avatar = "https://res.cloudinary.com/dy3yw6bod/image/upload/v1662712991/bitri_recipe/avatar/kogojuf0yzwotgsygnkd.png";
+
+        return res.json({ StatusCode: 200, isValid: true, message: `avatar didn't change`, path: avatar});
+      }
+    })
   } catch (err) {
     // console.log(err);
     return res.json({ StatusCode: 500, isValid: false, message: err.message, });
