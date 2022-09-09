@@ -42,7 +42,7 @@ var corsOptionsDelegate = function (req, callback) {
 // };
 
 // Static path from express.js local storage.
-app.use('/images', express.static('images'));
+// app.use('/images', express.static('images'));
 
 // Routes.
 const usersRoutes = require("./routes/usersRoutes");
