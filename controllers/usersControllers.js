@@ -19,7 +19,7 @@ const cloudinary = require("../middleware/cloudinary");
 const newUser = async (req, res) => {
   try {
     const { name, email, phone_number, password, password2 } = req.body;
-    const avatar = "images/users_avatar/defaultAvatar.jpg";
+    const avatar = "https://res.cloudinary.com/dy3yw6bod/image/upload/v1662712991/bitri_recipe/avatar/kogojuf0yzwotgsygnkd.png";
     
     if(name == ''){ return res.json({ StatusCode: 400, isValid: false, message: `Please input name`, }); }
     if(email == ''){ return res.json({ StatusCode: 400, isValid: false, message: `Please input email`, }); }
