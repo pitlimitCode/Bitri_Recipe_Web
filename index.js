@@ -63,17 +63,17 @@ app.use("/", cors(corsOptionsDelegate), likesRoutes);
 // app.use("/tes", (req, res) => {res.send("tes tanpa Cors, berhasil.")});
 // app.use("*", (req, res) => {res.send("You access no one valid URL in this Site.")});
 app.use("*", (req, res) => {res.send([
-  'Testing endpoint? ::',
-  '/users/all/',
-  '/users/id/:id',
-  '/users/name/:name',
-  '/recipes/all/',
-  '/recipes/pagination/',
-  '/recipes/fivenew',
-  '/recipes/id/:id',
-  '/recipes/name/:name',
-  '/comments/all/',
-  '/comments/new/',
+  'Endpoints:',
+  '/users/all/?sort=[asc/desc]',
+  '/users/id/[id_user_number)]',
+  '/users/name/[name_user]',
+  '/recipes/all/?sort=[asc/desc]',
+  '/recipes/pagination/?limit=[limit_number]&pages=[page_number]&sort=[asc/desc]',
+  '/recipes/fivelikes',
+  '/recipes/id/[id_recipe_number)]',
+  '/recipes/name/?name=[name_recipe]&sort=[asc/desc/like]',
+  '/comments/all/?sort=[asc/desc]',
+  '/comments/new/?id_recipe=[id_number]&sort=[asc/desc]',
   '/likes/all',
 ])});
 

@@ -56,9 +56,16 @@ const showById = async (req, res) => {
 // FIND RECIPES BY NAME
 const showByName = async (req, res) => {
   try {
-    const name = req.params.name;
+    // const name = req.params.name;
+    // const sort = req.params.sort;
+    const { name, sort } = req.query;
+
+    if(sort.toLowerCase() != 'asc' && sort.toLowerCase() != 'desc' && sort.toLowerCase() != 'like' ) {
+      return res.json({ StatusCode: 400, isValid: false, message: "Routes for '&sort=' must be 'asc' / 'desc' / 'like'", });
+    }
+    
     const nameLower = name.toLowerCase();
-    const show = await model.showByName(nameLower);
+    const show = await model.showByName(nameLower, sort);
     if(show.rowCount == 0){ return res.json({ StatusCode: 200, isValid: true, message: `No one Recipe include words: '${name}' from recipes data`, }); }
     return res.json({ StatusCode: 200, isValid: true, result: { count_of_data: show.rowCount, data: show.rows }, });
   } catch (err) {
@@ -106,7 +113,7 @@ const showInPages = async (req, res) => {
   }
 };
 
-// SHOW 5 NEW RECIPES
+// SHOW BY MOST LIKES 5
 const showNew = async (req, res) => {
   try {
     const show = await model.showNew();
