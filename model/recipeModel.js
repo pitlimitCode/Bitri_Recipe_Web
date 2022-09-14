@@ -35,7 +35,13 @@ const showById = (id) => {
 }
 
 // FIND RECIPES BY NAME
-const showByName = (nameLower) => {
+const showByName = (nameLower, sort) => {
+  let orderBy = '';
+  if(sort == 'asc' || sort == 'desc'){
+    orderBy = `recipes.id ${sort}`
+  } else {
+    orderBy = `total_likes DESC`
+  }
   return new Promise((resolve, reject) => {
     // console.log(nameLower)
     db.query( 
@@ -46,6 +52,7 @@ const showByName = (nameLower) => {
       LEFT JOIN likes ON recipes.id = likes.id_recipe
       WHERE LOWER(recipes.name) LIKE '%${nameLower}%'
       GROUP BY recipes.id, users.name
+      ORDER BY ${orderBy}
       `,
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
@@ -67,14 +74,16 @@ const showInPages = (limit, offset, sort) => {
   })
 };
 
-// SHOW 5 NEW RECIPES
+// SHOW BY MOST LIKES 5
 const showNew = () => {
   return new Promise((resolve, reject) => {
     db.query(
-      `SELECT recipes.id AS Id_recipe, users.name AS name, recipes.name AS name_recipe, recipes.image AS image_recipe 
+      `SELECT recipes.id AS Id_recipe, users.name AS name, recipes.name AS name_recipe, recipes.image AS image_recipe, COUNT(likes.status_type) AS total_likes  
       FROM recipes 
-      JOIN users ON recipes.id_user = users.id 
-      ORDER BY recipes.id DESC 
+      LEFT JOIN users ON recipes.id_user = users.id 
+      LEFT JOIN likes ON recipes.id = likes.id_recipe
+      GROUP BY recipes.id, users.name
+      ORDER BY total_likes DESC 
       LIMIT 5`,
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
