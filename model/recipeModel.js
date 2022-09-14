@@ -12,7 +12,7 @@ const showAll = (sortby) => {
       FROM recipes
       LEFT JOIN users ON recipes.id_user = users.id
       LEFT JOIN likes ON recipes.id = likes.id_recipe
-      GROUP BY recipes.id
+      GROUP BY recipes.id, users.name
       ORDER BY recipes.id ${sortby} `,
       (error, result) => { if (error) { reject (error) } else { resolve (result) } }
     );
