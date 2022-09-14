@@ -8,8 +8,9 @@ const db = require("./db");
 const showAll = (sortby) => {
   return new Promise((resolve, reject) => {
     db.query(
-      `SELECT recipes.*, COUNT(likes.status_type) AS total_likes 
+      `SELECT recipes.*, users.name AS username, COUNT(likes.status_type) AS total_likes 
       FROM recipes
+      LEFT JOIN users ON recipes.id_user = users.id
       LEFT JOIN likes ON recipes.id = likes.id_recipe
       GROUP BY recipes.id
       ORDER BY recipes.id ${sortby} `,
