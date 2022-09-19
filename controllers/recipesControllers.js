@@ -260,7 +260,7 @@ const editRecipe = async (req, res) => {
       inpId
     );
     
-    return res.json({ StatusCode: 200, isValid: false, message: `Recipe id: '${inpId}' successfully to be edited.`, });
+    return res.json({ StatusCode: 200, isValid: true, message: `Recipe id: '${inpId}' successfully to be edited.`, });
 
   } catch (err) {
     console.log(err);
