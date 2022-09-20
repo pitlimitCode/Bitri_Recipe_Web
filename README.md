@@ -15,7 +15,7 @@
     <a href="#table-of-contents"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://bitri-recipe.herokuapp.com">View Web Service</a>
+    <a href="https://bitrirecipeweb-production.up.railway.app">View Web Service</a>
     ·
     <a href="https://github.com/pitlimitCode/Bitri_Recipe_Web/issues">Report Bug</a>
     ·
@@ -138,7 +138,7 @@ Contributions are what make the open source community such an amazing place to b
 
 ## Related Project
 :rocket: [`Repo Backend Bitri Recipe`](https://github.com/pitlimitCode/Bitri_Recipe_Web/tree/FrontEnd+)  
-:rocket: [`Repo Frontend Bitri Recipe`](https://github.com/pitlimitCode/Bitri_Recipe_FrontEnd/tree/master)  
+:rocket: [`Repo Frontend Bitri Recipe`](https://github.com/pitlimitCode/Bitri_Recipe_FrontEnd)  
 :rocket: [`Repo Frontend Bitri Recipe - Mobile`](https://github.com/pitlimitCode/bitri-recipe-mobile)  
 :rocket: [`Web Service`](https://bitrirecipeweb-production.up.railway.app)  
 :rocket: [`Demo Bitri Recipe`](https://bitri-recipe.web.app/)  
