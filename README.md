@@ -99,17 +99,22 @@ npm install
 ### Setup .env example
 Create .env file in your root project folder.
 
-```env
-# database
-DB_PORT=
+```
+# local postgresql
 DB_HOST=
-DB_NAME="SET_YOUR_POSTGRES_NAME"
-DB_USER="SET_YOUR_POSTGRES_USERNAME"
+DB_NAME="YOUR_POSTGRES_NAME_SET"
+DB_PORT=
+DB_USER="YOUR_POSTGRES_USERNAME_SET"
 DB_PASS=
 
 # jwt
 JWT_ALG=
 JWT_KEY=
+
+# cloudinary
+CLOUD_NAME=
+CLOUD_KEY=
+CLOUD_SECRET=
 ```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
