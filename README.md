@@ -57,9 +57,13 @@ Create a Node.js app for building Bitri Recipe RESTful APIs using Express.
 
 ### Built With
 This app was built with some technologies below:
-- [Node.js](https://nodejs.org/en/)
-- [Express.js](https://expressjs.com/)
+- [Node JS](https://nodejs.org/en/)
+- [Express JS](https://expressjs.com/)
+- [CORS](https://www.npmjs.com/package/cors)
+- [Bcrypt](https://www.npmjs.com/package/bcrypt)
 - [JSON Web Tokens](https://jwt.io/)
+- [Multer](https://www.npmjs.com/package/multer)
+- [Cloudinary](https://cloudinary.com/)
 - [PostgreSQL](https://www.postgresql.org/)
 - and other
 <p align="right">(<a href="#top">back to top</a>)</p>
