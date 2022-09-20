@@ -4,7 +4,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/pitlimitCode/Bitri_Recipe_Web/tree/FrontEnd+">
-    <img src="https://res.cloudinary.com/dbpfwb5ok/image/upload/v1659148545/portofolio/recipe/2_kpnvj7.png" alt="Logo" width="150px">
+    <img src="https://res.cloudinary.com/dy3yw6bod/image/upload/v1663208268/bootcamp%20pijarcamp%20project%20cloud%20image/logo_bitri_mini1_xhkqa4.png" alt="Logo" width="150px">
   </a>
 
   <h3 align="center">Bitri Recipe Backend</h3>
